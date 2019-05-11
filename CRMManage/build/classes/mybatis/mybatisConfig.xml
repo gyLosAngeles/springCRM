@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>	
 	<!-- 扫描整个包，声明别名 -->
 	<typeAliases>
-		<package name="com.ysd.entity"/>
+		<package name="com.ysd.*.*"/>
 	</typeAliases>
 	<mappers>
 		<package name="com.ysd.dao.*"/>

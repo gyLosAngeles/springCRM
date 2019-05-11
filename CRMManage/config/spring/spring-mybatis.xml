@@ -33,7 +33,7 @@
 	</bean>
 	 <!-- mapper扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.ysd.dao"></property>
+		<property name="basePackage" value="com.ysd.dao.*"></property>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
