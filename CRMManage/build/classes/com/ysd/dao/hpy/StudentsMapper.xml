@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.hpy.StudentsMapper">
+		<select id="selectStu" parameterType="com.ysd.entity.hpy.Fenye" resultType="com.ysd.entity.hpy.CustomerStudents">
+			SELECT s.*,a.* from students s,askers a
+		<where>
+			<if test="Name !=null and Name!=''">
+			  and	Name like "%"#{Name}"%"
+			</if>
+			<if test="Phone !=null and Phone!='' ">
+				and Phone like "%"#{Phone}"%"
+			</if>
+			<if test="IsPay !=null and IsPay !='' ">
+				and IsPay like "%"#{IsPay}"%"
+			</if>
+			<if test="QQ !=null and QQ !='' ">
+				and QQ like "%"#{QQ}"%"
+			</if>
+			<if test="IsReturnVist !=null and IsReturnVist !='' ">
+				and IsReturnVist like "%"#{IsReturnVist}"%"
+			</if>
+			<!-- 时间条件 -->
+			<if test="minHomeTime !=null and minHomeTime !='' ">
+				and HomeTime &gt;= #{minHomeTime} 
+			</if>
+			<if test="maxHomeTime !=null and maxHomeTime !=''">
+				and HomeTime &lt;= #{maxHomeTime}
+			</if>
+			<if test="minPayTime !=null and minPayTime !='' ">
+				and PayTime &gt;= #{minPayTime} 
+			</if>
+			<if test="maxPayTime !=null and maxPayTime !=''">
+				and PayTime &lt;= #{maxPayTime}
+			</if>
+			
+			<if test="minInClassTime !=null and minInClassTime !='' ">
+				and InClassTime &gt;= #{minInClassTime} 
+			</if>
+			<if test="maxInClassTime !=null and maxInClassTime !=''">
+				and InClassTime &lt;= #{maxInClassTime}
+			</if>
+			<if test="minFirstVisitTime !=null and minFirstVisitTime !='' ">
+				and FirstVisitTime &gt;= #{minFirstVisitTime} 
+			</if>
+			<if test="maxFirstVisitTime !=null and maxFirstVisitTime !=''">
+				and FirstVisitTime &lt;= #{maxFirstVisitTime}
+			</if>
+			<if test="minCreateTime !=null and minCreateTime !='' ">
+				and CreateTime &gt;= #{minCreateTime} 
+			</if>
+			<if test="maxCreateTime !=null and maxCreateTime !=''">
+				and CreateTime &lt;= #{maxCreateTime}
+			</if>
+			<if test="IsValid >0">
+				and IsValid=#{IsValid}
+			</if>
+			and s.AskerId=a.askerId
+		</where>
+			limit #{page},#{pagesize}
+		</select>
+		
+		
+		<select id="selectCountStu" parameterType="com.ysd.entity.hpy.Fenye" resultType="int">
+			SELECT count(s.id) from students s,askers a
+		<where>
+			<if test="Name !=null and Name!=''">
+			  and	Name like "%"#{Name}"%"
+			</if>
+			<if test="Phone !=null and Phone!='' ">
+				and Phone like "%"#{Phone}"%"
+			</if>
+			<if test="IsPay !=null and IsPay !='' ">
+				and IsPay like "%"#{IsPay}"%"
+			</if>
+			<if test="QQ !=null and QQ !='' ">
+				and QQ like "%"#{QQ}"%"
+			</if>
+			<if test="IsReturnVist !=null and IsReturnVist !='' ">
+				and IsReturnVist like "%"#{IsReturnVist}"%"
+			</if>
+			<!-- 时间条件 -->
+			<if test="minHomeTime !=null and minHomeTime !='' ">
+				and HomeTime &gt;= #{minHomeTime} 
+			</if>
+			<if test="maxHomeTime !=null and maxHomeTime !=''">
+				and HomeTime &lt;= #{maxHomeTime}
+			</if>
+			<if test="minPayTime !=null and minPayTime !='' ">
+				and PayTime &gt;= #{minPayTime} 
+			</if>
+			<if test="maxPayTime !=null and maxPayTime !=''">
+				and PayTime &lt;= #{maxPayTime}
+			</if>
+			
+			<if test="minInClassTime !=null and minInClassTime !='' ">
+				and InClassTime &gt;= #{minInClassTime} 
+			</if>
+			<if test="maxInClassTime !=null and maxInClassTime !=''">
+				and InClassTime &lt;= #{maxInClassTime}
+			</if>
+			<if test="minFirstVisitTime !=null and minFirstVisitTime !='' ">
+				and FirstVisitTime &gt;= #{minFirstVisitTime} 
+			</if>
+			<if test="maxFirstVisitTime !=null and maxFirstVisitTime !=''">
+				and FirstVisitTime &lt;= #{maxFirstVisitTime}
+			</if>
+			<if test="minCreateTime !=null and minCreateTime !='' ">
+				and CreateTime &gt;= #{minCreateTime} 
+			</if>
+			<if test="maxCreateTime !=null and maxCreateTime !=''">
+				and CreateTime &lt;= #{maxCreateTime}
+			</if>
+			<if test="IsValid >0">
+				and IsValid=#{IsValid}
+			</if>
+			and s.AskerId=a.askerId
+		</where>
+		</select>
+		
+</mapper>
