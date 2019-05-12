@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.zmf.RoleMapper">
+	 <insert id="insertRole" parameterType="String">
+	 	insert into roleTab(roleName,roleCreateTime) values(#{0},NOW())
+	 </insert>
+	 <delete id="deleteRole" parameterType="int">
+	 	delete from roleTab where roleId = #{0}
+	 </delete>
+	 <update id="updateRole" parameterType="roleTab">
+	 	update roleTab 
+	 		<set>
+	 			<if test="roleName != null and roleName != ''">
+	 				roleName = #{roleName}
+	 			</if>
+	 		</set>
+	 	where roleId = #{roleId}	
+	 </update>
+	 <insert id="insertRoleModule" parameterType="roleModuleTab">
+	 	insert into rolemoduletab(roleId,moduleId) values(#{roleId},#{moduleId})
+	 </insert>
+	 <delete id="deleteRoleModule" parameterType="roleModuleTab">
+	 	delete from rolemoduletab where roleId=#{roleId} and moduleId=#{moduleId}
+	 </delete>
+</mapper>

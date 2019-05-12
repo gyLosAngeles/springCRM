@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.zmf.RoleUserMapper">
+	<select id="selectAllRole" resultType="roleTab">
+		SELECT roleId,roleName FROM roletab
+	</select>
+	<select id="selectRoleByUserId" resultType="roleTab" parameterType="int">
+		SELECT 
+			r.roleId,
+			r.roleName 
+		FROM roletab r 
+		inner join userroletab ur 
+		on r.roleId = ur.roleId 
+		where ur.userId = #{0}
+	</select>
+	<insert id="insertUserRole" parameterType="userRoleTab">
+		insert into userroletab(userId,roleId) values(#{userId},#{roleId})
+	</insert>
+	<delete id="deleteUserRole" parameterType="userRoleTab">
+		delete from userroletab where userId = #{userId} and roleId=#{roleId}
+	</delete>
+</mapper>
