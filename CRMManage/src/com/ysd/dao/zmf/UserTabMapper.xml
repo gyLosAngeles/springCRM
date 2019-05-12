@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="roleId" property="roleId" />
 		<result column="roleName" property="roleName" />
 	</resultMap> -->
-	<select id="selectUserByTiaoJian" resultType="userTab" parameterType="fenye">
+	<select id="selectUserByTiaoJian" resultType="userTab" parameterType="com.ysd.entity.Fenye">
 		select 
 			 userId,
 			 userName,
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 		limit #{page},#{rows}
 	</select>
-	<select id="selectUserCountByTiaoJian" resultType="int" parameterType="fenye">
+	<select id="selectUserCountByTiaoJian" resultType="int" parameterType="com.ysd.entity.Fenye">
 		select count(userId) from usertab  
 		<where>
 			<if test="userCondition.userName != null and userCondition.userName != ''">
