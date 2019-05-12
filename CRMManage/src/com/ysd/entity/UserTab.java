@@ -2,22 +2,22 @@ package com.ysd.entity;
 //用户表
 public class UserTab {
 
-	private int userId;//用户编号
+	private Integer userId;//用户编号
 	private String userName;//用户姓名
 	private String userPassWord;//用户密码
-	private int userIsLockout;//是否被锁定
+	private Integer userIsLockout;//是否被锁定
 	private String userUpdateTime;//用户修改时间
 	private String userCreateTime;//用户创建时间
 	private String userLastLoginTime;//最后一次登陆时间
 	private String userLastLoginIp;//最后一次登陆ip
-	private int userPassWrongCout;//用户密码错误次数
+	private Integer userPassWrongCout;//用户密码错误次数
 	private String userLockoutTime;//用户锁定时间
 	private String userEmail;//用户的Email
 	private String userTelephone;//用户电话
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public String getUserName() {
@@ -32,10 +32,10 @@ public class UserTab {
 	public void setUserPassWord(String userPassWord) {
 		this.userPassWord = userPassWord;
 	}
-	public int getUserIsLockout() {
+	public Integer getUserIsLockout() {
 		return userIsLockout;
 	}
-	public void setUserIsLockout(int userIsLockout) {
+	public void setUserIsLockout(Integer userIsLockout) {
 		this.userIsLockout = userIsLockout;
 	}
 	public String getUserUpdateTime() {
@@ -62,10 +62,10 @@ public class UserTab {
 	public void setUserLastLoginIp(String userLastLoginIp) {
 		this.userLastLoginIp = userLastLoginIp;
 	}
-	public int getUserPassWrongCout() {
+	public Integer getUserPassWrongCout() {
 		return userPassWrongCout;
 	}
-	public void setUserPassWrongCout(int userPassWrongCout) {
+	public void setUserPassWrongCout(Integer userPassWrongCout) {
 		this.userPassWrongCout = userPassWrongCout;
 	}
 	public String getUserLockoutTime() {

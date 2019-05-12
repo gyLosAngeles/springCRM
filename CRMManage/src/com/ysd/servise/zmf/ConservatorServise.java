@@ -1,11 +1,15 @@
 package com.ysd.servise.zmf;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.ysd.entity.zmf.ModuleTree;
 
-@Service//管理员业务
-public class ConservatorServise {
+public interface ConservatorServise {
 
-	 
+	/**
+	 * 根据角色编号查询模块
+	 * @return
+	 */
+	List<ModuleTree> selectModuleByRoleId(Integer roleId);
+	
 }
