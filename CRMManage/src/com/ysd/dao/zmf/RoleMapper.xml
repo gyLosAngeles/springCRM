@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <delete id="deleteRole" parameterType="int">
 	 	delete from roleTab where roleId = #{0}
 	 </delete>
-	 <update id="updateRole" parameterType="roleTab">
+	 <update id="updateRole" parameterType="com.ysd.entity.RoleTab">
 	 	update roleTab 
 	 		<set>
 	 			<if test="roleName != null and roleName != ''">
@@ -18,10 +18,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		</set>
 	 	where roleId = #{roleId}	
 	 </update>
-	 <insert id="insertRoleModule" parameterType="roleModuleTab">
+	 <insert id="insertRoleModule" parameterType="com.ysd.entity.RoleModuleTab">
 	 	insert into rolemoduletab(roleId,moduleId) values(#{roleId},#{moduleId})
 	 </insert>
-	 <delete id="deleteRoleModule" parameterType="roleModuleTab">
+	 <delete id="deleteRoleModule" parameterType="com.ysd.entity.RoleModuleTab">
 	 	delete from rolemoduletab where roleId=#{roleId} and moduleId=#{moduleId}
 	 </delete>
 </mapper>

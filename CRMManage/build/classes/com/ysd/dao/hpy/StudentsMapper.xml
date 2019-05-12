@@ -3,73 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.hpy.StudentsMapper">
-
-
-		<resultMap type="CustomerStudents" id="studentMap">
-			<id column="Id" property="Id"></id>
-			<result column="Name" property="Name"/>
-			<result column="Age" property="Age"/>
-			<result column="Sex" property="Sex"/>
-			<result column="Phone" property="Phone"/>
-			<result column="StuStatus" property="StuStatus"/>
-			<result column="SourceUrl" property="SourceUrl"/>
-			<result column="PerState" property="PerState"/>
-			<result column="MsgSource" property="MsgSource"/>
-			<result column="SourceKeyWord" property="SourceKeyWord"/>
-			<result column="Address" property="Address"/>
-			<result column="NetPusherId" property="NetPusherId"/>
-			<result column="AskerId" property="AskerId"/>
-			<result column="QQ" property="QQ"/>
-			<result column="WeiXin" property="WeiXin"/>
-			<result column="Content" property="Content"/>
-			<result column="CreateTime" property="CreateTime"/>
-			<result column="LearnForward" property="LearnForward"/>
-			<result column="IsValid" property="IsValid"/>
-			<result column="Record" property="Record"/>
-			<result column="IsReturnVist" property="IsReturnVist"/>
-			<result column="FirstVisitTime" property="FirstVisitTime"/>
-			<result column="IsHome" property="IsHome"/>
-			<result column="HomeTime" property="HomeTime"/>
-			<result column="LostValid" property="LostValid"/>
-			<result column="IsPay" property="IsPay"/>
-			<result column="PayTime" property="PayTime"/>
-			<result column="Money" property="Money"/>
-			<result column="IsReturnMoney" property="IsReturnMoney"/>
-			<result column="IsInClass" property="IsInClass"/>
-			<result column="InClassTime" property="InClassTime"/>
-			<result column="InClassContent" property="InClassContent"/>
-			<result column="AskerContent" property="AskerContent"/>
-			<result column="IsDel" property="IsDel"/>
-			<result column="FromPart" property="FromPart"/>
-			<result column="StuConcern" property="StuConcern"/>
-			<result column="IsBaoBei" property="IsBaoBei"/>
-			<result column="ZiXunName" property="ZiXunName"/>
-			<result column="CreateUser" property="CreateUser"/>
-			<result column="ReturnMoneyReason" property="ReturnMoneyReason"/>
-			<result column="PreMoney" property="PreMoney"/>
-			<result column="PreMoneyTime" property="PreMoneyTime"/>
-			<result column="askersId" property="Askers.askersId"/>
-			<result column="askersName" property="askersName"/>
-			<result column="CheckState" property="CheckState"/>
-			<result column="CheckInTime" property="CheckInTime"/>
-			<result column="ChangeState" property="ChangeState"/>
-			<result column="Weight" property="Weight"/>
-			<result column="RoleName" property="RoleName"/>
-			<result column="BakContent" property="BakContent"/>
-			<result column="Id" property="Netfollows.Id"/>
-			<result column="StudentId" property="StudentId"/>
-			<result column="StudentName" property="StudentName"/>
-			<result column="FollowTime" property="FollowTime"/>
-			<result column="NextFollowTime" property="NextFollowTime"/>
-			<result column="Content" property="Content"/>
-			<result column="UserId" property="UserId"/>
-			<result column="FollowType" property="FollowType"/>
-			<result column="CreateTime" property="CreateTime"/>
-			<result column="FollowState" property="FollowState"/>
-		</resultMap>
-		
-		
-		<select id="selectStu" parameterType="com.ysd.entity.hpy.Fenye" resultMap="com.ysd.entity.hpy.CustomerStudents">
+		<select id="selectStu" parameterType="com.ysd.entity.hpy.Fenye" resultType="com.ysd.entity.hpy.CustomerStudents">
 			SELECT s.*,a.* from students s,askers a
 		<where>
 			<if test="Name !=null and Name!=''">

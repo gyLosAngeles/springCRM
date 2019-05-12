@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.zmf.ModuleMapper">
 
-	<resultMap type="ModuleTree" id="module_role">
+	<resultMap type="com.ysd.entity.zmf.ModuleTree" id="module_role">
 		<id column="moduleId" property="id" />
 		<result column="moduleName" property="text" />
 		<result column="moduleUrl" property="attributes.url" />

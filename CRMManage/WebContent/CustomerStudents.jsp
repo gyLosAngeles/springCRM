@@ -22,7 +22,7 @@
 			method:'post',
 		    url:'selectStu',
 		    pagination:true,
-		    toolbar:tabfrm
+		    toolbar:'#tb'
 		});  
 	}
 	</script>
@@ -41,6 +41,11 @@
 		            <th data-options="field:'qq',width:80">QQ</th>
 		            <th data-options="field:'address',width:80">地址</th>
 		            <th data-options="field:'stuStatus',width:80">客户状态</th>  
+		            <th data-options="field:'SourceKeyWord',width:80">客户状态</th>  
+		            <th data-options="field:'NetPusherId',width:80">客户状态</th>  
+		            <th data-options="field:'WeiXin',width:80">客户状态</th>  
+		            <th data-options="field:'Content',width:80">客户状态</th>  
+		            <th data-options="field:'CreateTime',width:80">客户状态</th>  
 		        </tr>   
 		    </thead>   
 		</table> 

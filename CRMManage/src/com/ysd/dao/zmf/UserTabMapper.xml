@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="roleId" property="roleId" />
 		<result column="roleName" property="roleName" />
 	</resultMap> -->
-	<select id="selectUserByTiaoJian" resultType="userTab" parameterType="com.ysd.entity.Fenye">
+	<select id="selectUserByTiaoJian" resultType="com.ysd.entity.UserTab" parameterType="com.ysd.entity.Fenye">
 		select 
 			 userId,
 			 userName,
@@ -61,13 +61,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
-	 <insert id="insertUser" parameterType="userTab">
+	 <insert id="insertUser" parameterType="com.ysd.entity.UserTab">
 	 	insert into usertab(userName,userPassWord,userEmail,userTelephone,userCreateTime) values(#{userName},#{userPassWord},#{userEmail},#{userTelephone},NOW())
 	 </insert>
 	 <delete id="deleteUser" parameterType="String">
 	 	delete from usertab where userName = #{0}
 	 </delete>
-	 <update id="updateUser" parameterType="userTab">
+	 <update id="updateUser" parameterType="com.ysd.entity.UserTab">
 	 	update usertab 
 	 	<set>
 	 		<if test="userEmail != null and userEmail != ''">
