@@ -14,7 +14,6 @@
 	<script type="text/javascript" src="js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
-	 
 	$(function(){
 		chaXun();
 	})
@@ -22,67 +21,65 @@
 		$('#dg').datagrid({
 			method:'post',
 		    url:'selectStu',
-		    collapsible:true,
 		    pagination:true,
-		    toolbar:'#tb',
-		    columns:[[
-		        {field:'Id',title:'id',width:100},    
-		        {field:'Name',title:'Name',width:100},    
-		        {field:'sc',title:'修改商品',width:100,align:'right',formatter: function(value,row,index){
-		        	return '<button onclick="updateStudent('+index+')">修改</button> <button onclick="delectStudent('+index+')">删除</button>';
-		        }} 
-		    ]]    
+		    toolbar:tabfrm
 		});  
 	}
 	</script>
 </head>
-<body>
-		<div id="tb">
-			 名字<input class="easyui-textbox" type="text" name="sname" id="ssname" />
-			<a href="javascript:chaXun()" class="easyui-linkbutton" data-options="plain:true" >搜索</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$('#aaa').dialog('open')"></a>
-		</div>
-		<table id="dg"></table>  
+<body>	
+		<table id="dg">   
+		    <thead>   
+		        <tr>   
+		            <th data-options="field:'id',width:80">编码</th>   
+		            <th data-options="field:'name',width:80">名称</th>   
+		            <th data-options="field:'age',width:80">年龄</th>  
+		            <th data-options="field:'sex',width:80">性别</th> 
+		            <th data-options="field:'phone',width:80">价格</th> 
+		            <th data-options="field:'sourceUrl',width:80">来源网站</th> 
+		            <th data-options="field:'learnForward',width:80">课程方向</th>  
+		            <th data-options="field:'qq',width:80">QQ</th>
+		            <th data-options="field:'address',width:80">地址</th>
+		            <th data-options="field:'stuStatus',width:80">客户状态</th>  
+		        </tr>   
+		    </thead>   
+		</table> 
+		<div id="tb" align="center">
+		<form id="tabfrm" class="easyui-form">
+			
+			<label for="name">名字:</label> 
+			<input class="easyui-validatebox" type="text" id="name" />
+			<label for="name">电话:</label> 
+			<input class="easyui-validatebox" type="text" id="phone" />
+			<label for="name">是否缴费:</label> 
+			<input class="easyui-validatebox" type="text" id="ispay" />
+			<label for="name">是否有效:</label> 
+			<input class="easyui-validatebox" type="text" id="isvalid" />
+			<label for="name">是否回访:</label> 
+			<input class="easyui-validatebox" type="text" id="isreturnvist" />
+			<label for="name">QQ:</label> 
+			<input class="easyui-validatebox" type="text" id="qq"  />
+			<br/><br/>
+			<label for="name">创建时间:</label> 
+			<input type="text" id="mincreatetime" class= "easyui-datebox" />--
+			<input type="text" id="maxcreatetime" class= "easyui-datebox" />
+			<label for="name">上门时间:</label> 
+			<input type="text" id="minhometime" class= "easyui-datebox"/>--
+			<input type="text" id="maxhometime" class= "easyui-datebox"/>
+			<label for="name">首次回访时间:</label> 
+			<input type="text" id="minfirstvisittime" class= "easyui-datebox" />--
+			<input type="text" id="maxfirstvisittime" class= "easyui-datebox" />
+			<br/><br/>
+			<label for="name">缴费时间:</label> 
+			<input type="text" id="minpaytime" class= "easyui-datebox" />--
+			<input type="text" id="maxpaytime" class= "easyui-datebox" />
+			<label for="name">进班时间:</label> 
+			<input type="text" id="mininclasstime" class= "easyui-datebox" />--
+			<input type="text" id="maxinclasstime" class= "easyui-datebox" />
+			 <a href="javascript:void(0)" onclick="init()"	class="easyui-linkbutton"	data-options="iconCls:'icon-search',plain:true">搜索</a>
+			 <a href="javascript:void(0)" onclick="tianjiastu()"	class="easyui-linkbutton"	data-options="iconCls:'icon-add',plain:true">添加</a>
+		</form>
+	</div>
 		
-		
-		
-		<div id="dlg" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save',closed:true" style="width:400px;height:200px;padding:10px;">
-			<div style="padding:10px 60px 20px 60px">
-				<form id="ff">   
-				    <div id="productId">   
-				        <label for="name">sid:</label>   
-				        <input class="easyui-textbox" type="text" id="sid" name="sid" data-options="required:true"/>   
-				    </div>   
-				    <div>   
-				        <label for="prodName">sname:</label>   
-				        <input class="easyui-textbox" type="text" id="sname" name="sname" data-options="required:true"/>   
-				    </div>
-				     <div>   
-				        <label for="prodType">age:</label>   
-				        <input class="easyui-textbox" type="text" id="age" name="age" data-options="required:true"/>
-				    </div>
-				    <div style="text-align:center;padding:5px">
-		    			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-		    		</div>
-				</form>
-		    </div>
-		</div>
-		<div id="aaa" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save',closed:true" style="width:400px;height:200px;padding:10px;">
-			<div style="padding:10px 60px 20px 60px">
-				<form id="aa">   
-				    <div>   
-				        <label for="sname">sname:</label>   
-				        <input class="easyui-textbox" type="text" id="name" name="sname" data-options="required:true"/>   
-				    </div>
-				     <div>   
-				        <label for="age">age:</label>   
-				        <input class="easyui-textbox" type="text" id="sage" name="age" data-options="required:true"/>
-				    </div>
-				    <div style="text-align:center;padding:5px">
-		    			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="insert()">提交</a>
-		    		</div>
-				</form>
-		    </div>
-		</div>
 </body>
 </html>

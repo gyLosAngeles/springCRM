@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Fenye<T> {
+public class Fenye {
 	private Integer page;
 	private Integer pagesize;
 	private Integer total;
-	private List<T> rows;
+	private List<?> rows;
 	
 	private String	Name;
 	private String	Phone;
@@ -50,10 +50,11 @@ public class Fenye<T> {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
-	public List<T> getRows() {
+	
+	public List<?> getRows() {
 		return rows;
 	}
-	public void setRows(List<T> rows) {
+	public void setRows(List<?> rows) {
 		this.rows = rows;
 	}
 	public String getName() {

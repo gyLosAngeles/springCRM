@@ -3,10 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ysd.dao.hpy.StudentsMapper">
-		
-		
-		
-		<select id="selectStu" >
+		<select id="selectStu" parameterType="com.ysd.entity.hpy.Fenye" resultType="com.ysd.entity.hpy.CustomerStudents">
 			SELECT s.*,a.* from students s,askers a
 		<where>
 			<if test="Name !=null and Name!=''">
@@ -63,7 +60,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 			limit #{page},#{pagesize}
 		</select>
-		<select id="selectCountStu" parameterType="fenye" resultType="int">
+		
+		
+		<select id="selectCountStu" parameterType="com.ysd.entity.hpy.Fenye" resultType="int">
 			SELECT count(s.id) from students s,askers a
 		<where>
 			<if test="Name !=null and Name!=''">

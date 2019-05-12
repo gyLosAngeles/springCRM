@@ -12,10 +12,10 @@ import com.ysd.entity.hpy.Fenye;
 public class StudentsServiceImp implements StudentsService {
 	@Autowired
 	private StudentsMapper studentsMapper;
-	@Override
-	public Fenye<CustomerStudents> selectStu(Fenye<CustomerStudents> fenye) {
+	public Fenye selectStu(Fenye fenye) {
 		List<CustomerStudents> selectStu=studentsMapper.selectStu(fenye);
 		Integer selectCountStu=studentsMapper.selectCountStu(fenye);
+		System.out.println(selectStu);
 		fenye.setRows(selectStu);
 		fenye.setTotal(selectCountStu);
 		return fenye;

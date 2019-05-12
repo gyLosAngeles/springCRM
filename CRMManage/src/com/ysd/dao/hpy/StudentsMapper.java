@@ -6,6 +6,6 @@ import com.ysd.entity.hpy.CustomerStudents;
 import com.ysd.entity.hpy.Fenye;
 
 public interface StudentsMapper {
-	List<CustomerStudents> selectStu(Fenye<CustomerStudents> fenye);
-	Integer selectCountStu(Fenye<CustomerStudents> fenye);
+	List<CustomerStudents> selectStu(Fenye fenye);
+	Integer selectCountStu(Fenye fenye);
 }

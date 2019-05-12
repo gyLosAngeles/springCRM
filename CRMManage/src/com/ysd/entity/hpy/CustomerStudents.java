@@ -10,6 +10,7 @@ public class CustomerStudents {
 			private String	Sex;
 			private String	Phone;
 			private String	StuStatus;
+			private String	SourceUrl;
 			private String	PerState;
 			private String	MsgSource;
 			private String	SourceKeyWord;
@@ -45,6 +46,14 @@ public class CustomerStudents {
 			private String	ReturnMoneyReason;
 			private String	PreMoney;
 			private String	PreMoneyTime;
+			
+			
+			public String getSourceUrl() {
+				return SourceUrl;
+			}
+			public void setSourceUrl(String sourceUrl) {
+				SourceUrl = sourceUrl;
+			}
 			public Integer getId() {
 				return Id;
 			}
