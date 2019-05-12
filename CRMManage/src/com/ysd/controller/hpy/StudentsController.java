@@ -17,13 +17,15 @@ public class StudentsController {
 	
 	@RequestMapping(value="/selectStu",method=RequestMethod.POST)
 	@ResponseBody
-	public Fenye selectStu(Fenye fenye,Integer page,Integer rows) {
-		System.out.println(page+"fsdfds");
-		System.out.println(rows+"fsdfds");
+	public Fenye selectStu(Fenye fenye,Integer page,Integer rows,String	Name,String	Phone,String IsPay,Integer IsValid,String QQ,String	IsReturnVist) {
 		fenye.setPage((page-1)*rows);
 		fenye.setPagesize(rows);
-		System.out.println(page);
-		System.out.println(rows);
+		fenye.setIsPay(IsPay);
+		fenye.setIsReturnVist(IsReturnVist);
+		fenye.setQQ(QQ);
+		fenye.setIsValid(IsValid);
+		fenye.setPhone(Phone);
+		fenye.setName(Name);
 		fenye=studentsServiceImp.selectStu(fenye);
 		return fenye;
 	}
