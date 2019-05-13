@@ -47,7 +47,22 @@ public class CustomerStudents {
 			private String	PreMoney;
 			private String	PreMoneyTime;
 			
+			private Askers askers;
+			private Netfollows netfollows;
 			
+			
+			public Askers getAskers() {
+				return askers;
+			}
+			public void setAskers(Askers askers) {
+				this.askers = askers;
+			}
+			public Netfollows getNetfollows() {
+				return netfollows;
+			}
+			public void setNetfollows(Netfollows netfollows) {
+				this.netfollows = netfollows;
+			}
 			public String getSourceUrl() {
 				return SourceUrl;
 			}

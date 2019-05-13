@@ -20,5 +20,9 @@ public class StudentsServiceImp implements StudentsService {
 		fenye.setTotal(selectCountStu);
 		return fenye;
 	}
+	@Override
+	public Integer UpdateStu(CustomerStudents customerStudents) {
+		return studentsMapper.UpdateStu(customerStudents);
+	}
 
 }

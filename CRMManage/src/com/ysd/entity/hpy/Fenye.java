@@ -18,8 +18,6 @@ public class Fenye {
 	private Integer	IsValid;
 	private String	QQ;
 	private String	IsReturnVist;
-	
-	
 	private String	minHomeTime;
 	private String	maxHomeTime;
 	private String	minPayTime;
