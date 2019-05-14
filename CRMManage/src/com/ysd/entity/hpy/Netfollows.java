@@ -14,6 +14,29 @@ public class Netfollows {
 	private String FollowType;
 	private String CreateTime;
 	private Integer FollowState;
+	private String Remarks;
+	private CustomerStudents customerStudents;
+	private Askers askers;
+	
+	
+	public String getRemarks() {
+		return Remarks;
+	}
+	public void setRemarks(String remarks) {
+		Remarks = remarks;
+	}
+	public CustomerStudents getCustomerStudents() {
+		return customerStudents;
+	}
+	public void setCustomerStudents(CustomerStudents customerStudents) {
+		this.customerStudents = customerStudents;
+	}
+	public Askers getAskers() {
+		return askers;
+	}
+	public void setAskers(Askers askers) {
+		this.askers = askers;
+	}
 	public Integer getId() {
 		return Id;
 	}

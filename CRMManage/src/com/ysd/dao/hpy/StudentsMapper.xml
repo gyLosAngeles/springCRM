@@ -219,25 +219,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="AskerContent != '' and AskerContent != null">
 				AskerContent = #{AskerContent},
 			</if>
-			<if test="IsPay != '' and IsPay != null">
+			<if test="IsPay >=0">
 				IsPay = #{IsPay},
 			</if>
-			<if test="IsValid != '' and IsValid != null">
+			<if test="IsValid >=0">
 				IsValid = #{IsValid},
 			</if>
-			<if test="IsHome != '' and IsHome != null">
+			<if test="IsHome >=0">
 				IsHome = #{IsHome},
 			</if>
-			<if test="IsReturnVist != '' and IsReturnVist != null">
+			<if test="IsReturnVist >=0">
 				IsReturnVist = #{IsReturnVist},
 			</if>
-			<if test="IsReturnMoney != '' and IsReturnMoney != null">
+			<if test="IsReturnMoney >=0">
 				IsReturnMoney = #{IsReturnMoney},
 			</if>
-			<if test="IsInClass != '' and IsInClass != null">
+			<if test="IsInClass >=0">
 				IsInClass = #{IsInClass},
 			</if>
 		</set>
 		where Id = #{Id}
 		</update>
+		
+		<insert id="insertNetfollows" parameterType="com.ysd.entity.hpy.Netfollows">
+				INSERT INTO netfollows (StudentId, StudentName, FollowTime, NextFollowTime, Content, UserId, FollowType, CreateTime, FollowState,Remarks)
+				VALUES
+					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{CreateTime},#{1},#{Remarks}) 
+		</insert>
+		<select id="selectNetfollows" parameterType="com.ysd.entity.hpy.Netfollows" resultType="com.ysd.entity.hpy.Netfollows">
+			select * from netfollows where StudentId=#{StudentId}
+		</select>
 </mapper>

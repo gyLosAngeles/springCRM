@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ysd.dao.hpy.StudentsMapper;
 import com.ysd.entity.hpy.CustomerStudents;
 import com.ysd.entity.hpy.Fenye;
+import com.ysd.entity.hpy.Netfollows;
 @Service
 public class StudentsServiceImp implements StudentsService {
 	@Autowired
@@ -23,6 +24,16 @@ public class StudentsServiceImp implements StudentsService {
 	@Override
 	public Integer UpdateStu(CustomerStudents customerStudents) {
 		return studentsMapper.UpdateStu(customerStudents);
+	}
+	@Override
+	public Integer insertNetfollows(Netfollows netfollows) {
+		// TODO Auto-generated method stub
+		return studentsMapper.insertNetfollows(netfollows);
+	}
+	@Override
+	public List<Netfollows> selectNetfollows(Netfollows netfollows) {
+		// TODO Auto-generated method stub
+		return studentsMapper.selectNetfollows(netfollows);
 	}
 
 }
