@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.wxx.StudentsMapper">
+<resultMap type="com.ysd.entity.wxx.Students" id="studentMap">
+			<id column="Id" property="Id"></id>
+			<result column="Name" property="Name"/>
+			<result column="Age" property="Age"/>
+			<result column="Sex" property="Sex"/>
+			<result column="Phone" property="Phone"/>
+			<result column="StuStatus" property="StuStatus"/>
+			<result column="SourceUrl" property="SourceUrl"/>
+			<result column="PerState" property="PerState"/>
+			<result column="MsgSource" property="MsgSource"/>
+			<result column="SourceKeyWord" property="SourceKeyWord"/>
+			<result column="Address" property="Address"/>
+			<result column="NetPusherId" property="NetPusherId"/>
+			<result column="AskerId" property="AskerId"/>
+			<result column="QQ" property="QQ"/>
+			<result column="WeiXin" property="WeiXin"/>
+			<result column="Content" property="Content"/>
+			<result column="CreateTime" property="CreateTime"/>
+			<result column="LearnForward" property="LearnForward"/>
+			<result column="IsValid" property="IsValid"/>
+			<result column="Record" property="Record"/>
+			<result column="IsReturnVist" property="IsReturnVist"/>
+			<result column="FirstVisitTime" property="FirstVisitTime"/>
+			<result column="IsHome" property="IsHome"/>
+			<result column="HomeTime" property="HomeTime"/>
+			<result column="LostValid" property="LostValid"/>
+			<result column="IsPay" property="IsPay"/>
+			<result column="PayTime" property="PayTime"/>
+			<result column="Money" property="Money"/>
+			<result column="IsReturnMoney" property="IsReturnMoney"/>
+			<result column="IsInClass" property="IsInClass"/>
+			<result column="InClassTime" property="InClassTime"/>
+			<result column="InClassContent" property="InClassContent"/>
+			<result column="AskerContent" property="AskerContent"/>
+			<result column="IsDel" property="IsDel"/>
+			<result column="FromPart" property="FromPart"/>
+			<result column="StuConcern" property="StuConcern"/>
+			<result column="IsBaoBei" property="IsBaoBei"/>
+			<result column="ZiXunName" property="ZiXunName"/>
+			<result column="CreateUser" property="CreateUser"/>
+			<result column="ReturnMoneyReason" property="ReturnMoneyReason"/>
+			<result column="PreMoney" property="PreMoney"/>
+			<result column="PreMoneyTime" property="PreMoneyTime"/>
+			<result column="Scoring" property="Scoring"/>
+			<result column="Education" property="Education"/>
+			<result column="Location" property="Location"/>
+			<result column="Onlineremark" property="Onlineremark"/>
+			<association property="askers" resultMap="askersMap"/>
+		</resultMap>
+       <resultMap type="com.ysd.entity.Askers" id="askersMap">
+			<id column="Id" property="askerId"></id>
+			<result column="askerName" property="askerName"/>
+			<result column="CheckState" property="checkState"/>
+			<result column="CheckInTime" property="checkInTime"/>
+			<result column="ChangeState" property="changeState"/>
+			<result column="Weight" property="weight"/>
+			<result column="RoleName" property="roleName"/>
+			<result column="BakContent" property="bakContent"/>
+		</resultMap>
+<!-- 查询数据 -->
+	<select id="selectAllStudents" parameterType="com.ysd.entity.wxx.Fenye"
+		resultMap="studentMap">
+	SELECT
+		s.Id,s.Name,s.Age,s.Sex,s.Phone,s.StuStatus,s.PerState,s.MsgSource,s.SourceUrl,s.SourceKeyWord,s.Address,
+		s.NetPusherId,s.AskerId,s.QQ,s.WeiXin,s.Content,s.CreateTime,s.LearnForward,s.IsValid,s.Record,s.IsReturnVist,
+		s.FirstVisitTime,s.IsHome,s.HomeTime,s.LostValid,s.IsPay,s.PayTime,s.Money,s.IsReturnMoney,s.IsInClass,
+		s.InClassTime,s.InClassContent,s.AskerContent,s.IsDel,s.FromPart,s.StuConcern,s.IsBaoBei,a.askerName,
+		s.CreateUser,s.ReturnMoneyReason,s.PreMoney,s.PreMoneyTime,s.Scoring,s.Education,s.Location,s.Onlineremark
+		FROM students s left JOIN askers a on s.AskerId=a.askerId
+		<where>
+			<if test=" Name !=null and Name !=''">
+			and	s.Name like "%"#{Name}"%"
+			</if>
+			<if test=" Phone !=null and Phone !=''">
+			and	s.Phone =#{Phone}
+			</if>
+			<if test=" askers.askerName !=null and askers.askerName !=''">
+			and	a.askerName like "%"#{askers.askerName}"%"
+			</if>
+			<if test=" IsPay !=null and IsPay !=''">
+			and	s.IsPay=#{IsPay}
+			</if>
+			<if test=" IsValid !=null and IsValid !=''">
+			and	s.IsValid=#{IsValid}
+			</if>
+			<if test=" IsReturnVist !=null and IsReturnVist !=''">
+			and	s.IsReturnVist=#{IsReturnVist}
+			</if>
+			<if test=" QQ !=null and QQ !=''">
+			and	s.QQ=#{QQ}
+			</if>
+			<if test=" minCreateTime !=null and minCreateTime !=''">
+			and	s.CreateTime &gt;= #{minCreateTime}
+			</if>
+			<if test=" maxCreateTime !=null and maxCreateTime !=''">
+			and	s.CreateTime &lt;=#{maxCreateTime}
+			</if>
+		</where>
+		limit #{page},#{row}
+	</select>
+	<!-- 查询总条数 -->
+	<select id="selectCountStudents" parameterType="com.ysd.entity.wxx.Fenye"
+		resultType="int">
+		SELECT count(s.Id) FROM students s left JOIN askers a on s.AskerId=a.askerId
+		<where>
+			<if test=" Name !=null and Name !=''">
+			and	s.Name like "%"#{Name}"%"
+			</if>
+			<if test=" Phone !=null and Phone !=''">
+			and	s.Phone =#{Phone}
+			</if>
+			<if test=" askers.askerName !=null and askers.askerName !=''">
+			and	a.askerName like "%"#{askers.askerName}"%"
+			</if>
+			<if test=" IsPay !=null and IsPay !=''">
+			and	s.IsPay=#{IsPay}
+			</if>
+			<if test=" IsValid !=null and IsValid !=''">
+			and	s.IsValid=#{IsValid}
+			</if>
+			<if test=" IsReturnVist !=null and IsReturnVist !=''">
+			and	s.IsReturnVist=#{IsReturnVist}
+			</if>
+			<if test=" QQ !=null and QQ !=''">
+			and	s.QQ=#{QQ}
+			</if>
+			<if test=" minCreateTime !=null and minCreateTime !=''">
+			and	s.CreateTime &gt;= #{minCreateTime}
+			</if>
+			<if test=" maxCreateTime !=null and maxCreateTime !=''">
+			and	s.CreateTime &lt;=#{maxCreateTime}
+			</if>
+		</where>
+		
+	</select>
+	<insert id="insertCountStudents" parameterType="com.ysd.entity.wxx.Students">
+	INSERT INTO students(Name,Sex,Age,Phone,Education,StuStatus,FromPart,SourceUrl,SourceKeyWord,QQ,WeiXin,IsBaoBei,Onlineremark)
+VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{SourceUrl},#{SourceKeyWord},#{QQ},#{WeiXin},#{IsBaoBei},#{Onlineremark})
+  </insert>
+ <update id="updateStudents" parameterType="com.ysd.entity.wxx.Students">
+ 	UPDATE students
+		<set>
+			<if test=" Name !=null and Name !=''">
+				Name=#{Name},
+			</if>
+			<if test=" Age !=null and Age !=''">
+				Age=#{Age},
+			</if>
+			<if test=" Sex !=null and Sex !=''">
+				Sex=#{Sex},
+			</if>
+			<if test=" Phone !=null and Phone !=''">
+				Phone=#{Phone},
+			</if>
+			<if test=" StuStatus !=null and StuStatus !=''">
+				StuStatus=#{StuStatus},
+			</if>
+			<if test=" PerState !=null and PerState !=''">
+				PerState=#{PerState},
+			</if>
+			<if test=" MsgSource !=null and MsgSource !=''">
+				MsgSource=#{MsgSource},
+			</if>
+			<if test=" SourceUrl !=null and SourceUrl !=''">
+				SourceUrl=#{SourceUrl},
+			</if>
+			<if test=" SourceKeyWord !=null and SourceKeyWord !=''">
+				SourceKeyWord=#{SourceKeyWord},
+			</if>
+			<if test=" Address !=null and Address !=''">
+				Address=#{Address},
+			</if>
+			<if test=" NetPusherId !=null and NetPusherId !=''">
+				NetPusherId=#{NetPusherId},
+			</if>
+			<if test=" AskerId !=null and AskerId !=''">
+				AskerId=#{AskerId},
+			</if>
+			<if test=" QQ !=null and QQ !=''">
+				QQ=#{QQ},
+			</if>
+			<if test=" WeiXin !=null and WeiXin !=''">
+				WeiXin=#{WeiXin},
+			</if>
+			<if test=" Content !=null and Content !=''">
+				Content=#{Content},
+			</if>
+			<if test=" CreateTime !=null and CreateTime !=''">
+				CreateTime=#{CreateTime},
+			</if>
+			<if test=" LearnForward !=null and LearnForward !=''">
+				LearnForward=#{LearnForward},
+			</if>
+			<if test=" IsValid !=null and IsValid !=''">
+				IsValid=#{IsValid},
+			</if>
+			<if test=" Record !=null and Record !=''">
+				Record=#{Record},
+			</if>
+			<if test=" IsReturnVist !=null and IsReturnVist !=''">
+				IsReturnVist=#{IsReturnVist},
+			</if>
+			<if test=" FirstVisitTime !=null and FirstVisitTime !=''">
+				FirstVisitTime=#{FirstVisitTime},
+			</if>
+			<if test=" IsHome !=null and IsHome !=''">
+				IsHome=#{IsHome},
+			</if>
+			<if test=" HomeTime !=null and HomeTime !=''">
+				HomeTime=#{HomeTime},
+			</if>
+			<if test=" LostValid !=null and LostValid !=''">
+				LostValid=#{LostValid},
+			</if>
+			<if test=" IsPay !=null and IsPay !=''">
+				IsPay=#{IsPay},
+			</if>
+			<if test=" PayTime !=null and PayTime !=''">
+				PayTime=#{PayTime},
+			</if>
+			<if test=" Money !=null and Money !=''">
+				Money=#{Money},
+			</if>
+			<if test=" IsReturnMoney !=null and IsReturnMoney !=''">
+				IsReturnMoney=#{IsReturnMoney},
+			</if>
+			<if test=" IsInClass !=null and IsInClass !=''">
+				IsInClass=#{IsInClass},
+			</if>
+			<if test=" InClassTime !=null and InClassTime !=''">
+				InClassTime=#{InClassTime},
+			</if>
+			<if test=" InClassContent !=null and InClassContent !=''">
+				InClassContent=#{InClassContent},
+			</if>
+			<if test=" AskerContent !=null and AskerContent !=''">
+				AskerContent=#{AskerContent},
+			</if>
+			<if test=" IsDel !=null and IsDel !=''">
+				IsDel=#{IsDel},
+			</if>
+			<if test=" FromPart !=null and FromPart !=''">
+				FromPart=#{FromPart},
+			</if>
+			<if test=" StuConcern !=null and StuConcern !=''">
+				StuConcern=#{StuConcern},
+			</if>
+			<if test=" IsBaoBei !=null and IsBaoBei !=''">
+				IsBaoBei=#{IsBaoBei},
+			</if>
+			<!-- <if test=" ZiXunName !=null and ZiXunName !=''">
+				ZiXunName=#{ZiXunName},
+			</if> -->
+			<if test=" CreateUser !=null and CreateUser !=''">
+				CreateUser=#{CreateUser},
+			</if>
+			<if test=" ReturnMoneyReason !=null and ReturnMoneyReason !=''">
+				ReturnMoneyReason=#{ReturnMoneyReason},
+			</if>
+			<if test=" PreMoney !=null and PreMoney !=''">
+				PreMoney=#{PreMoney},
+			</if>
+			<if test=" PreMoneyTime !=null and PreMoneyTime !=''">
+				PreMoneyTime=#{PreMoneyTime},
+			</if>
+			<if test=" Scoring !=null and Scoring !=''">
+				Scoring=#{Scoring},
+			</if>
+			<if test=" Education !=null and Education !=''">
+				Education=#{Education},
+			</if>
+			<if test=" Location !=null and Location !=''">
+				Location=#{Location},
+			</if>
+			<if test=" Onlineremark !=null and Onlineremark !=''">
+				Onlineremark=#{Onlineremark},
+			</if>
+		</set>
+		WHERE Id=#{Id}
+ </update>
+ <delete id="deleteStudents" parameterType="int">
+ 	delete from students where Id=#{Id}
+ </delete>
+</mapper>
