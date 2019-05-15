@@ -19,9 +19,12 @@
 		chaXun();
 	})
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	/* 查询全部信息 */
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 	function chaXun(){
 		var ispay=$("#ispay").combobox('getValue');
 		if(ispay=="--请选择--"){
@@ -79,6 +82,7 @@
 		});  
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	function formattercaozuo(value,row,index){
 		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStu("+index+")'>查看</a>"
 	}
@@ -89,6 +93,11 @@
 	}
 	/* 格式化数据表格 */
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+	function formattercaozuo(value,row,index){
+		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStu("+index+")'>查看</a>"
+	}
+>>>>>>> parent of e951112... 1
 	function formatterrizhi(value,row,index){
 		return '<button onclick="rizhiStu('+index+')">日志</button>';
 	}
@@ -111,9 +120,12 @@
 		return value==0? '未上门':'已上门';
 	} 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	/* 获取当前行数据填充进修改表单 */
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 	function updateStudent(index){
 		var row = $('#dg').datagrid("getRows")[index];
 		console.log(row)
@@ -127,6 +139,9 @@
 		$('#updateStu').dialog('open');
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of e951112... 1
 	function updateStu(){
 		var ispay=$("#Update_ispay").combobox('getValue')=="已缴费"?"1":"0";
 		var isvalid=$("#Update_isValid").combobox('getValue')=="有效"?"1":"0";
@@ -134,6 +149,7 @@
 		var isreturnvist=$("#Update_isreturnvist").combobox('getValue')=="已回访"?"1":"0";
 		var isReturnMoney=$("#Update_isReturnMoney").combobox('getValue')=="已退费"?"1":"0";
 		var isInClass=$("#Update_isInClass").combobox('getValue')=="已进班"?"1":"0";
+<<<<<<< HEAD
 =======
 	/* 修改 */
 	function updateStu(){
@@ -144,12 +160,17 @@
 		$("#Update_isReturnMoney").combobox('getValue')=="已退费"?"1":"0";
 		$("#Update_isInClass").combobox('getValue')=="已进班"?"1":"0";
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 		$.post("UpdateStu",{
 			id:$("#Update_id").val(),
 			name:$("#Update_name").val(),
 			learnForward:$("#Update_learnForward").val(),
 			lostValid:$("#Update_lostValid").val(),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of e951112... 1
 			firstVisitTime:$("#Update_firstVisitTime").val(),
 			homeTime:$("#Update_homeTime").val(),
 			payTime:$("#Update_payTime").val(),
@@ -163,6 +184,7 @@
 			isvalid:$("#Update_isValid").combobox('getValue'),
 			isHome:$("#Update_isHome").combobox('getValue'),
 			isreturnvist:$("#Update_isreturnvist").combobox('getValue'),
+<<<<<<< HEAD
 =======
 			firstVisitTime:$("#Update_firstVisitTime").datebox('getValue'),
 			homeTime:$("#Update_homeTime").datebox('getValue'),
@@ -178,6 +200,8 @@
 			isHome:$("#Update_isHome").combobox('getValue'),
 			isReturnVist:$("#Update_isreturnvist").combobox('getValue'),
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 			isReturnMoney:$("#Update_isReturnMoney").combobox('getValue'),
 			isInClass:$("#Update_isInClass").combobox('getValue')
 			
@@ -201,9 +225,12 @@
 		$('#addNetfollows').dialog('open');
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	/* 查看日志 */
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 	function rizhiStu(index){
 		indexRow = index;
 		var row = $('#dg').datagrid("getRows")[indexRow];
@@ -217,6 +244,9 @@
 		});  
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of e951112... 1
 	
 	function RiZhi(){
 		$('#rz').datagrid({
@@ -224,6 +254,7 @@
 		    url:'selectNetfollows'
 		});  
 	}
+<<<<<<< HEAD
 =======
 	/* 查看 */
 	function chaKanStu(){
@@ -233,6 +264,8 @@
 	
 	/* 添加 */
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 	function insert(){
 		var row = $('#dg').datagrid("getRows")[indexRow];
 		var myDate = new Date();
@@ -246,9 +279,12 @@
 				 StudentId:row.id,
 				 UserId:row.askerId,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 				 FollowState:'1',
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 				 CreateTime:myDate.toLocaleDateString()
 			 },function(res){
 				if(res){
@@ -259,10 +295,13 @@
 				}
 				$('#addNetfollows').dialog('close');
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 				$('#insertfrom').form('clear');
 				location.reload();
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 			 },"json")	 
 		}
 	
@@ -303,10 +342,14 @@
 		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
 		            <th data-options="field:'caozuo',width:100,title:'操作',formatter:formattercaozuo"></th>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		            <th data-options="field:'rizhi',width:50,title:'操作',formatter:formatterrizhi"></th>
 =======
 		            <th data-options="field:'rizhi',width:50,title:'日志',formatter:formatterrizhi"></th>
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+		            <th data-options="field:'rizhi',width:50,title:'操作',formatter:formatterrizhi"></th>
+>>>>>>> parent of e951112... 1
 		        </tr>   
 		    </thead>   
 		</table> 
@@ -493,11 +536,15 @@
 	    	<thead>   
 	        <tr>   
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of e951112... 1
 	            <th data-options="field:'followTime',width:100">编码</th>   
 	            <th data-options="field:'content',width:100">名称</th>   
 	            <th data-options="field:'followType',width:100">价格</th>   
 	            <th data-options="field:'nextFollowTime',width:100">价格</th>   
 	            <th data-options="field:'remarks',width:100">价格</th>   
+<<<<<<< HEAD
 =======
 	            <th data-options="field:'followTime',width:150">回访时间</th>   
 	            <th data-options="field:'content',width:150">回访情况</th>   
@@ -505,6 +552,8 @@
 	            <th data-options="field:'nextFollowTime',width:150">下次跟踪时间</th>   
 	            <th data-options="field:'remarks',width:150">备注</th>   
 >>>>>>> 9567ad619fb3533a7205f8dffdfb0892e0ae3dec
+=======
+>>>>>>> parent of e951112... 1
 		     </tr>   
 		    </thead>   
 		</table>
