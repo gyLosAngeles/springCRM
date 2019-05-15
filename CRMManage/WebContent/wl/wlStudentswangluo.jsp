@@ -34,6 +34,76 @@ function into(){
 		}
 	});
 }
+/**
+ * 添加
+ */
+function add(){
+	$("#add").dialog("open");
+}
+ function addTijiao(){
+	 alert(1);
+	 $.ajax({
+			url:"../wl/insertCountStudents",
+			type:"post",
+			dataType:"json",
+			data:$("#addfrm").serializeArray(),
+			success:function(res){
+				if(res>0){
+					$.messager.alert('警告','添加成功');
+					$("#wlsdg").datagrid("reload");
+					$("#add").dialog("close");
+				}
+				else{
+					$.messager.alert('警告','添加失败');
+				}
+			}
+		}) 
+}
+ 
+ /*  删除*/
+ function Shanchu(){
+	   var selRow = $("#wlsdg").datagrid('getSelections');
+       if (selRow.length == 0) {
+    	   $.messager.show({
+               title : '提示',
+               msg : '请至少选择一行数据!',
+               timeout : 3000,
+               showType : 'slide'
+           });
+           return false;
+       }
+       var ids = [];
+       for (var i = 0; i < selRow.length; i++) {
+           var id = selRow[i].id;
+           ids.push(id); //把单个id循环放到ids的数组中  
+       }
+       alert(ids);
+       $.messager.confirm('提示', '确认删除?', function(r) {
+           if (r) {
+               $.ajax({
+                   url : '../wl/deleteStudents',
+                   dataType : 'json',
+                   type : 'post',
+                   data : {
+                	   ids : ids
+                   },
+                   success : function(data) {
+                       $.messager.show({
+                           title : '提示',
+                           msg : '删除成功',
+                       });
+                       $("#wlsdg").datagrid("reload");
+                   },
+                   error : function(data) {
+                	   $.messager.show({
+                           title : '提示',
+                           msg : '删除失败',
+                       });
+                   }
+               });
+           }
+       });
+ }
 function formattercaozuo(value,row,index){
 	return "<a href='javascript:void(0)' onclick='ChaKan("+index+")'>查看</a>";
 }
@@ -127,5 +197,69 @@ function formattercaozuo(value,row,index){
 		</thead>
 	</table>
 <!-- 查看 -->
+<!-- 添加弹出框 -->
+	<div id="add" class="easyui-dialog" title="添加" style="width:400px;"  data-options="resizable:true,modal:true,closed:true">   
+   <form id="addfrm">
+   <table >
+   
+   
+  
+  <tr>
+				<td><label> 姓名</label></td>
+				<td><input class="easyui-textbox" name="name"  ></td>
+			</tr>
+			<tr>
+				<td><label>性别</label></td>
+				<td><input class="easyui-textbox" name="sex"  ></td>
+			</tr>
+			<tr>
+				<td><label>年龄</label></td>
+				<td><input class="easyui-textbox" name="age"  ></td>
+			</tr>
+			<tr>
+				<td><label>电话</label></td>
+				<td><input class="easyui-textbox" name="phone" ></td>
+			</tr>
+			<tr>
+				<td><label>学历</label></td>
+				<td><input class="easyui-textbox" name="stuStatus"  ></td>
+			</tr>
+			<tr>
+				<td><label>状态</label></td>
+				<td><input class="easyui-textbox" name="phone" ></td>
+			</tr>
+			<tr>
+				<td><label>来源渠道</label></td>
+				<td><input class="easyui-textbox" name="fromPart" ></td>
+			</tr>
+			<tr>
+				<td><label>来源网站</label></td>
+				<td><input class="easyui-textbox" name="sourceUrl" ></td>
+			</tr>
+			<tr>
+				<td><label>来源关键词</label></td>
+				<td><input class="easyui-textbox" name="sourceKeyWord" ></td>
+			</tr>
+			<tr>
+				<td><label>学员QQ</label></td>
+				<td><input class="easyui-textbox" name="qq" ></td>
+			</tr>
+			<tr>
+				<td><label>微信号</label></td>
+				<td><input class="easyui-textbox" name="weiXin" ></td>
+			</tr>
+			<tr>
+				<td><label>是否报备</label></td>
+				<td><input class="easyui-textbox" name="isBaoBei" ></td>
+			</tr>
+			<tr>
+				<td><label>在线备注</label></td>
+				<td><input class="easyui-textbox" name="inClassContent" ></td>
+			</tr>
+			 </table>
+   </form> 
+   <a href="javascript:void(0)" class="easyui-linkbutton"   onclick="addTijiao()">提交</a> 
+   <a href="javascript:void(0)" class="easyui-linkbutton"  >取消</a>     
+</div>  
 </body>
 </html>

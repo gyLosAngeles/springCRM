@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysd.entity.Askers;
@@ -60,14 +61,17 @@ private StudentsService studentsService;
 	 */
 	@ResponseBody
 	@RequestMapping(value="/wl/deleteStudents",method=RequestMethod.POST)
-	public Integer deleteStudents(String ids) {
-		System.out.println(ids);
-		String[] split = ids.split(",");
-		System.out.println(split.length);
+	/*public Integer deleteStudents(String ids) {*/
+	public Integer deleteStudents(@RequestParam("ids[]")int[] ids) {
 		Integer deleteStudents = null;
+		for (int i = 0; i < ids.length; i++) {
+			deleteStudents = studentsService.deleteStudents(ids[i]);
+		}
+		
+		/*String[] split = ids.split(",");
 		for (int i = 0; i < split.length; i++) {
 			deleteStudents = studentsService.deleteStudents(Integer.parseInt(split[i]));
-		}
+		}*/
 		return deleteStudents;
 	   }
 }
