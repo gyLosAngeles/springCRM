@@ -51,17 +51,17 @@
 		    </thead>   
 		</table>
 		
-		<div id="Logtoolbar" class="easyui-window" data-options="closed:true" style="width:700px;">
+		<div id="Logtoolbar" data-options="closed:true">
 		<form id="Logtoolform" class="easyui-form">
 			<label for="name">学生名称:</label>
 			<input class="easyui-textbox" type="text" id="logn_studentname">
 			<label for="name">回访情况:</label>
-			<input class="easyui-textbox" type="text" id="logn_content"><br/>
+			<input class="easyui-textbox" type="text" id="logn_content">
 			
 			<label for="name">始跟时间:</label>
 			<input class="easyui-datebox" type="text" id="logn_followtime">
 			<label for="name">束跟时间:</label>
-			<input class="easyui-datebox" type="text" id="logn_nextfollowtime"><br/>
+			<input class="easyui-datebox" type="text" id="logn_nextfollowtime">
 			
 			
 			<label for="name">跟踪方式:</label>

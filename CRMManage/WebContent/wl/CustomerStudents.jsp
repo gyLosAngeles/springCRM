@@ -81,9 +81,6 @@
 		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStu("+index+")'>查看</a>"
 	}
 	/* 格式化数据表格 */
-	function formatterrizhi(value,row,index){
-		return '<button onclick="rizhiStu('+index+')">日志</button>';
-	}
 	function formatterjf(value,row,index) {
 		return value==0? '未缴费':'已缴费';
 	} 
@@ -246,7 +243,6 @@
 		            <th data-options="field:'sourceKeyWord',width:100">来源关键词</th>  
 		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
 		            <th data-options="field:'caozuo',width:100,title:'操作',formatter:formattercaozuo"></th>
-		            <th data-options="field:'rizhi',width:50,title:'日志',formatter:formatterrizhi"></th>
 		        </tr>   
 		    </thead>   
 		</table> 
