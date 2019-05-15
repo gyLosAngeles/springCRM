@@ -34,9 +34,8 @@ function into(){
 		}
 	});
 }
-
 function formattercaozuo(value,row,index){
-	return null;
+	return "<a href='javascript:void(0)' onclick='ChaKan("+index+")'>查看</a>";
 }
 </script>
 </head>
@@ -127,5 +126,6 @@ function formattercaozuo(value,row,index){
 			</tr>
 		</thead>
 	</table>
+<!-- 查看 -->
 </body>
 </html>
