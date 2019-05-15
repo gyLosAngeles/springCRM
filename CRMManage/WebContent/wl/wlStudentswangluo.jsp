@@ -72,16 +72,21 @@ function add(){
            });
            return false;
        }
-       var ids = [];
+       var ids ="";
+       for (var i = 0; i < selRow.length; i++) {
+           var id = selRow[i].id;
+         	ids+=id+","
+       } 
+      /*  var ids = [];
        for (var i = 0; i < selRow.length; i++) {
            var id = selRow[i].id;
            ids.push(id); //把单个id循环放到ids的数组中  
-       }
+       } */
        alert(ids);
        $.messager.confirm('提示', '确认删除?', function(r) {
            if (r) {
                $.ajax({
-                   url : '../wl/deleteStudents',
+                   url : '../wl/deleteStudents2',
                    dataType : 'json',
                    type : 'post',
                    data : {
