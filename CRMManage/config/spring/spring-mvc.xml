@@ -11,6 +11,7 @@
 	<!-- 指定静态资源路径 -->
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/img/" mapping="/img/**" />
+	<mvc:resources location="/css/" mapping="/css/**" />
 	<!-- 配置对JSON的支持 -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
@@ -29,7 +30,7 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/" />
+		<property name="prefix" value="WEB-INF/" />
 		<property name="suffix" value=".jsp" />
 	</bean>	
 	

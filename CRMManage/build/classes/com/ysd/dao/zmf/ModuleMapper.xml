@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	</set>
 	 </update>
 	 <select id="selectModuleByUserId" resultMap="module_role" parameterType="int" >
-	 	SELECT m.moduleId,
+	 	<!-- SELECT m.moduleId,
 	 		m.moduleName,
 	 		m.parentId,
 	 		m.moduleUrl  
@@ -62,6 +62,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  roletab r on u.roleId=r.roleId inner join 
 			  rolemoduletab rm on r.roleId=rm.roleId inner join 
 			  moduletab m on rm.moduleId = m.moduleId
-	where u.userId=#{0}
+	where u.userId=#{0} -->
+	SELECT *
+	FROM moduletab WHERE moduleId IN (
+	SELECT DISTINCT moduleId
+	FROM rolemoduletab WHERE roleId IN (SELECT DISTINCT roleId
+	FROM userroletab WHERE userId IN (SELECT DISTINCT userId FROM usertab WHERE userId = #{0})))
 	 </select>
 </mapper>

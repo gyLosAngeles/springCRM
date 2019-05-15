@@ -44,7 +44,9 @@ public class TreeNode {
 		for (int i = 0; i < list.size(); i++) {
 			 for (int j = 0; j < totalList.size(); j++) {
 				if(totalList.get(j).getId()==list.get(i).getId()) {
-					totalList.get(j).setChecked(true);
+					if(totalList.get(j).getParent_id()!=0)
+					  totalList.get(j).setChecked(true);
+					
 				}
 			}
 		}
