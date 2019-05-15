@@ -18,6 +18,57 @@ public class ConsultantStuCondition {
 	private String	maxFirstVisitTime;
 	private String	minCreateTime;
 	private String	maxCreateTime;
+	private String StudentName;
+	private String StudentId;
+	private String FollowTime;
+	private String NextFollowTime;
+	private String Content;
+	private Integer UserId;
+	private String FollowType;
+	
+	
+	public String getStudentId() {
+		return StudentId;
+	}
+	public void setStudentId(String studentId) {
+		StudentId = studentId;
+	}
+	public String getStudentName() {
+		return StudentName;
+	}
+	public void setStudentName(String studentName) {
+		StudentName = studentName;
+	}
+	public String getFollowTime() {
+		return FollowTime;
+	}
+	public void setFollowTime(String followTime) {
+		FollowTime = followTime;
+	}
+	public String getNextFollowTime() {
+		return NextFollowTime;
+	}
+	public void setNextFollowTime(String nextFollowTime) {
+		NextFollowTime = nextFollowTime;
+	}
+	public String getContent() {
+		return Content;
+	}
+	public void setContent(String content) {
+		Content = content;
+	}
+	public Integer getUserId() {
+		return UserId;
+	}
+	public void setUserId(Integer userId) {
+		UserId = userId;
+	}
+	public String getFollowType() {
+		return FollowType;
+	}
+	public void setFollowType(String followType) {
+		FollowType = followType;
+	}
 	public String getName() {
 		return Name;
 	}
@@ -127,8 +178,11 @@ public class ConsultantStuCondition {
 				+ minHomeTime + ", maxHomeTime=" + maxHomeTime + ", minPayTime=" + minPayTime + ", maxPayTime="
 				+ maxPayTime + ", minInClassTime=" + minInClassTime + ", maxInClassTime=" + maxInClassTime
 				+ ", minFirstVisitTime=" + minFirstVisitTime + ", maxFirstVisitTime=" + maxFirstVisitTime
-				+ ", minCreateTime=" + minCreateTime + ", maxCreateTime=" + maxCreateTime + "]";
+				+ ", minCreateTime=" + minCreateTime + ", maxCreateTime=" + maxCreateTime + ", StudentName="
+				+ StudentName + ", StudentId=" + StudentId + ", FollowTime=" + FollowTime + ", NextFollowTime="
+				+ NextFollowTime + ", Content=" + Content + ", UserId=" + UserId + ", FollowType=" + FollowType + "]";
 	}
+	 
 	
 	
 }

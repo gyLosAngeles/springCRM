@@ -46,7 +46,6 @@ public class CustomerStudents {
 			private String	ReturnMoneyReason;
 			private String	PreMoney;
 			private String	PreMoneyTime;
-			
 			private Askers askers;
 			private Netfollows netfollows;
 			
