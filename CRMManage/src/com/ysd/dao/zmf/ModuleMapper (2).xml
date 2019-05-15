@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.zmf.ModuleMapper">
+
+	<resultMap type="com.ysd.entity.zmf.ModuleTree" id="module_role">
+		<id column="moduleId" property="id" />
+		<result column="moduleName" property="text" />
+		<result column="moduleUrl" property="attributes.url" />
+		<result column="parentId" property="parent_id" />
+	</resultMap>
+	 <select id="selectModuleByRoleId" resultMap="module_role" parameterType="int" >
+	 	select 
+	 		m.moduleId,
+	 		m.moduleName,
+	 		m.parentId,
+	 		m.moduleUrl 
+	 	from 
+	 	rolemoduletab r inner join 
+	 	moduletab m 
+	 	on r.roleModuleId = m.moduleId 
+	 	where r.roleId=#{0}
+	 </select>
+	 <select id="selectAllModuble" resultMap="module_role" parameterType="int" >
+	 	select 
+	 		 moduleId,
+	 		 moduleName,
+	 		 parentId,
+	 		 moduleUrl 
+	 	from moduletab  
+	 </select>
+</mapper>
