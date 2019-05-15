@@ -244,11 +244,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<insert id="insertNetfollows" parameterType="com.ysd.entity.hpy.Netfollows">
 				INSERT INTO netfollows (StudentId, StudentName, FollowTime, NextFollowTime, Content, UserId, FollowType, CreateTime, FollowState,Remarks)
 				VALUES
-<<<<<<< HEAD
-					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{CreateTime},#{FollowState},#{Remarks}) 
-=======
 					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{CreateTime},#{1},#{Remarks}) 
->>>>>>> parent of e951112... 1
+
 		</insert>
 		<select id="selectNetfollows" parameterType="com.ysd.entity.hpy.Netfollows" resultType="com.ysd.entity.hpy.Netfollows">
 			select * from netfollows where StudentId=#{StudentId}
