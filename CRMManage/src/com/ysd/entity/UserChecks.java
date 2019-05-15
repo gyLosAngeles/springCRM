@@ -51,16 +51,9 @@ public class UserChecks {
 	public void setCheckOutTime(String checkOutTime) {
 		CheckOutTime = checkOutTime;
 	}
-	public UserChecks(int id, int userId, String userName, String checkInTime, int checkState, int isCancel,
-			String checkOutTime) {
-		super();
-		Id = id;
-		UserId = userId;
-		UserName = userName;
-		CheckInTime = checkInTime;
-		CheckState = checkState;
-		IsCancel = isCancel;
-		CheckOutTime = checkOutTime;
+	@Override
+	public String toString() {
+		return "UserChecks [Id=" + Id + ", UserId=" + UserId + ", UserName=" + UserName + ", CheckInTime=" + CheckInTime
+				+ ", CheckState=" + CheckState + ", IsCancel=" + IsCancel + ", CheckOutTime=" + CheckOutTime + "]";
 	}
-	
 }
