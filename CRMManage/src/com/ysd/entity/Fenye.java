@@ -1,5 +1,7 @@
 package com.ysd.entity;
 
+import com.ysd.entity.hpy.ConsultantStuCondition;
+import com.ysd.entity.zmf.UserChecksCondition;
 import com.ysd.entity.zmf.UserCondition;
 
 public class Fenye {
@@ -7,8 +9,14 @@ public class Fenye {
 	private Integer page;//Ò³Êý
 	private Integer rows;//ÌõÊý
 	private UserCondition userCondition; 
-
-	
+	private UserChecksCondition userChecksCondition; 
+	private ConsultantStuCondition consultantStuCondition;
+	public UserChecksCondition getUserChecksCondition() {
+		return userChecksCondition;
+	}
+	public void setUserChecksCondition(UserChecksCondition userChecksCondition) {
+		this.userChecksCondition = userChecksCondition;
+	}
 	public void setPage(Integer page) {
 		
 		this.page =page ;
@@ -28,6 +36,13 @@ public class Fenye {
 	public Integer getPage() {
 		page = page>0? (page-1)*rows:0;
 		return page;
+	}
+	
+	public ConsultantStuCondition getConsultantStuCondition() {
+		return consultantStuCondition;
+	}
+	public void setConsultantStuCondition(ConsultantStuCondition consultantStuCondition) {
+		this.consultantStuCondition = consultantStuCondition;
 	}
 	@Override
 	public String toString() {

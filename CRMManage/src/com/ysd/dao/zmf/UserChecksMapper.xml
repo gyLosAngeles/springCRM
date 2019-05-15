@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.zmf.UserChecksMapper"> 
+	<select id="selectUserChecksByFenye" resultType="com.ysd.entity.UserChecks" parameterType="com.ysd.entity.Fenye">
+		SELECT 
+			UserId,
+			UserName,
+			CheckInTime,
+			CheckState,
+			IsCancel,
+			CheckOutTime 
+		FROM userchecks
+		<where>
+			<if test="userChecksCondition.userName != null and userChecksCondition.userName != ''">
+				and UserName like "%"#{userChecksCondition.userName}"%"
+			</if>
+			<if test="userChecksCondition.checkInTimeBigin != null and userChecksCondition.checkInTimeBigin != ''">
+				and CheckInTime &lt;  #{userChecksCondition.checkInTimeBigin} 
+			</if>
+			<if test="userChecksCondition.checkInTimeEnd != null and userChecksCondition.checkInTimeEnd != ''">
+				and CheckInTime &gt; #{userChecksCondition.checkInTimeEnd} 
+			</if>
+			<if test="userChecksCondition.checkState != null and userChecksCondition.checkState != ''">
+				and CheckState = #{userChecksCondition.checkState}
+			</if>
+		</where>
+		limit #{page},#{rows}
+	</select>
+	<select id="selectUserChecksCountByFenye" resultType="int" parameterType="com.ysd.entity.Fenye" >
+		SELECT 
+			count(UserId) 
+		FROM userchecks
+		<where>
+			<if test="userChecksCondition.userName != null and userChecksCondition.userName != ''">
+				and UserName like "%"#{userChecksCondition.userName}"%"
+			</if>
+			<if test="userChecksCondition.checkInTimeBigin != null and userChecksCondition.checkInTimeBigin != ''">
+				and CheckInTime &lt;  #{userChecksCondition.checkInTimeBigin} 
+			</if>
+			<if test="userChecksCondition.checkInTimeEnd != null and userChecksCondition.checkInTimeEnd != ''">
+				and CheckInTime &gt; #{userChecksCondition.checkInTimeEnd} 
+			</if>
+			<if test="userChecksCondition.checkState != null and userChecksCondition.checkState != ''">
+				and CheckState = #{userChecksCondition.checkState}
+			</if>
+		</where>
+	</select>
+	<update id="updateUserChecks" parameterType="com.ysd.entity.UserChecks">
+		update userchecks 
+			<set>
+				<if test="CheckState != null and CheckState != ''">
+				 	 CheckState = #{CheckState},
+				</if>
+				<if test="CheckInTime != null and CheckInTime != ''">
+				 	 CheckInTime = #{CheckInTime},
+				</if>
+				<if test="IsCancel != null and IsCancel != ''">
+				 	 IsCancel = #{IsCancel},
+				</if>
+				<if test="CheckState != null and CheckState != ''">
+				 	 CheckOutTime = NOW(),
+				</if>
+			</set>
+		where UserName = #{UserName}
+	</update>
+</mapper>

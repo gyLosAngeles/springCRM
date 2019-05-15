@@ -100,4 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	</set>
 	 	where userName = #{userName}
 	 </update>
+	 <select id="selectUserByuserName" parameterType="String" resultType="com.ysd.entity.UserTab">
+	 	SELECT userId,userName,userPassWord,userIsLockout,userPassWrongCout FROM usertab where userName = #{0}
+	 </select>
 </mapper>

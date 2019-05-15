@@ -2,6 +2,8 @@ package com.ysd.dao.zmf;
 
 
 
+import java.util.List;
+
 import com.ysd.entity.RoleModuleTab;
 import com.ysd.entity.RoleTab;
 
@@ -36,4 +38,10 @@ public interface RoleMapper {
 	 * @return
 	 */
 	int deleteRoleModule(RoleModuleTab roleModuleTab);
+	/**
+	 * 查询角色对应的所有的模块编号
+	 * @param roleId
+	 * @return
+	 */
+	List<String> selectModuleIdByRoleId(Integer roleId);
 }

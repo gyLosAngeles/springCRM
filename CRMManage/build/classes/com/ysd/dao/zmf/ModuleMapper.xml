@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	from 
 	 	rolemoduletab r inner join 
 	 	moduletab m 
-	 	on r.roleModuleId = m.moduleId 
+	 	on r.moduleId = m.moduleId 
 	 	where r.roleId=#{0}
 	 </select>
 	 <select id="selectAllModuble" resultMap="module_role" parameterType="int" >
@@ -29,5 +29,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		 parentId,
 	 		 moduleUrl 
 	 	from moduletab  
+	 </select>
+	 <insert id="insertModule" parameterType="com.ysd.entity.ModuleTab">
+	 	insert into moduletab(moduleName,parentId,moduleUrl,moduleWeight,moduleCreateTime) values(#{moduleName},#{parentId},#{moduleUrl},#{moduleWeight},NOW());
+	 </insert>
+	 <delete id="deleteModule" parameterType="com.ysd.entity.ModuleTab">
+	 	delete from moduletab where moduleId = #{moduleId}
+	 </delete>
+	 <update id="updateModule" parameterType="com.ysd.entity.ModuleTab">
+	 		update moduletab 
+	 	<set>
+	 		<if test="moduleName != null and moduleName != ''">
+	 			moduleName = #{moduleName},
+	 		</if>
+	 		<if test="moduleUrl != null and moduleUrl != ''">
+	 			moduleUrl = #{moduleUrl},
+	 		</if>
+	 		<if test="moduleWeight != null and moduleWeight != ''">
+	 			moduleWeight = #{moduleWeight},
+	 		</if>
+	 		<if test="moduleUrl != null or moduleUrl != '' or moduleUrl != null or moduleUrl != '' or moduleWeight != null or moduleWeight != ''">
+	 			roleModuleLastUpdateTime = NOW(),
+	 		</if>
+	 	</set>
+	 </update>
+	 <select id="selectModuleByUserId" resultMap="module_role" parameterType="int" >
+	 	SELECT m.moduleId,
+	 		m.moduleName,
+	 		m.parentId,
+	 		m.moduleUrl  
+		FROM  userroletab u inner join 
+			  roletab r on u.roleId=r.roleId inner join 
+			  rolemoduletab rm on r.roleId=rm.roleId inner join 
+			  moduletab m on rm.moduleId = m.moduleId
+	where u.userId=#{0}
 	 </select>
 </mapper>

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ysd.entity.RoleModuleTab;
 import com.ysd.entity.RoleTab;
 import com.ysd.entity.zmf.ModuleTree;
-import com.ysd.servise.zmf.RoleServise;
-import com.ysd.servise.zmf.UserServise;
+import com.ysd.service.zmf.RoleServise;
+import com.ysd.service.zmf.UserServise;
 
 @Controller
 public class RoleController {
@@ -45,5 +45,10 @@ public class RoleController {
 	@RequestMapping(value="RoleModuleSelect",method=RequestMethod.POST)
 	public List<ModuleTree> selectRoleModule(RoleModuleTab roleModuleTab){
 		return roleServise.selectRoleModule(roleModuleTab);
+	}
+	@ResponseBody
+	@RequestMapping(value="RoleModuleSet",method=RequestMethod.POST)
+	public int roleSetModule(String Modules,int roleId) {
+		return roleServise.updateRoleModule(Modules, roleId);
 	}
 }

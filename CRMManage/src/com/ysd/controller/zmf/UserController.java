@@ -14,7 +14,7 @@ import com.ysd.entity.RoleTab;
 import com.ysd.entity.UserRoleTab;
 import com.ysd.entity.UserTab;
 import com.ysd.entity.zmf.UserCondition;
-import com.ysd.servise.zmf.UserServise;
+import com.ysd.service.zmf.UserServise;
 
 @Controller
 public class UserController {

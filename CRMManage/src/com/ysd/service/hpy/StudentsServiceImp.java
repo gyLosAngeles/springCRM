@@ -5,35 +5,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ysd.dao.hpy.StudentsMapper;
+import com.ysd.dao.hpy.StudentMapper;
+import com.ysd.entity.DataGridData;
+import com.ysd.entity.Fenye;
 import com.ysd.entity.hpy.CustomerStudents;
-import com.ysd.entity.hpy.Fenye;
 import com.ysd.entity.hpy.Netfollows;
 @Service
 public class StudentsServiceImp implements StudentsService {
 	@Autowired
-	private StudentsMapper studentsMapper;
-	public Fenye selectStu(Fenye fenye) {
-		List<CustomerStudents> selectStu=studentsMapper.selectStu(fenye);
-		Integer selectCountStu=studentsMapper.selectCountStu(fenye);
-		System.out.println(selectStu);
-		fenye.setRows(selectStu);
-		fenye.setTotal(selectCountStu);
-		return fenye;
+	private StudentMapper studentMapper;
+	@Autowired
+	private DataGridData dataGridData;
+	public DataGridData selectStu(Fenye fenye) {
+		dataGridData.setRows(studentMapper.selectStu(fenye));
+		dataGridData.setTotal(studentMapper.selectCountStu(fenye));
+		return dataGridData;
 	}
-	@Override
 	public Integer UpdateStu(CustomerStudents customerStudents) {
-		return studentsMapper.UpdateStu(customerStudents);
+		return studentMapper.UpdateStu(customerStudents);
 	}
-	@Override
 	public Integer insertNetfollows(Netfollows netfollows) {
-		// TODO Auto-generated method stub
-		return studentsMapper.insertNetfollows(netfollows);
+		return studentMapper.insertNetfollows(netfollows);
 	}
-	@Override
 	public List<Netfollows> selectNetfollows(Netfollows netfollows) {
-		// TODO Auto-generated method stub
-		return studentsMapper.selectNetfollows(netfollows);
+		return studentMapper.selectNetfollows(netfollows);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.ysd.dao.zmf;
 
 import java.util.List;
 
+import com.ysd.entity.ModuleTab;
 import com.ysd.entity.zmf.ModuleTree;
 
 public interface ModuleMapper {
@@ -17,4 +18,28 @@ public interface ModuleMapper {
 	 * @return
 	 */
 	List<ModuleTree> selectAllModuble();
+	/**
+	 * 添加模块
+	 * @param moduleTab
+	 * @return
+	 */
+	int insertModule(ModuleTab moduleTab);
+	/**
+	 * 删除模块
+	 * @param moduleTab
+	 * @return
+	 */
+	int deleteModule(ModuleTab moduleTab);
+	/**
+	 * 修改模块
+	 * @param moduleTab
+	 * @return
+	 */
+	int updateModule(ModuleTab moduleTab);
+	/**
+	 * 查询用户对应的所有模块
+	 * @param userId
+	 * @return
+	 */
+	List<ModuleTree> selectModuleByUserId(Integer userId);
 }

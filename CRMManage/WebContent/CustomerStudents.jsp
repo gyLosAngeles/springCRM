@@ -236,8 +236,8 @@
 		            <th data-options="field:'isValid',width:80,formatter:formatteryx">是否有效</th>
 		            <th data-options="field:'isHome',width:80,formatter:formattersm">是否上门</th>
 		            <th data-options="field:'isReturnMoney',width:80,formatter:formattertf">是否退费</th>
-		            <th data-options="field:'ispay',width:80,formatter:formatterjf">是否缴费</th>  
-		            <th data-options="field:'isreturnvist',width:80,formatter:formatterhf">是否回访</th>  
+		            <th data-options="field:'isPay',width:80,formatter:formatterjf">是否缴费</th>  
+		            <th data-options="field:'isReturnVist',width:80,formatter:formatterhf">是否回访</th>  
 		            <th data-options="field:'isInClass',width:80,formatter:formattersfjb">是否进班</th>  
 		            <th data-options="field:'inClassContent',width:80">创建备注</th>  
 		            <th data-options="field:'createTime',width:150">创建时间</th>  

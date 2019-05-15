@@ -39,4 +39,10 @@ public interface UserTabMapper {
 	 * @return
 	 */
 	int deleteUser(String userName);
+	/**
+	 * 根据用户名查询
+	 * @param userName
+	 * @return
+	 */
+	UserTab selectUserByuserName(String userName);
 }
