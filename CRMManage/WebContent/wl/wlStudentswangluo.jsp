@@ -13,6 +13,7 @@
 <script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function() {
+	shezhidongtai();
 	into();
 })
 function into(){
@@ -37,6 +38,55 @@ function into(){
 
 function formattercaozuo(value,row,index){
 	return null;
+}
+
+
+function shezhidongtai(){
+	var createGridHeaderContextMenu = function(e, field) {
+		e.preventDefault();
+		var grid = $(this);/* grid本身 */
+		var headerContextMenu = this.headerContextMenu;/* grid上的列头菜单对象 */
+		var okCls = 'tree-checkbox1';// 选中
+		var emptyCls = 'tree-checkbox0';// 取消
+		if (!headerContextMenu) {
+			var tmenu = $('<div style="width:100px;"></div>').appendTo('body');
+			var fields = grid.datagrid('getColumnFields');
+			for (var i = 0; i < fields.length; i++) {
+				var fildOption = grid.datagrid('getColumnOption', fields[i]);
+				if (!fildOption.hidden) {
+					$('<div iconCls="' + okCls + '" field="' + fields[i] + '"/>')
+							.html(fildOption.title).appendTo(tmenu);
+				} else {
+					$('<div iconCls="' + emptyCls + '" field="' + fields[i] + '"/>')
+							.html(fildOption.title).appendTo(tmenu);
+				}
+			}
+			headerContextMenu = this.headerContextMenu = tmenu.menu({
+				onClick : function(item) {
+					var field = $(item.target).attr('field');
+					if (item.iconCls == okCls) {
+						grid.datagrid('hideColumn', field);
+						$(this).menu('setIcon', {
+							target : item.target,
+							iconCls : emptyCls
+						});
+					} else {
+						grid.datagrid('showColumn', field);
+						$(this).menu('setIcon', {
+							target : item.target,
+							iconCls : okCls
+						});
+					}
+				}
+			});
+		}
+		headerContextMenu.menu('show', {
+			left: e.pageX,
+            top: e.pageY
+		});
+	};
+	$.fn.datagrid.defaults.onHeaderContextMenu = createGridHeaderContextMenu;
+	$.fn.treegrid.defaults.onHeaderContextMenu = createGridHeaderContextMenu;
 }
 </script>
 </head>
@@ -72,6 +122,7 @@ function formattercaozuo(value,row,index){
 		onclick="add()">添加</a>
 	<a href="#" class="easyui-linkbutton" onclick="Shezhi()">设置</a>
 	<a href="#" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
+	<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
 	</div>
 	<table id="wlsdg" data-options="checkbox:true ">
 		<thead>
@@ -128,4 +179,85 @@ function formattercaozuo(value,row,index){
 		</thead>
 	</table>
 </body>
+<script type="text/javascript">
+function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+	//如果jsondata不是对象，那么json.parse将分析对象中的json字符串。
+	var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+	var CSV = '';
+
+	//在第一行拼接标题
+	CSV += ReportTitle + '\r\n\n';
+
+	//产生数据标头
+	if (ShowLabel) {
+		var row = "";
+		//此循环将从数组的第一个索引中提取标签
+		for ( var index in arrData[0]) {
+
+			//现在将每个值转换为字符串和逗号分隔
+			row += index + ',';
+		}
+
+		row = row.slice(0, -1);
+
+		//添加带换行符的标签行
+		CSV += row + '\r\n';
+	}
+
+	//第一个循环是提取每一行
+	for (var i = 0; i < arrData.length; i++) {
+		var row = "";
+
+		//2nd loop will extract each column and convert it in string comma-seprated
+		for ( var index in arrData[i]) {
+			row += '"' + arrData[i][index] + '",';
+		}
+
+		row.slice(0, row.length - 1);
+
+		//add a line break after each row
+		CSV += row + '\r\n';
+	}
+
+	if (CSV == '') {
+		alert("Invalid data");
+		return;
+	}
+
+	//Generate a file name
+	var fileName = "我的学生_";
+	//this will remove the blank-spaces from the title and replace it with an underscore
+	fileName += ReportTitle.replace(/ /g, "_");
+
+	//Initialize file format you want csv or xls
+	//var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURI(CSV);
+
+	// Now the little tricky part.
+	// you can use either>> window.open(uri);
+	// but this will not work in some browsers
+	// or you will not get the correct file extension    
+
+	//this trick will generate a temp <a /> tag
+	var link = document.createElement("a");
+	link.href = uri;
+
+	//set the visibility hidden so it will not effect on your web-layout
+	link.style = "visibility:hidden";
+	link.download = fileName + ".csv";
+
+	//this part will append the anchor tag and remove it after automatic click
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+}
+
+$("#btnExport").click(function() {
+	var data = JSON.stringify($('#wlsdg').datagrid('getData').rows);
+	if (data == '')
+		return;
+
+	JSONToCSVConvertor(data, "数据信息", true);
+});
+</script>
 </html>
