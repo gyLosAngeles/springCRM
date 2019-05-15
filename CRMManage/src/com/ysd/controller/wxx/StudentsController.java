@@ -61,17 +61,21 @@ private StudentsService studentsService;
 	 */
 	@ResponseBody
 	@RequestMapping(value="/wl/deleteStudents",method=RequestMethod.POST)
-	/*public Integer deleteStudents(String ids) {*/
 	public Integer deleteStudents(@RequestParam("ids[]")int[] ids) {
 		Integer deleteStudents = null;
 		for (int i = 0; i < ids.length; i++) {
 			deleteStudents = studentsService.deleteStudents(ids[i]);
 		}
-		
-		/*String[] split = ids.split(",");
+		return deleteStudents;
+	   }
+	@ResponseBody
+	@RequestMapping(value="/wl/deleteStudents2",method=RequestMethod.POST)
+	public Integer deleteStudents2(String ids) {
+		Integer deleteStudents = null;
+		 String[] split = ids.split(",");
 		for (int i = 0; i < split.length; i++) {
 			deleteStudents = studentsService.deleteStudents(Integer.parseInt(split[i]));
-		}*/
+		} 
 		return deleteStudents;
 	   }
 }
