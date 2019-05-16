@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		
 		<select id="selectStu" parameterType="com.ysd.entity.Fenye" resultMap="studentMap">
-			SELECT s.*,a.* from students s,askers a
+			SELECT s.*,a.* from students s left JOIN askers a on s.AskerId=a.askerId
 		<where>
 			<if test="consultantStuCondition.Name !=null and consultantStuCondition.Name!=''">
 			  and	Name like "%"#{consultantStuCondition.Name}"%"
@@ -119,7 +119,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="consultantStuCondition.IsValid !=null and consultantStuCondition.IsValid !='' ">
 				and IsValid like "%"#{consultantStuCondition.IsValid}"%"
 			</if>
-			and s.AskerId=a.askerId
+			<if test="consultantStuCondition.AskerId !=null and consultantStuCondition.AskerId !='' ">
+				and s.AskerId=#{consultantStuCondition.AskerId}
+			</if>
 		</where>
 			limit #{page},#{rows}
 		</select>
@@ -244,10 +246,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<insert id="insertNetfollows" parameterType="com.ysd.entity.hpy.Netfollows">
 				INSERT INTO netfollows (StudentId, StudentName, FollowTime, NextFollowTime, Content, UserId, FollowType, CreateTime, FollowState,Remarks)
 				VALUES
-					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{CreateTime},#{1},#{Remarks}) 
+					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{CreateTime},#{FollowState},#{Remarks}) 
 
 		</insert>
-		<select id="selectNetfollows" parameterType="com.ysd.entity.hpy.Netfollows" resultType="com.ysd.entity.hpy.Netfollows">
-			select * from netfollows where StudentId=#{StudentId}
+		<select id="selectNetfollows" parameterType="com.ysd.entity.Fenye" resultType="com.ysd.entity.hpy.Netfollows">
+			select Id,StudentId,StudentName,FollowTime,NextFollowTime,Content,UserId,FollowType,CreateTime,FollowState,Remarks from netfollows
+			<where>
+				<if test="consultantStuCondition.StudentName != '' and consultantStuCondition.StudentName != null">
+					and StudentName like "%"#{consultantStuCondition.StudentName}"%"
+				</if>
+				<if test="consultantStuCondition.Content != '' and consultantStuCondition.Content != null">
+					and Content like "%"#{consultantStuCondition.Content}"%"
+				</if>
+				<if test="consultantStuCondition.FollowTime != '' and consultantStuCondition.FollowTime != null">
+					and FollowTime like "%"#{consultantStuCondition.FollowTime}"%"
+				</if>
+				<if test="consultantStuCondition.NextFollowTime != '' and consultantStuCondition.NextFollowTime != null">
+					and NextFollowTime = #{consultantStuCondition.NextFollowTime},
+				</if>
+				<if test="consultantStuCondition.FollowType != '' and consultantStuCondition.FollowType != null">
+					and FollowType like "%"#{consultantStuCondition.FollowType}"%"
+				</if>
+					and UserId =#{consultantStuCondition.UserId}
+			</where>
+			limit #{page},#{rows}
+		</select>
+		<select id="selectCountNet" parameterType="com.ysd.entity.Fenye" resultType="int">
+			select count(Id) from netfollows
+			<where>
+				<if test="consultantStuCondition.StudentName != '' and consultantStuCondition.StudentName != null">
+					and StudentName like "%"#{consultantStuCondition.StudentName}"%"
+				</if>
+				<if test="consultantStuCondition.Content != '' and consultantStuCondition.Content != null">
+					and Content like "%"#{consultantStuCondition.Content}"%"
+				</if>
+				<if test="consultantStuCondition.FollowTime != '' and consultantStuCondition.FollowTime != null">
+					and FollowTime like "%"#{consultantStuCondition.FollowTime}"%"
+				</if>
+				<if test="consultantStuCondition.NextFollowTime != '' and consultantStuCondition.NextFollowTime != null">
+					and NextFollowTime = #{consultantStuCondition.NextFollowTime},
+				</if>
+				<if test="consultantStuCondition.FollowType != '' and consultantStuCondition.FollowType != null">
+					and FollowType like "%"#{consultantStuCondition.FollowType}"%"
+				</if>
+					and UserId =#{consultantStuCondition.UserId}
+			</where>
 		</select>
 </mapper>

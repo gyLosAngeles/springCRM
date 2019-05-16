@@ -1,6 +1,8 @@
 package com.ysd.controller.wxx;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,4 +80,11 @@ private StudentsService studentsService;
 		} 
 		return deleteStudents;
 	   }
+	@ResponseBody
+	@RequestMapping(value="/wl/selectAskers",method=RequestMethod.POST)
+	public List<Askers> selectAskers(Askers askers) {
+		List<Askers> selectAskers = studentsService.selectAskers(askers);
+		System.out.println(selectAskers);
+		return selectAskers;
+	}
 }
