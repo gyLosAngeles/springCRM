@@ -53,7 +53,6 @@ private StudentsService studentsService;
 	@RequestMapping(value="/wl/updateStudents",method=RequestMethod.POST)
 	public Integer updateStudents(Students students) {
    	  Integer updateStudents = studentsService.updateStudents(students);
-   	  System.out.println(updateStudents);
    	return updateStudents;
    }
 	/**
@@ -80,11 +79,16 @@ private StudentsService studentsService;
 		} 
 		return deleteStudents;
 	   }
+
+	/**
+	 * ²éÑ¯×ÉÑ¯Ê¦Ãû³Æ
+	 * @param askers
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/wl/selectAskers",method=RequestMethod.POST)
 	public List<Askers> selectAskers(Askers askers) {
 		List<Askers> selectAskers = studentsService.selectAskers(askers);
-		System.out.println(selectAskers);
 		return selectAskers;
 	}
 }

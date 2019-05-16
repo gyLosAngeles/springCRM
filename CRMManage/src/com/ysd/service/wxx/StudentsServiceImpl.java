@@ -23,29 +23,34 @@ private StudentsMapper  studentsMapper;
 		Integer selectCountStudents = studentsMapper.selectCountStudents(fenye);
 		fenye.setTotal(selectCountStudents);
 		fenye.setRows(selectAllStudents);
-		System.out.println(fenye.getName());
 		return fenye;
 	}
+	/**
+	 * eÌí¼Ó
+	 */
 	@Override
 	public Integer insertCountStudents(Students students) {
 		Integer insertCountStudents = studentsMapper.insertCountStudents(students);
 		return insertCountStudents;
 	}
+	/**
+	 * ±à¼­
+	 */
 	@Override
 	public Integer updateStudents(Students students) {
 		Integer updateStudents = studentsMapper.updateStudents(students);
 		return updateStudents;
 	}
-	@Override
+	/**
+	 * É¾³ı
+	 */
 	public Integer deleteStudents(Integer i) {
 		Integer deleteStudents = studentsMapper.deleteStudents(i);
 		return deleteStudents;
 	}
-	@Override
-	public Integer updateAskers(Askers askers) {
-		Integer updateAskers = askersMapper.updateAskers(askers);
-		return updateAskers;
-	}
+	/**
+	 * ²éÑ¯×ÉÑ¯Ê¦
+	 */
 	@Override
 	public List<Askers> selectAskers(Askers askers) {
 		List<Askers> selectAskers = askersMapper.selectAskers(askers);

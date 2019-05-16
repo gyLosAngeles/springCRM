@@ -27,7 +27,7 @@ public interface StudentsService {
 	 * @param askers
 	 * @return
 	 */
-	  Integer updateAskers(Askers askers);
+//	  Integer updateAskers(Askers askers);
 	  /**
 	   * ²éÑ¯ËùÓĞ
 	   * @param fenye

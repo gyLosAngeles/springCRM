@@ -2,6 +2,8 @@ package com.ysd.entity.hpy;
 
 import org.springframework.stereotype.Component;
 
+import com.ysd.entity.Askers;
+
 @Component
 public class CustomerStudents {
 			private Integer	Id;

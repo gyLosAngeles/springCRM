@@ -15,16 +15,17 @@
 <script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function() {
-	selects();
+	
 	shezhidongtai();
 	into();
 	 
 })
-function selects(){
-	$('#cc').combobox({    
+function selects(numbers){
+	$(numbers).combobox({    
 	    url:'../wl/selectAskers',    
 	    valueField:'askerId',    
-	    textField:'askerName'   
+	    textField:'askerName' ,
+	    method:'post'
 	});
 }
 function into(){
@@ -53,7 +54,6 @@ function add(){
 	$("#add").dialog("open");
 }
  function addTijiao(){
-	 alert(1);
 	 $.ajax({
 			url:"../wl/insertCountStudents",
 			type:"post",
@@ -94,7 +94,6 @@ function add(){
            var id = selRow[i].id;
            ids.push(id); //把单个id循环放到ids的数组中  
        } */
-       alert(ids);
        $.messager.confirm('提示', '确认删除?', function(r) {
            if (r) {
                $.ajax({
@@ -128,17 +127,18 @@ function formattercaozuo(value,row,index){
 function ChaKan(index){
 	var arr = $("#wlsdg").datagrid("getData");
 	$("#ChaKanfrm").form("load",arr.rows[index]);
+	selects("#selectid");
  	var asker= arr.rows[index].askers.askerName;
-	$("#cc").combobox("setValue",asker);
+	$("#selectid").combobox("setValue",asker);
 	$("#ChaKan").dialog("open");
 }
 /* 编辑 */
 function Updatestudents(index){
 	var arr = $("#wlsdg").datagrid("getData");
 	$("#updatefrm").form("load",arr.rows[index]);
- 	var asker= arr.rows[index].askers.askerName;
- 	alert(asker);
- 	$("#cc1").combobox("setValue",asker);
+ 	var asker= arr.rows[index].askers.askerId;
+ 	selects("#select_id");
+ 	$("#select_id").combobox("setValue",asker);
 	$("#update").dialog("open");
 }
 function updatesubmitForm(){
@@ -423,7 +423,7 @@ function shezhidongtai(){
 	    		</tr>
 	    		<tr>
 	    			<td>咨询师:</td>
-	    			<td><select id="cc" class="easyui-combobox"  style="width:50px;"></select></td>
+	    			<td><select id="selectid" class="easyui-combobox"  style="width:50px;"></select></td>
 	    		</tr>
 	    		<tr>
 	    			<td>录入人  :</td>
@@ -432,10 +432,6 @@ function shezhidongtai(){
 	    		<tr>
 	    			<td>咨询师录入:</td>
 	    			<td></td>
-	    		</tr>
-	    		<tr>
-	    			<td>姓名（咨询）:</td>
-	    			<td><input class="easyui-textbox"  name="name" data-options="multiline:true" /></td>
 	    		</tr>
 	    		<tr>
 	    			<td>课程方向:</td>
@@ -583,7 +579,7 @@ function shezhidongtai(){
 	    		</tr>
 	    		<tr>
 	    			<td>咨询师:</td>
-	    			<td><select id="cc1" class="easyui-combobox"  style="width:50px;"></select></td>
+	    			<td><select id="select_id" name="askerId" class="easyui-combobox"  style="width:50px;"></select></td>
 	    		</tr>
 	    		<tr>
 	    			<td>录入人  :</td>
@@ -592,10 +588,6 @@ function shezhidongtai(){
 	    		<tr>
 	    			<td>咨询师录入:</td>
 	    			<td></td>
-	    		</tr>
-	    		<tr>
-	    			<td>姓名（咨询）:</td>
-	    			<td><input class="easyui-textbox"  name="name" data-options="multiline:true" /></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>课程方向:</td>

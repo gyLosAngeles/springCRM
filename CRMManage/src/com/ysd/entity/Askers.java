@@ -1,5 +1,9 @@
 package com.ysd.entity;
+
+import org.springframework.stereotype.Component;
+
 //×ÉÑ¯Ê¦
+@Component
 public class Askers {
 
 	private int askerId;//×ÉÑ¯Ê¦±àºÅ
