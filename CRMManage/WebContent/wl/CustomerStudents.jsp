@@ -78,7 +78,7 @@
 	}
 	
 	function formattercaozuo(value,row,index){
-		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStu("+index+")'>查看</a>"
+		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStuxq("+index+")'>查看</a>"
 	}
 	/* 格式化数据表格 */
 	function formatterjf(value,row,index) {
@@ -174,8 +174,17 @@
 		});  
 	}
 	/* 查看 */
-	function chaKanStu(){
-		
+	function chaKanStuxq(index){
+		var row = $('#dg').datagrid("getRows")[index];
+		console.log($("#chakan_isPay"));
+		$("#chakan_isPay").val(row.isValid=="1"?"有效":"无效");
+		$("#chakan_isValid").val(row.isValid=="1"?"有效":"无效");
+		$("#chakan_isHome").val(row.isHome=="1"?"已上门":"已上门");
+		$("#chakan_isReturnVist").val(row.isReturnVist=="1"?"已回访":"已回访");
+		$("#chakan_isReturnMoney").val(row.isReturnMoney=="1"?"已退费":"已退费");
+		$("#chakan_isInClass").val(row.isInClass=="1"?"已进班":"已进班");
+		$("#frmChaKanStu").form("load",row);
+		$('#chaKanStuxq').dialog('open');
 	}
 	
 	
@@ -297,90 +306,90 @@
 
 
 
-
+	<!-- 修改 -->
 	<div id="updateStu" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save',closed:true" style="width:600px;height:400px;padding:10px;">
 			<div style="padding:10px 60px 20px 60px">
 				<form id="frmStu">   
-				    <div id="productId">   
-				        <label for="prodType">编号:</label>   
-				        <input class="easyui-textbox" type="text" id="Update_id" readOnly="true" name="id" />   
+				    <div >   
+				        <label >编号:</label>   
+				        <input class="easyui-textbox" type="text" id="Update_id"  readOnly="true" name="id" />   
 				    </div>   
 				    <div>   
 				        <label for="prodName">姓名:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_name" name="name" />   
 				    </div>
 				     <div>   
-				        <label for="prodType">课程方向:</label>   
+				        <label >课程方向:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_learnForward" name="learnForward" />
 				    </div>
-				    <label for="prodType">是否有效:</label>  
+				    <label >是否有效:</label>  
 			    		<select style="width: 100px" id="Update_isValid" class="easyui-combobox">
 			    		<option value="1">有效</option>
 	    				<option value="0">无效</option>
 			    		</select>
 				    <div>   
-				        <label for="prodType">无效原因:</label>   
+				        <label >无效原因:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_lostValid" name="lostValid" />
 				    </div>
-				    <label for="prodType">是否回访:</label>  
+				    <label >是否回访:</label>  
 			    		<select id="Update_isreturnvist" style="width: 100px" class="easyui-combobox">
 			    		<option value="1">已回访</option>
 	    				<option value="0">未回访</option>
 				    	</select>
 				    <div>   
-				        <label for="prodType">首访时间:</label>   
+				        <label >首访时间:</label>   
 				        <input class="easyui-datebox" type="text" id="Update_firstVisitTime" name="firstVisitTime" />
 				    </div>
-				     <label for="prodType">是否上门:</label>  
+				     <label >是否上门:</label>  
 			    		<select style="width: 100px" id="Update_isHome" class="easyui-combobox">
 			    		<option value="1">已上门</option>
 	    				<option value="0">未上门</option>
 			    		</select>
 				    <div>   
-				        <label for="prodType">上门时间:</label>   
+				        <label >上门时间:</label>   
 				        <input class="easyui-datebox" type="text" id="Update_homeTime" name="homeTime" />
 				    </div>
-				     <label for="prodType">是否缴费:</label>  
+				     <label >是否缴费:</label>  
 			    		<select id="Update_ispay" style="width: 100px" class="easyui-combobox">
 			    		<option value="1">已缴费</option>
 	    				<option value="0">未缴费</option>
 				    	</select>
 				    <div>   
-				        <label for="prodType">缴费时间:</label>   
+				        <label >缴费时间:</label>   
 				        <input class="easyui-datebox" type="text" id="Update_payTime" name="payTime" />
 				    </div>
 				    <div>   
-				        <label for="prodType">定金金额:</label>   
+				        <label >定金金额:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_preMoney" name="preMoney" />
 				    </div>
 				     <div>   
-				        <label for="prodType">定金时间:</label>   
+				        <label >定金时间:</label>   
 				        <input class="easyui-datebox" type="text" id="Update_preMoneyTime" name="preMoneyTime" />
 				    </div>
-				    <label for="prodType">是否退费:</label>  
+				    <label >是否退费:</label>  
 			    		<select style="width: 100px" id="Update_isReturnMoney" class="easyui-combobox">
 			    		<option value="1">已退费</option>
 	    				<option value="0">未退费</option>
 			    		</select>
 				    <div>   
-				        <label for="prodType">缴费金额:</label>   
+				        <label >缴费金额:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_money" name="money" />
 				    </div>
-				    <label for="prodType">是否进班:</label>  
+				    <label >是否进班:</label>  
 			    		<select style="width: 100px" id="Update_isInClass" class="easyui-combobox">
 			    		<option value="1">已进班</option>
 	    				<option value="0">未进班</option>
 			    		</select>
 				    <div>   
-				        <label for="prodType">进班时间:</label>   
+				        <label >进班时间:</label>   
 				        <input class="easyui-datebox" type="text" id="Update_inClassTime" name="inClassTime" />
 				    </div>
 				    <div>   
-				        <label for="prodType">进班备注:</label>   
+				        <label >进班备注:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_inClassContent" name="inClassContent" />
 				    </div>
 				    <div>   
-				        <label for="prodType">咨询师备注:</label>   
+				        <label >咨询师备注:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_askerContent" name="askerContent" />
 				    </div>
 				    <div style="text-align:center;padding:5px">
@@ -391,28 +400,28 @@
 		</div>
 		
 		
-		
+		<!-- 添加 -->
 		<div id="addNetfollows" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save',closed:true" style="width:400px;height:200px;padding:10px;">
 			<div style="padding:10px 60px 20px 60px">
 				<form id="insertfrom">   
 				     <div>   
-				        <label for="prodType">回访时间:</label>   
+				        <label >回访时间:</label>   
 				        <input class="easyui-datebox" type="text" id="add_FollowTime" name="add_FollowTime" data-options="required:true"/>
 				    </div>
 				    <div>  
-				        <label for="prodType">回访情况:</label>   
+				        <label >回访情况:</label>   
 				        <input class="easyui-textbox" type="text" id="add_Content" name="add_Content" data-options="required:true"/>
 				    </div>
 				    <div>   
-				        <label for="prodType">跟踪方式:</label>   
+				        <label >跟踪方式:</label>   
 				        <input class="easyui-textbox" type="text" id="add_FollowType" name="FollowType" data-options="required:true"/>
 				    </div>
 				    <div>   
-				        <label for="prodType">下次跟踪时间:</label>   
+				        <label >下次跟踪时间:</label>   
 				        <input class="easyui-datebox" type="text" id="add_NextFollowTime" name="add_NextFollowTime" data-options="required:true"/>
 				    </div>
 				 	<div>   
-				        <label for="prodType">备注:</label>   
+				        <label >备注:</label>   
 				        <input class="easyui-textbox" type="text" id="add_Remarks" name="add_Remarks" data-options="required:true"/>
 				    </div>
 				    <div style="text-align:center;padding:5px">
@@ -422,20 +431,144 @@
 		    </div>
 		</div>
 		
+		<div id="chaKanStuxq" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save',closed:true" style="width:600px;height:400px;padding:10px;">
+			<div style="padding:10px 60px 20px 60px">
+				<form id="frmChaKanStu">   
+					 <div >   
+				        <label >名称:</label>   
+				        <input class="easyui-textbox" type="text" readOnly="true" name="name" />   
+				    </div> 
+				     <div >   
+				        <label >年龄:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="age" />   
+				    </div> 
+				     <div >   
+				        <label >性别:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="sex" />   
+				    </div> 
+				     <div >   
+				        <label >电话:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="phone" />   
+				    </div> 
+				     <div >   
+				        <label >客户状态:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="stuStatus" />   
+				    </div> 
+				     <div >   
+				        <label >来源网站:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="sourceUrl" />   
+				    </div> 
+				     <div >   
+				        <label >学员关注:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="perState" />   
+				    </div> 
+				     <div >   
+				        <label >来源部门:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="msgSource" />   
+				    </div> 
+				     <div >   
+				        <label >来源关键词:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="sourceKeyWord" />   
+				    </div> 
+				     <div >   
+				        <label >地址:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="address" />   
+				    </div> 
+				     <div >   
+				        <label >编号:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="netPusherId" />   
+				    </div> 
+				     <div >   
+				        <label >qq:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="qq" />   
+				    </div> 
+				     <div >   
+				        <label >微信:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="weiXin" />   
+				    </div> 
+				     <div >   
+				        <label >内容:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="content" />   
+				    </div> 
+				     <div >   
+				        <label >课程方向:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="learnForward" />   
+				    </div> 
+				     <div >   
+				        <label >是否有效:</label>   
+				        <input  type="text" id="chakan_isValid"  name="isValid" />   
+				    </div> 
+				     <div >   
+				        <label >记录:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="record" />   
+				    </div> 
+				     <div >   
+				        <label >是否回访:</label>   
+				        <input class="easyui-textbox" type="text"  id="chakan_isReturnVist" readOnly="true" name="isReturnVist" />   
+				    </div> 
+				     <div >   
+				        <label >首访时间:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="firstVisitTime" />   
+				    </div> 
+				     <div >   
+				        <label >是否上门:</label>   
+				        <input class="easyui-textbox" type="text" id="chakan_isHome" readOnly="true" name="isHome" />   
+				    </div> 
+				     <div >   
+				        <label >上门时间:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="homeTime" />   
+				    </div> 
+				     <div >   
+				        <label >无效原因:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="lostValid" />   
+				    </div> 
+				     <div  >   
+				        <label >是否缴费:</label>   
+				        <input  class="easyui-textbox" type="text" id="chakan_isPay"   name="isPay" />   
+				    </div> 
+				    <div  >   
+				        <label >缴费时间:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="payTime" />   
+				    </div> 
+				    <div >   
+				        <label >金额:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="money" />   
+				    </div> 
+				    <div >   
+				        <label >是否退费:</label>   
+				        <input class="easyui-textbox" type="text" id="chakan_isReturnMoney" readOnly="true" name="isReturnMoney" />   
+				    </div> 
+				    <div >   
+				        <label >是否进班:</label>   
+				        <input class="easyui-textbox" type="text" id="chakan_isInClass" readOnly="true" name="isInClass" />   
+				    </div> 
+				    <div >   
+				        <label >进班时间:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="inClassTime" />   
+				    </div> 
+				    <div >   
+				        <label >咨询师备注:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="inClassContent" />   
+				    </div> 
+				    <div >   
+				        <label >咨询师备注:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="askerContent" />   
+				    </div> 
+				    <div >   
+				        <label >咨询师:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="ziXunName" />   
+				    </div> 
+				    <div >   
+				        <label >退费原因:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="returnMoneyReason" />   
+				    </div> 
+				    <div >   
+				        <label >定金金额:</label>   
+				        <input class="easyui-textbox" type="text"  readOnly="true" name="preMoney" />   
+				    </div> 
 		
-		<div id="rizhi" class="easyui-dialog" title="My Dialog" style="width:800px;height:200px;"   
-        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
-		<table id="rz" style="width:750px;height:250px">   
-	    	<thead>   
-	        <tr>   
-	            <th data-options="field:'followTime',width:150">回访时间</th>   
-	            <th data-options="field:'content',width:150">回访情况</th>   
-	            <th data-options="field:'followType',width:80">跟踪方式</th>   
-	            <th data-options="field:'nextFollowTime',width:150">下次跟踪时间</th>   
-	            <th data-options="field:'remarks',width:150">备注</th>   
-		     </tr>   
-		    </thead>   
-		</table>
+				</form>
+		    </div>
 		</div>
 </body>
 </html>
