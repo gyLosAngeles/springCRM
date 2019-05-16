@@ -138,10 +138,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 		
 	</select>
+<!-- 添加 -->
 	<insert id="insertCountStudents" parameterType="com.ysd.entity.wxx.Students">
 	INSERT INTO students(Name,Sex,Age,Phone,Education,StuStatus,FromPart,SourceUrl,SourceKeyWord,QQ,WeiXin,IsBaoBei,Onlineremark)
 VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{SourceUrl},#{SourceKeyWord},#{QQ},#{WeiXin},#{IsBaoBei},#{Onlineremark})
   </insert>
+ <!-- 修改 -->
  <update id="updateStudents" parameterType="com.ysd.entity.wxx.Students">
  	UPDATE students
 		<set>
@@ -283,6 +285,7 @@ VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{So
 		</set>
 		WHERE Id=#{Id}
  </update>
+<!-- 删除 -->
  <delete id="deleteStudents" parameterType="int">
  	delete from students where Id=#{Id}
  </delete>

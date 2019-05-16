@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ysd.entity.Askers;
 import com.ysd.entity.DataGridData;
 import com.ysd.entity.Fenye;
 import com.ysd.entity.hpy.ConsultantStuCondition;
