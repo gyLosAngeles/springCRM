@@ -1,6 +1,5 @@
 package com.ysd.controller.hpy;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,26 +21,27 @@ public class StudentController {
 	private StudentsServiceImp studentsServiceImp;
 	
 	
-	@RequestMapping(value="/selectStu",method=RequestMethod.POST)
+	@RequestMapping(value="/wl/selectStu",method=RequestMethod.POST)
 	@ResponseBody
 	public DataGridData selectStu(Fenye fenye,ConsultantStuCondition consultantStuCondition  ) {
 		fenye.setConsultantStuCondition(consultantStuCondition);
 		return studentsServiceImp.selectStu(fenye);
 	}
-	@RequestMapping(value="/UpdateStu",method=RequestMethod.POST)
+	@RequestMapping(value="/wl/UpdateStu",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer UpdateStu(CustomerStudents customerStudents) {
 		return studentsServiceImp.UpdateStu(customerStudents);
 	}
-	@RequestMapping(value="/insertNetfollows",method=RequestMethod.POST)
+	@RequestMapping(value="/wl/insertNetfollows",method=RequestMethod.POST)
 	@ResponseBody
 	public Integer insertNetfollows(Netfollows netfollows) {
 		// TODO Auto-generated method stub
 		return studentsServiceImp.insertNetfollows(netfollows);
 	}
-	@RequestMapping(value="/selectNetfollows",method=RequestMethod.POST)
+	@RequestMapping(value="/wl/selectNetfollows",method=RequestMethod.POST)
 	@ResponseBody
-	public List<Netfollows> selectNetfollows(Netfollows netfollows) {
-		return studentsServiceImp.selectNetfollows(netfollows);
+	public DataGridData selectNetfollows(Fenye fenye,ConsultantStuCondition consultantStuCondition) {
+		fenye.setConsultantStuCondition(consultantStuCondition);
+		return studentsServiceImp.selectNetfollows(fenye);
 	}
 }

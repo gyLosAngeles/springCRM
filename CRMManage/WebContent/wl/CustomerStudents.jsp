@@ -7,12 +7,12 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-	<link rel="stylesheet" type="text/css" href="js/easyui demo/css/wu.css" />
-	<link rel="stylesheet" type="text/css" href="js/easyui demo/css/icon.css" />
-	<script type="text/javascript" src="js/easyui demo/js/jquery-1.8.0.min.js"></script>
-	<script type="text/javascript" src="js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/wu.css" />
+	<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/icon.css" />
+	<script type="text/javascript" src="../js/easyui demo/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
 	$(function(){
 		shezhidongtai();
@@ -52,7 +52,7 @@
 		}
 		$('#dg').datagrid({
 			method:'post',
-		    url:'selectStu',
+		    url:'../wl/selectStu',
 		    pagination:true,
 		    toolbar:'#tb',
 		    queryParams:{
@@ -62,6 +62,7 @@
 				IsValid:isvalid,
 				QQ:$("#qq").val(),
 				IsReturnVist:isreturnvist,
+				AskerId:'${user.userId}',
 				minCreateTime:$('#Stu_mincreatetime').datebox('getValue'),
 				maxCreateTime:$('#Stu_maxcreatetime').datebox('getValue'),
 				minHomeTime:$('#Stu_minhometime').datebox('getValue'),
@@ -80,9 +81,6 @@
 		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStu("+index+")'>查看</a>"
 	}
 	/* 格式化数据表格 */
-	function formatterrizhi(value,row,index){
-		return '<button onclick="rizhiStu('+index+')">日志</button>';
-	}
 	function formatterjf(value,row,index) {
 		return value==0? '未缴费':'已缴费';
 	} 
@@ -122,7 +120,7 @@
 		$("#Update_isreturnvist").combobox('getValue')=="已回访"?"1":"0";
 		$("#Update_isReturnMoney").combobox('getValue')=="已退费"?"1":"0";
 		$("#Update_isInClass").combobox('getValue')=="已进班"?"1":"0";
-		$.post("UpdateStu",{
+		$.post("../wl/UpdateStu",{
 			id:$("#Update_id").val(),
 			name:$("#Update_name").val(),
 			learnForward:$("#Update_learnForward").val(),
@@ -185,7 +183,7 @@
 	function insert(){
 		var row = $('#dg').datagrid("getRows")[indexRow];
 		var myDate = new Date();
-		 $.post("insertNetfollows",{
+		 $.post("../wl/insertNetfollows",{
 				 Remarks:$("#add_Remarks").val(),
 				 FollowTime:$("#add_FollowTime").datebox('getValue'),
 				 NextFollowTime:$("#add_NextFollowTime").datebox('getValue'),
@@ -245,7 +243,6 @@
 		            <th data-options="field:'sourceKeyWord',width:100">来源关键词</th>  
 		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
 		            <th data-options="field:'caozuo',width:100,title:'操作',formatter:formattercaozuo"></th>
-		            <th data-options="field:'rizhi',width:50,title:'日志',formatter:formatterrizhi"></th>
 		        </tr>   
 		    </thead>   
 		</table> 

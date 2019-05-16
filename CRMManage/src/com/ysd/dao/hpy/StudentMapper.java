@@ -32,5 +32,7 @@ public interface StudentMapper {
 	 */
 	Integer insertNetfollows(Netfollows netfollows);
 	
-	List<Netfollows> selectNetfollows(Netfollows netfollows);
+	List<CustomerStudents> selectNetfollows(Fenye fenye);
+	
+	Integer selectCountNet(Fenye fenye);
 }
