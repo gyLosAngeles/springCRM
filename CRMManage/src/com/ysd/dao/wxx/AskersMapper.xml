@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.wxx.AskersMapper">
+<select id="selectAskers" parameterType="com.ysd.entity.Askers" resultType="com.ysd.entity.Askers">
+	SELECT askerId,askerName,CheckState,ChangeState,Weight,RoleName,BakContent FROM askers; 
+</select>
+<!-- 修改 -->
+<update id="updateAskers" parameterType="com.ysd.entity.Askers">
+UPDATE askers
+<set>
+<if test=" askerName !=null and askerName !=''">
+askerName=#{askerName},
+</if>
+<if test=" CheckState !=null and CheckState !=''">
+CheckState=#{CheckState},
+</if>
+<if test=" CheckInTime !=null and CheckInTime !=''">
+CheckInTime=#{CheckInTime},
+</if>
+<if test=" ChangeState !=null and ChangeState !=''">
+ChangeState=#{ChangeState},
+</if>
+<if test=" Weight !=null and Weight !=''">
+Weight=#{Weight},
+</if>
+<if test=" RoleName !=null and RoleName !=''">
+RoleName=#{RoleName},
+</if>
+<if test=" BakContent !=null and BakContent !=''">
+BakContent=#{BakContent},
+</if>
+</set>
+where askerId=#{askerId}
+</update>
+</mapper>
