@@ -180,7 +180,7 @@ function shezhidongtai(){
 		<option value="是">是</option>
 		<option value="否">否</option>
 	</select> 是否有效：
-	<select id="IsValid1" class="easyui-combobox"">
+	<select id="IsValid1" class="easyui-combobox">
 		<option value="">---请选择---</option>
 		<option value="是">是</option>
 		<option value="否">否</option>
@@ -195,7 +195,7 @@ function shezhidongtai(){
 	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
 		onclick="add()">添加</a>
 	<a href="#" class="easyui-linkbutton" onclick="Shezhi()">设置</a>
-	<a href="#" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
 	<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
 	</div>
 	<table id="wlsdg" data-options="checkbox:true ">
@@ -338,7 +338,6 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 		}
 
 		row = row.slice(0, -1);
-
 		//添加带换行符的标签行
 		CSV += row + '\r\n';
 	}
@@ -390,9 +389,13 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	link.click();
 	document.body.removeChild(link);
 }
-
+   
 $("#btnExport").click(function() {
-	var data = JSON.stringify($('#wlsdg').datagrid('getData').rows);
+	var rows=$("#wlsdg").datagrid("getSelections");
+	if(rows.length==0){
+		$.messages.alert("提示","请选择你要导出的数据");
+	}
+	var data = JSON.stringify(rows);
 	if (data == '')
 		return;
 
