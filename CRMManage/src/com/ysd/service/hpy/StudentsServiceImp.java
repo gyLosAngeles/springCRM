@@ -17,7 +17,6 @@ public class StudentsServiceImp implements StudentsService {
 	private DataGridData dataGridData;
 	public DataGridData selectStu(Fenye fenye) {
 		fenye.getConsultantStuCondition().getAskerId();
-		
 		dataGridData.setRows(studentMapper.selectStu(fenye));
 		dataGridData.setTotal(studentMapper.selectCountStu(fenye));
 		return dataGridData;
