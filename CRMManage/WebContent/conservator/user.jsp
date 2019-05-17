@@ -42,10 +42,9 @@ function addUser(){
 				$("#dg").datagrid("reload");
 				$("#adduser_window").window("close");
 			}else{
-				alert("添加失败");
+				alert("用户名重复");
 			}
-		},"json"
-	)
+		},"json")
 }
 function openupdate(index) {
 	var row=$("#dg").datagrid("getRows");
@@ -58,7 +57,7 @@ function updateUser() {
 		userEmail:$("#userEmail").val(),
 		userTelephone:$("#userTelephone").val(),
 		userName:$("#userName").val()
-	},function (res){
+	},function (res){ 
 		if(res){
 			alert("修改成功");
 			$("#dg").datagrid("reload");

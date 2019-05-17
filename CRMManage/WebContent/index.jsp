@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,10 +30,20 @@
 	                       });
 	                    } else {
 	                        $("#tab_Module").tabs('select', node.text);  
-	                    }
+	                 }
 	            }  
 		    }
-		}); 	
+		});
+		$.post("/CRMManage/user/userSignInCheckState",{
+			userName:"${user.userName}"
+			},function (res){
+				alert(res)
+				if(res==2){
+					$("#userSignIn").text("签到");   
+				}else{
+					$("#userSignIn").text("已签到").removeAttr("href"); 
+				} 
+			},"json")
 	});
 	function updatePassword() {
 		var pwd = $("#passWord").val();
@@ -46,6 +57,17 @@
 			return;
 		}
 	} 
+	function signIn() {
+		$.post("/CRMManage/user/userSignIn",{
+			userName:"${user.userName}",
+			CheckState:1
+			},function (res){
+				if(res){
+					alert("签到成功");
+					$("#userSignIn").text("已签到").removeAttr("href");
+				} 
+			},"json");
+	}
 </script>
 </head>
 <body class="easyui-layout">
@@ -55,8 +77,8 @@
         	<h1>CRM管理系统</h1>
         </div>
         <div class="wu-header-right">
-        	<p><strong class="easyui-tooltip" title="2条未读消息">admin</strong>，欢迎您！</p>
-            <p><a onclick="$('#win').window('open')">修改密码</a>|<a href="#">帮助中心</a>|<a href="#">安全退出</a></p>
+        	<p><strong class="easyui-tooltip" title="2条未读消息">${user.userName}</strong>，欢迎您！</p>
+            <p><a onclick="$('#win').window('open')">修改密码</a>|<a id="userSignIn" href="javascript:signIn()">签到</a>|<a href="#">安全退出</a></p>
         </div>
     </div>
     <!--树状菜单 -->

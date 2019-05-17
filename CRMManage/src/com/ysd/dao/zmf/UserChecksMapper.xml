@@ -53,16 +53,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				<if test="CheckState != null and CheckState != ''">
 				 	 CheckState = #{CheckState},
 				</if>
-				<if test="CheckInTime != null and CheckInTime != ''">
-				 	 CheckInTime = #{CheckInTime},
+				<if test="CheckState == 1">
+				 	 CheckInTime = NOW(),
 				</if>
 				<if test="IsCancel != null and IsCancel != ''">
 				 	 IsCancel = #{IsCancel},
 				</if>
-				<if test="CheckState != null and CheckState != ''">
+				<if test="CheckState == 2">
 				 	 CheckOutTime = NOW(),
 				</if>
 			</set>
 		where UserName = #{UserName}
 	</update>
+	<select id="selectAskersAll" resultType="com.ysd.entity.Askers">
+		SELECT askerId,askerName,CheckState,CheckInTime,ChangeState,Weight,RoleName,BakContent FROM askers
+	</select>
+	<update id="updateAskers" parameterType="com.ysd.entity.Askers">
+		update askers 
+			<set>
+				<if test="weight != null and weight != ''">
+				 	 Weight = #{weight},
+				</if>
+				<if test="bakContent != null and bakContent != ''">
+				 	 BakContent = #{bakContent},
+				</if>
+			</set>
+		where askerId = #{askerId}
+	</update>
+	<insert id="inserUserChecks" parameterType="com.ysd.entity.UserChecks">
+		insert into userchecks(UserId,UserName) values(#{UserId},#{UserName})
+	</insert>
+	<select id="selectCheckStateByUserName" resultType="int" parameterType="String">
+		SELECT CheckState FROM userchecks where UserName = #{0}
+	</select>
+	
 </mapper>

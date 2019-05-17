@@ -1,5 +1,9 @@
 package com.ysd.entity;
+
+import org.springframework.stereotype.Component;
+
 //”√ªß«©µΩ
+@Component
 public class UserChecks {
 
 	private int Id;//±‡∫≈

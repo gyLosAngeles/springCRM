@@ -17,7 +17,7 @@ public interface UserServise {
 	 */
 	DataGridData selectUserByTiaoJian(Fenye fenye);
 	/**
-	 * 添加用户
+	  * 添加用户成功时向用户签到表中添加一个用户
 	 * @param userTab
 	 * @return
 	 */

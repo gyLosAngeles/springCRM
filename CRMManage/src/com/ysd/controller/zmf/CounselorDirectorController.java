@@ -32,9 +32,13 @@ public class CounselorDirectorController {//×ÉÑ¯Ê¦¾­Àí
 		return directorService.updateSignIn(userChecks);
 	}
 	@ResponseBody
-	@RequestMapping(value="directorUpdate",method=RequestMethod.POST)
-	public List<Askers> employeeSignIn(Fenye fenye){
-		return null;	
+	@RequestMapping(value="directorAskersSelect",method=RequestMethod.POST)
+	public List<Askers> employeeSignIn(){
+		return directorService.selectAskersAll();	
 	}
-	
+	@ResponseBody
+	@RequestMapping(value="directorAskersUpdateWidth",method=RequestMethod.POST)
+	public int employeeWidth(Askers askers){
+		return directorService.updateAskersByAskerId(askers);	
+	}
 }

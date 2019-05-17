@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
-	 <insert id="insertUser" parameterType="com.ysd.entity.UserTab">
+	 <insert id="insertUser" parameterType="com.ysd.entity.UserTab"  useGeneratedKeys="true" keyProperty="userId">
 	 	insert into usertab(userName,userPassWord,userEmail,userTelephone,userCreateTime) values(#{userName},#{userPassWord},#{userEmail},#{userTelephone},NOW())
 	 </insert>
 	 <delete id="deleteUser" parameterType="String">
