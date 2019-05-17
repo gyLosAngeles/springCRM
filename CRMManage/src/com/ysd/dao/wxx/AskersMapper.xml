@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.wxx.AskersMapper">
+<select id="selectAskers" parameterType="com.ysd.entity.Askers" resultType="com.ysd.entity.Askers">
+	SELECT askerId,askerName,CheckState,ChangeState,Weight,RoleName,BakContent FROM askers; 
+</select>
+</mapper>

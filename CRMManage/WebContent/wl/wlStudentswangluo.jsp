@@ -1,5 +1,7 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +15,19 @@
 <script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function() {
+	
 	shezhidongtai();
 	into();
+	 
 })
+function selects(numbers){
+	$(numbers).combobox({    
+	    url:'../wl/selectAskers',    
+	    valueField:'askerId',    
+	    textField:'askerName' ,
+	    method:'post'
+	});
+}
 function into(){
 	$("#wlsdg").datagrid({
 		url : "../wl/selectAllStudentsController",
@@ -42,7 +54,6 @@ function add(){
 	$("#add").dialog("open");
 }
  function addTijiao(){
-	 alert(1);
 	 $.ajax({
 			url:"../wl/insertCountStudents",
 			type:"post",
@@ -83,7 +94,6 @@ function add(){
            var id = selRow[i].id;
            ids.push(id); //把单个id循环放到ids的数组中  
        } */
-       alert(ids);
        $.messager.confirm('提示', '确认删除?', function(r) {
            if (r) {
                $.ajax({
@@ -111,10 +121,44 @@ function add(){
        });
  }
 function formattercaozuo(value,row,index){
-	return "<a href='javascript:void(0)' onclick='ChaKan("+index+")'>查看</a>";
+	return "<a href='javascript:void(0)' class='easyui-linkbutton'  onclick='ChaKan("+index+")'>查看</a>||<a href='javascript:void(0)'  class='easyui-linkbutton' onclick='Updatestudents("+index+")'>编辑</a>";
 }
-
-
+/* 查看 */
+function ChaKan(index){
+	var arr = $("#wlsdg").datagrid("getData");
+	$("#ChaKanfrm").form("load",arr.rows[index]);
+	selects("#selectid");
+ 	var asker= arr.rows[index].askers.askerName;
+	$("#selectid").combobox("setValue",asker);
+	$("#ChaKan").dialog("open");
+}
+/* 编辑 */
+function Updatestudents(index){
+	var arr = $("#wlsdg").datagrid("getData");
+	$("#updatefrm").form("load",arr.rows[index]);
+ 	var asker= arr.rows[index].askers.askerId;
+ 	selects("#select_id");
+ 	$("#select_id").combobox("setValue",asker);
+	$("#update").dialog("open");
+}
+function updatesubmitForm(){
+	 $.ajax({
+			url:"../wl/updateStudents",
+			type:"post",
+			dataType:"json",
+			data:$("#updatefrm").serializeArray(),
+			success:function(res){
+				if(res>0){
+					$.messager.alert('警告','修改成功');
+					$("#wlsdg").datagrid("reload");
+					$("#update").dialog("close");
+				}
+				else{
+					$.messager.alert('警告','修改失败');
+				}
+			}
+		}) 
+}
 function shezhidongtai(){
 	var createGridHeaderContextMenu = function(e, field) {
 		e.preventDefault();
@@ -180,7 +224,7 @@ function shezhidongtai(){
 		<option value="是">是</option>
 		<option value="否">否</option>
 	</select> 是否有效：
-	<select id="IsValid1" class="easyui-combobox"">
+	<select id="IsValid1" class="easyui-combobox">
 		<option value="">---请选择---</option>
 		<option value="是">是</option>
 		<option value="否">否</option>
@@ -195,7 +239,7 @@ function shezhidongtai(){
 	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
 		onclick="add()">添加</a>
 	<a href="#" class="easyui-linkbutton" onclick="Shezhi()">设置</a>
-	<a href="#" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
+	<a href="javascript:void(0);" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
 	<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
 	</div>
 	<table id="wlsdg" data-options="checkbox:true ">
@@ -252,14 +296,10 @@ function shezhidongtai(){
 			</tr>
 		</thead>
 	</table>
-<!-- 查看 -->
 <!-- 添加弹出框 -->
 	<div id="add" class="easyui-dialog" title="添加" style="width:400px;"  data-options="resizable:true,modal:true,closed:true">   
    <form id="addfrm">
    <table >
-   
-   
-  
   <tr>
 				<td><label> 姓名</label></td>
 				<td><input class="easyui-textbox" name="name"  ></td>
@@ -317,6 +357,321 @@ function shezhidongtai(){
    <a href="javascript:void(0)" class="easyui-linkbutton"   onclick="addTijiao()">提交</a> 
    <a href="javascript:void(0)" class="easyui-linkbutton"  >取消</a>     
 </div>  
+<!-- 查看弹出框 -->
+<div id="ChaKan" class="easyui-dialog" title="查看" style="width:400px;height:500px;"   data-options="resizable:true,modal:true,closed:true">
+<form id="ChaKanfrm">
+	    	<table >
+	    		<tr>
+	    			<td>Name:</td>
+	    			<td><input class="easyui-textbox"  name="name" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>年龄:</td>
+	    			<td><input class="easyui-textbox" type="text" name="age" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>性别:</td>
+	    			<td><input class="easyui-textbox" type="text" name="sex" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>电话:</td>
+	    			<td><input class="easyui-textbox" name="phone" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>学历:</td>
+	    			<td><input class="easyui-textbox" name="education" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>状态:</td>
+	    			<td><input class="easyui-textbox" name="stuStatus" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源渠道:</td>
+	    			<td><input class="easyui-textbox" name="fromPart" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源网站:</td>
+	    			<td><input class="easyui-textbox" name="sourceUrl" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源关键词:</td>
+	    			<td><input class="easyui-textbox" name="sourceKeyWord" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>所在区域:</td>
+	    			<td><input class="easyui-textbox" name="location" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>学员关注:</td>
+	    			<td><input class="easyui-textbox" name="stuConcern" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源部门:</td>
+	    			<td><input class="easyui-textbox" name="msgSource" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>学员QQ:</td>
+	    			<td><input class="easyui-textbox" name="qq" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>微信号:</td>
+	    			<td><input class="easyui-textbox" name="weiXin" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否报备:</td>
+	    			<td><input class="easyui-textbox" name="isBaoBei" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>咨询师:</td>
+	    			<td><select id="selectid" class="easyui-combobox"  style="width:50px;"></select></td>
+	    		</tr>
+	    		<tr>
+	    			<td>录入人  :</td>
+	    			<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>咨询师录入:</td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>课程方向:</td>
+	    			<td><input class="easyui-textbox" name="learnForward" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>打分:</td>
+	    			<td><input class="easyui-textbox" name="scoring" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否有效:</td>
+	    			<td><input class="easyui-textbox" name="isValid" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>无效原因:</td>
+	    			<td><input class="easyui-textbox" name="lostValid" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否回访:</td>
+	    			<td><input class="easyui-textbox" name="isReturnVist" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>首访时间:</td>
+	    			<td><input class="easyui-textbox" name="firstVisitTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否上门:</td>
+	    			<td><input class="easyui-textbox" name="isHome" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>上门时间:</td>
+	    			<td><input class="easyui-textbox" name="homeTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>定金金额:</td>
+	    			<td><input class="easyui-textbox" name="preMoney" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>定金时间:</td>
+	    			<td><input class="easyui-textbox" name="preMoneyTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否缴费:</td>
+	    			<td><input class="easyui-textbox" name="isPay" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>缴费时间:</td>
+	    			<td><input class="easyui-textbox" name="payTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>缴费金额:</td>
+	    			<td><input class="easyui-textbox" name="money" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否退费:</td>
+	    			<td><input class="easyui-textbox" name="isReturnMoney" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>退费原因:</td>
+	    			<td><input class="easyui-textbox" name="returnMoneyReason" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否进班:</td>
+	    			<td><input class="easyui-textbox" name="isInClass" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>进班时间:</td>
+	    			<td><input class="easyui-textbox" name="inClassTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>进班备注:</td>
+	    			<td><input class="easyui-textbox" name="inClassContent" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>咨询师备注:</td>
+	    			<td><input class="easyui-textbox" name="askerContent" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    	</table>
+	    </form>
+</div>
+<!-- 编辑弹出框 -->
+<div id="update" class="easyui-dialog" title="编辑" style="width:400px;height:500px;"   data-options="resizable:true,modal:true,closed:true">
+<form id="updatefrm">
+	    	<table >
+	    		<tr>
+	    			<td>Name:</td>
+	    			<input type="hidden" name="id" />
+	    			<td><input class="easyui-textbox"  name="name" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>年龄:</td>
+	    			<td><input class="easyui-textbox" type="text" name="age" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>性别:</td>
+	    			<td><input class="easyui-textbox" type="text" name="sex" data-options="required:true"></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>电话:</td>
+	    			<td><input class="easyui-textbox" name="phone" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>学历:</td>
+	    			<td><input class="easyui-textbox" name="education" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>状态:</td>
+	    			<td><input class="easyui-textbox" name="stuStatus" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源渠道:</td>
+	    			<td><input class="easyui-textbox" name="fromPart" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源网站:</td>
+	    			<td><input class="easyui-textbox" name="sourceUrl" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源关键词:</td>
+	    			<td><input class="easyui-textbox" name="sourceKeyWord" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>所在区域:</td>
+	    			<td><input class="easyui-textbox" name="location" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>学员关注:</td>
+	    			<td><input class="easyui-textbox" name="stuConcern" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>来源部门:</td>
+	    			<td><input class="easyui-textbox" name="msgSource" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>学员QQ:</td>
+	    			<td><input class="easyui-textbox" name="qq" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>微信号:</td>
+	    			<td><input class="easyui-textbox" name="weiXin" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否报备:</td>
+	    			<td><input class="easyui-textbox" name="isBaoBei" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>咨询师:</td>
+	    			<td><select id="select_id" name="askerId" class="easyui-combobox"  style="width:50px;"></select></td>
+	    		</tr>
+	    		<tr>
+	    			<td>录入人  :</td>
+	    			<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>咨询师录入:</td>
+	    			<td></td>
+	    		</tr>
+	    		<tr>
+	    			<td>课程方向:</td>
+	    			<td><input class="easyui-textbox" name="learnForward" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>打分:</td>
+	    			<td><input class="easyui-textbox" name="scoring" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否有效:</td>
+	    			<td><input class="easyui-textbox" name="isValid" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>无效原因:</td>
+	    			<td><input class="easyui-textbox" name="lostValid" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否回访:</td>
+	    			<td><input class="easyui-textbox" name="isReturnVist" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>首访时间:</td>
+	    			<td><input class="easyui-textbox" name="firstVisitTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否上门:</td>
+	    			<td><input class="easyui-textbox" name="isHome" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>上门时间:</td>
+	    			<td><input class="easyui-textbox" name="homeTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>定金金额:</td>
+	    			<td><input class="easyui-textbox" name="preMoney" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>定金时间:</td>
+	    			<td><input class="easyui-textbox" name="preMoneyTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否缴费:</td>
+	    			<td><input class="easyui-textbox" name="isPay" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>缴费时间:</td>
+	    			<td><input class="easyui-textbox" name="payTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>缴费金额:</td>
+	    			<td><input class="easyui-textbox" name="money" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否退费:</td>
+	    			<td><input class="easyui-textbox" name="isReturnMoney" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>退费原因:</td>
+	    			<td><input class="easyui-textbox" name="returnMoneyReason" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>是否进班:</td>
+	    			<td><input class="easyui-textbox" name="isInClass" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>进班时间:</td>
+	    			<td><input class="easyui-textbox" name="inClassTime" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>进班备注:</td>
+	    			<td><input class="easyui-textbox" name="inClassContent" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    		<tr>
+	    			<td>咨询师备注:</td>
+	    			<td><input class="easyui-textbox" name="askerContent" data-options="multiline:true" ></input></td>
+	    		</tr>
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updatesubmitForm()">Submit</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateclearForm()">Clear</a>
+	    </div>
+</div>
 </body>
 <script type="text/javascript">
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
@@ -338,7 +693,6 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 		}
 
 		row = row.slice(0, -1);
-
 		//添加带换行符的标签行
 		CSV += row + '\r\n';
 	}
@@ -390,9 +744,13 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	link.click();
 	document.body.removeChild(link);
 }
-
+   
 $("#btnExport").click(function() {
-	var data = JSON.stringify($('#wlsdg').datagrid('getData').rows);
+	var rows=$("#wlsdg").datagrid("getSelections");
+	if(rows.length==0){
+		$.messages.alert("提示","请选择你要导出的数据");
+	}
+	var data = JSON.stringify(rows);
 	if (data == '')
 		return;
 

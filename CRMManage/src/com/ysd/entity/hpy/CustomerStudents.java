@@ -2,6 +2,8 @@ package com.ysd.entity.hpy;
 
 import org.springframework.stereotype.Component;
 
+import com.ysd.entity.Askers;
+
 @Component
 public class CustomerStudents {
 			private Integer	Id;
@@ -46,7 +48,6 @@ public class CustomerStudents {
 			private String	ReturnMoneyReason;
 			private String	PreMoney;
 			private String	PreMoneyTime;
-			
 			private Askers askers;
 			private Netfollows netfollows;
 			
