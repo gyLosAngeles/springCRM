@@ -299,7 +299,6 @@
 				<input type="text" id="Stu_mininclasstime" class= "easyui-datebox" />--
 				<input type="text" id="Stu_maxinclasstime" class= "easyui-datebox" />
 			 <a href="javascript:void(0)" onclick="chaXun()"	class="easyui-linkbutton"	data-options="iconCls:'icon-search',plain:true">搜索</a>
-			 <a href="javascript:void(0)" onclick="tianjiastu()"	class="easyui-linkbutton"	data-options="iconCls:'icon-add',plain:true">添加</a>
 		</form>
 	</div>
 	

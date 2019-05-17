@@ -55,7 +55,12 @@ function menuHandler(item){
 }
 var parentId;
 function reloadModules(){
-	
+	var row = $("#menuTree").tree("getSelected");
+	/* console.log(row); */
+	$("#weight").val(row.attributes.width);
+	$("#url").val(row.attributes.url);
+	$("#name").val(row.text);
+	$("#updateuser_window").window("open");
 }
 function updateModules(){
 	var row = $("#menuTree").tree("getSelected");
@@ -63,8 +68,8 @@ function updateModules(){
 	var url=$("#url").val();
 	var name=$("#name").val();
 	$.ajax({
-		method:'post',
-		url:'http://stuapi.ysd3g.com/api/UpdateModule',
+		type:'post',
+		url:'/CRMManage/moduleUpdate',
 		dataType:'json',
 		data:{
 			moduleId:row.id,
@@ -76,6 +81,7 @@ function updateModules(){
 		success:function(res){
 			if(res){
 				$("#menuTree").tree("reload");
+				$("#updateuser_window").window("close");
 				$.messager.alert("提示信息","OK");
 			}
 		}
@@ -87,7 +93,7 @@ function addSim(){
 	var url=$("#add_url").val();
 	var name=$("#add_name").val();
 	$.ajax({
-		method:'post',
+		method:'get',
 		url:'../moduleAdd',
 		dataType:'json',
 		data:{
@@ -97,8 +103,9 @@ function addSim(){
 			moduleName:name
 		},
 		success:function(res){
-			if(res.success){
+			if(res){
 				$("#menuTree").tree("reload");
+				$("#adduser_window").window("close");
 				$.messager.alert("提示信息","OK");
 			}
 		}
@@ -120,7 +127,6 @@ function addSim(){
     	<div data-options = "iconCls:'icon-remove',name:'del'">删除</div>
     </div>
 	<div id="adduser_window" class="easyui-window" title="添加员工信息" data-options="closed:true,iconCls:'icon-save'" style="width:500px;height:300px;padding:10px;">
-         <form id="updateuserForm">
                 <table>
                     <tr>
                         <td>权重:</td>
@@ -135,9 +141,27 @@ function addSim(){
                         <td><input class="easyui-textbox" type="text" name="add_name" id="add_name" data-options="required:true"></input></td>
                     </tr>
                 </table>
-         </form>
             <div style="text-align:center;padding:5px">
                 <a href="javascript:void(0)" class="easyui-linkbutton" type="button" onclick="addSim()">保存</a>
+            </div>
+    </div>
+    <div id="updateuser_window" class="easyui-window" title="修改员工信息" data-options="closed:true,iconCls:'icon-save'" style="width:500px;height:300px;padding:10px;">
+                <table>
+                    <tr>
+                        <td>权重:</td>
+                        <td><input class="easyui-textbox" type="text" id="weight" data-options="required:true"></input></td>
+                    </tr>
+                    <tr>
+                        <td>url:</td>
+                        <td><input class="easyui-textbox" type="text" id="url"  data-options="required:true"></input></td>
+                    </tr>
+                    <tr>
+                        <td>模块名称:</td>
+                        <td><input class="easyui-textbox" type="text" id="name" data-options="required:true"></input></td>
+                    </tr>
+                </table>
+            <div style="text-align:center;padding:5px">
+                <a href="javascript:void(0)" class="easyui-linkbutton" type="button" onclick="updateModules()">保存</a>
             </div>
     </div>
 </body>

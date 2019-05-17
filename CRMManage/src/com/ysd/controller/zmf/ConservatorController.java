@@ -32,7 +32,6 @@ public class ConservatorController {
 	@ResponseBody
 	@RequestMapping(value="user/userSignIn",method=RequestMethod.POST)
 	public int signInUser(UserChecks userChecks) {
-		System.out.println(userChecks);
 		return directorService.updateSignIn(userChecks);
 	}
 	@ResponseBody

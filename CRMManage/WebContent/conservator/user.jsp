@@ -22,7 +22,7 @@ function init(){
         	userName:$("#Name").val(),
         	userCreateTimeBigin:$("#userCreateTimeBigin").val(),
         	userCreateTimeEnd:$("#userCreateTimeEnd").val(),
-        	userIsLockout:$("#userIsLockout").val(),
+        	userIsLockout:$("#userIsLockout").combobox("getValue"),
         },
         method:'post',
         singleSelect:true,
@@ -49,14 +49,15 @@ function addUser(){
 function openupdate(index) {
 	var row=$("#dg").datagrid("getRows");
 	/* console.log(row[index]) */
-	$('#updateuserForm').form('load',row[index]); 
+	$('#updateuserForm').form('load',row[index]);
+	$('#userName').text(row[index].userName);
 	$("#updateuser_window").window("open");
 }
 function updateUser() {
 	$.post("/CRMManage/userUpdate",{
 		userEmail:$("#userEmail").val(),
 		userTelephone:$("#userTelephone").val(),
-		userName:$("#userName").val()
+		userName:$("#userName").text()
 	},function (res){ 
 		if(res){
 			alert("修改成功");
@@ -256,7 +257,7 @@ function cz3(value,row,index){
                 <table>
                     <tr>
                         <td>登陆名:</td>
-                        <td><input class="easyui-textbox" type="text" name="userName" id="userName" data-options="required:true"></input></td>
+                        <td id="userName"></td>
                     </tr>
                     <tr>
                         <td>邮箱:</td>

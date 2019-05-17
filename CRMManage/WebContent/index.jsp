@@ -37,7 +37,6 @@
 		$.post("/CRMManage/user/userSignInCheckState",{
 			userName:"${user.userName}"
 			},function (res){
-				alert(res)
 				if(res==2){
 					$("#userSignIn").text("签到");   
 				}else{

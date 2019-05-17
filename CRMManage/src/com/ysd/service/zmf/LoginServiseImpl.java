@@ -33,7 +33,7 @@ public class LoginServiseImpl implements LoginServise {
 			userTab.setUserName(userName);
 			userTab.setUserPassWrongCout(userPassWrongCout);
 			userTabMapper.updateUser(userTab);
-		}else if(selectUserByuserName.getUserIsLockout()==1) {
+		}else if(selectUserByuserName.getUserIsLockout()==null||selectUserByuserName.getUserIsLockout()==1) {
 			loginReponse.setMessage("用户被锁定");
 			loginReponse.setSuccess(false);
 		}else {

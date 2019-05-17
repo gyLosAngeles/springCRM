@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="moduleId" property="id" />
 		<result column="moduleName" property="text" />
 		<result column="moduleUrl" property="attributes.url" />
+		<result column="moduleWeight" property="attributes.width" />
 		<result column="parentId" property="parent_id" />
 	</resultMap>
 	 <select id="selectModuleByRoleId" resultMap="module_role" parameterType="int" >
@@ -15,7 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		m.moduleId,
 	 		m.moduleName,
 	 		m.parentId,
-	 		m.moduleUrl 
+	 		m.moduleUrl,
+			m.moduleWeight 
 	 	from 
 	 	rolemoduletab r inner join 
 	 	moduletab m 
@@ -27,7 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		 moduleId,
 	 		 moduleName,
 	 		 parentId,
-	 		 moduleUrl 
+	 		 moduleUrl,
+			 moduleWeight 
 	 	from moduletab  
 	 </select>
 	 <insert id="insertModule" parameterType="com.ysd.entity.ModuleTab">
@@ -52,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 			roleModuleLastUpdateTime = NOW(),
 	 		</if>
 	 	</set>
+	 	where moduleId=#{moduleId}
 	 </update>
 	 <select id="selectModuleByUserId" resultMap="module_role" parameterType="int" >
 	 	<!-- SELECT m.moduleId,

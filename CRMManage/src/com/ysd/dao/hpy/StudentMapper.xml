@@ -48,12 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="PreMoneyTime" property="PreMoneyTime"/>
 			<result column="askersId" property="askers.askersId"/>
 			<result column="askersName" property="askers.askersName"/>
-			<result column="CheckState" property="askers.CheckState"/>
-			<result column="CheckInTime" property="askers.CheckInTime"/>
-			<result column="ChangeState" property="askers.ChangeState"/>
-			<result column="Weight" property="askers.Weight"/>
-			<result column="RoleName" property="askers.RoleName"/>
-			<result column="BakContent" property="askers.BakContent"/>
+			<result column="CheckState" property="askers.checkState"/>
+			<result column="CheckInTime" property="askers.checkInTime"/>
+			<result column="ChangeState" property="askers.changeState"/>
+			<result column="Weight" property="askers.weight"/>
+			<result column="RoleName" property="askers.roleName"/>
+			<result column="BakContent" property="askers.bakContent"/>
 			<result column="Id" property="netfollows.Id"/>
 			<result column="StudentId" property="netfollows.StudentId"/>
 			<result column="StudentName" property="netfollows.StudentName"/>

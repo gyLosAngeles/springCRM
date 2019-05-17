@@ -24,7 +24,7 @@ public class ModuleController {
 		return  moduleServise.selectModuleAll();
 	}
 	@ResponseBody
-	@RequestMapping(value="moduleAdd",method=RequestMethod.POST)
+	@RequestMapping(value="moduleAdd",method=RequestMethod.GET)
 	public int addModule(ModuleTab moduleTab) {
 		return  moduleServise.addtModule(moduleTab);
 	}
