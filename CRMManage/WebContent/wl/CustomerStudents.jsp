@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="../js/easyui demo/js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="datagrid-export.js"></script>
 	<script type="text/javascript">
 	$(function(){
 		shezhidongtai();
@@ -50,6 +51,28 @@
 		if(isreturnvist=="未回访"){
 			isreturnvist='0';
 		}
+		var minCreateTime=$('#Stu_mincreatetime').datebox('getValue');
+		var maxCreateTime=$('#Stu_maxcreatetime').datebox('getValue');
+		var minHomeTime=$('#Stu_minhometime').datebox('getValue');
+		var maxHomeTime=$('#Stu_maxhometime').datebox('getValue');
+		var minFirstVisitTime=$('#Stu_minfirstvisittime').datebox('getValue');
+		var maxFirstVisitTime=$('#Stu_maxfirstvisittime').datebox('getValue');
+		var minPayTime=$('#Stu_minpaytime').datebox('getValue');
+		var maxPayTime=$('#Stu_maxpaytime').datebox('getValue');
+		var minInClassTime=$('#Stu_mininclasstime').datebox('getValue');
+		var maxInClassTime=$('#Stu_maxinclasstime').datebox('getValue');
+		
+		if(minCreateTime>maxCreateTime){
+			alert("创建时间搜索区间错误")
+		}else if(minHomeTime>maxHomeTime){
+			alert("上门时间搜索区间错误")
+		}else if(minFirstVisitTime>maxFirstVisitTime){
+			alert("首次回访时间搜索区间错误")
+		}else if(minPayTime>maxPayTime){
+			alert("缴费时间搜索区间错误")
+		}else if(minInClassTime>minInClassTime){
+			alert("进班时间搜索区间错误")
+		}else{
 		$('#dg').datagrid({
 			method:'post',
 		    url:'../wl/selectStu',
@@ -75,6 +98,7 @@
 				maxInClassTime:$('#Stu_maxinclasstime').datebox('getValue')
 			}
 		});  
+		}
 	}
 	
 	function formattercaozuo(value,row,index){
@@ -192,6 +216,11 @@
 	function insert(){
 		var row = $('#dg').datagrid("getRows")[indexRow];
 		var myDate = new Date();
+		var FollowTime=$("#add_FollowTime").datebox('getValue');
+		var NextFollowTime=$("#add_NextFollowTime").datebox('getValue');
+		if(FollowTime>NextFollowTime){
+			alert("下次跟踪时间不能小于本次跟踪时间")
+		}else{
 		 $.post("../wl/insertNetfollows",{
 				 Remarks:$("#add_Remarks").val(),
 				 FollowTime:$("#add_FollowTime").datebox('getValue'),
@@ -215,6 +244,7 @@
 				location.reload();
 			 },"json")	 
 		}
+		}
 	
 	
 	
@@ -225,29 +255,29 @@
 	</script>
 </head>
 <body>	
-		<table id="dg">   
-		    <thead>   
-		        <tr>   
+		<table id="dg" data-options="fitColumns:true,checkbox: true" >  
+		<thead>
+			<tr>
 		            <th data-options="field:'id',width:80,checkbox:true">编码</th>   
 		            <th data-options="field:'name',width:80">名称</th>   
 		            <th data-options="field:'age',width:80">年龄</th>  
 		            <th data-options="field:'sex',width:80">性别</th> 
-		            <!-- <th data-options="field:'phone',width:80">手机号码</th> 
+		            <th data-options="field:'phone',width:80">手机号码</th> 
 		            <th data-options="field:'sourceUrl',width:80">来源网站</th> 
 		            <th data-options="field:'learnForward',width:80">课程方向</th>  
 		            <th data-options="field:'askerId',width:80">咨询师编号</th>  
 		            <th data-options="field:'qq',width:80">QQ</th>
 		            <th data-options="field:'weiXin',width:80">微信</th>
 		            <th data-options="field:'address',width:80">地址</th>
-		            <th data-options="field:'stuStatus',width:80">客户状态</th> -->
-		            <th data-options="field:'isValid',width:80,formatter:formatteryx">是否有效</th>
+		            <th data-options="field:'stuStatus',width:80">客户状态</th>
+		          <!--   <th data-options="field:'isValid',width:80,formatter:formatteryx">是否有效</th>
 		            <th data-options="field:'isHome',width:80,formatter:formattersm">是否上门</th>
 		            <th data-options="field:'isReturnMoney',width:80,formatter:formattertf">是否退费</th>
 		            <th data-options="field:'isPay',width:80,formatter:formatterjf">是否缴费</th>  
 		            <th data-options="field:'isReturnVist',width:80,formatter:formatterhf">是否回访</th>  
 		            <th data-options="field:'isInClass',width:80,formatter:formattersfjb">是否进班</th>  
 		            <th data-options="field:'inClassContent',width:80">创建备注</th>  
-		            <th data-options="field:'createTime',width:150">创建时间</th>  
+		            <th data-options="field:'createTime',width:150">创建时间</th> -->  
 		            <th data-options="field:'stuStatus',width:100">客户状态</th>  
 		            <th data-options="field:'sourceKeyWord',width:100">来源关键词</th>  
 		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
@@ -299,11 +329,9 @@
 				<input type="text" id="Stu_mininclasstime" class= "easyui-datebox" />--
 				<input type="text" id="Stu_maxinclasstime" class= "easyui-datebox" />
 			 <a href="javascript:void(0)" onclick="chaXun()"	class="easyui-linkbutton"	data-options="iconCls:'icon-search',plain:true">搜索</a>
-<<<<<<< HEAD
-=======
+
 			 <a href="javascript:void(0)" onclick="tianjiastu()"	class="easyui-linkbutton"	data-options="iconCls:'icon-add',plain:true">添加</a>
-			 <a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
->>>>>>> 725c71193b3a5cd91e17220493fc48a5f0b4df2d
+			<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
 		</form>
 	</div>
 	
@@ -575,7 +603,6 @@
 		    </div>
 		</div>
 </body>
-
 <script type="text/javascript">
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	//如果jsondata不是对象，那么json.parse将分析对象中的json字符串。
@@ -596,6 +623,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 		}
 
 		row = row.slice(0, -1);
+
 		//添加带换行符的标签行
 		CSV += row + '\r\n';
 	}
@@ -647,17 +675,15 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	link.click();
 	document.body.removeChild(link);
 }
-   
+
 $("#btnExport").click(function() {
-	var rows=$("#wlsdg").datagrid("getSelections");
-	if(rows.length==0){
-		$.messages.alert("提示","请选择你要导出的数据");
-	}
-	var data = JSON.stringify(rows);
+	var data = JSON.stringify($('#dg').datagrid('getData').rows);
 	if (data == '')
 		return;
 
 	JSONToCSVConvertor(data, "数据信息", true);
 });
+
 </script>
+
 </html>

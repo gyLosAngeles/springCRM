@@ -68,7 +68,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		
 		<select id="selectStu" parameterType="com.ysd.entity.Fenye" resultMap="studentMap">
-			SELECT s.*,a.* from students s left JOIN askers a on s.AskerId=a.askerId
+			SELECT
+				s.Id,s.NAME,s.Age,s.Sex,s.Phone,s.StuStatus,s.PerState,s.MsgSource,s.SourceUrl,
+				s.SourceKeyWord,s.Address,s.NetPusherId,s.AskerId,s.QQ,s.WeiXin,s.Content,s.CreateTime,
+				s.LearnForward,s.IsValid,s.Record,s.IsReturnVist,s.FirstVisitTime,s.IsHome,s.HomeTime,
+				s.LostValid,s.IsPay,s.PayTime,s.Money,s.IsReturnMoney,s.IsInClass,s.InClassTime,
+				s.InClassContent,s.AskerContent,s.IsDel,s.FromPart,s.StuConcern,s.IsBaoBei,s.ZiXunName,
+				s.CreateUser,s.ReturnMoneyReason,s.PreMoney,s.PreMoneyTime 
+			FROM
+				students s LEFT JOIN askers a ON s.AskerId = a.askerId
 		<where>
 			<if test="consultantStuCondition.Name !=null and consultantStuCondition.Name!=''">
 			  and	Name like "%"#{consultantStuCondition.Name}"%"
