@@ -77,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				s.CreateUser,s.ReturnMoneyReason,s.PreMoney,s.PreMoneyTime 
 			FROM
 				students s LEFT JOIN askers a ON s.AskerId = a.askerId
+				ORDER BY CreateTime DESC
 		<where>
 			<if test="consultantStuCondition.Name !=null and consultantStuCondition.Name!=''">
 			  and	Name like "%"#{consultantStuCondition.Name}"%"
@@ -131,6 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and s.AskerId=#{consultantStuCondition.AskerId}
 			</if>
 		</where>
+			
 			limit #{page},#{rows}
 		</select>
 		
@@ -252,13 +254,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</update>
 		
 		<insert id="insertNetfollows" parameterType="com.ysd.entity.hpy.Netfollows">
-				INSERT INTO netfollows (StudentId, StudentName, FollowTime, NextFollowTime, Content, UserId, FollowType, CreateTime, FollowState,Remarks)
+				INSERT INTO netfollows (StudentId, StudentName, FollowTime, NextFollowTime, Content, UserId, FollowType, FollowState,Remarks)
 				VALUES
-					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{CreateTime},#{FollowState},#{Remarks}) 
+					(#{StudentId},#{StudentName},#{FollowTime},#{NextFollowTime},#{Content},#{UserId},#{FollowType},#{FollowState},#{Remarks}) 
 
 		</insert>
 		<select id="selectNetfollows" parameterType="com.ysd.entity.Fenye" resultType="com.ysd.entity.hpy.Netfollows">
-			select Id,StudentId,StudentName,FollowTime,NextFollowTime,Content,UserId,FollowType,CreateTime,FollowState,Remarks from netfollows
+			select Id,StudentId,StudentName,FollowTime,NextFollowTime,Content,UserId,FollowType,CreateTime,FollowState,Remarks from netfollows 
 			<where>
 				<if test="consultantStuCondition.StudentName != '' and consultantStuCondition.StudentName != null">
 					and StudentName like "%"#{consultantStuCondition.StudentName}"%"
@@ -277,6 +279,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				</if>
 					and UserId =#{consultantStuCondition.UserId}
 			</where>
+			ORDER BY CreateTime DESC
 			limit #{page},#{rows}
 		</select>
 		<select id="selectCountNet" parameterType="com.ysd.entity.Fenye" resultType="int">
@@ -299,5 +302,141 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				</if>
 					and UserId =#{consultantStuCondition.UserId}
 			</where>
+		</select>
+		<!-- 咨询师对应学生 -->
+		<select id="selectStuAsker" parameterType="com.ysd.entity.Fenye" resultType="com.ysd.entity.hpy.CustomerStudents">
+			SELECT
+				Id,NAME,Age,Sex,Phone,StuStatus,PerState,MsgSource,SourceUrl,
+				SourceKeyWord,Address,NetPusherId,AskerId,QQ,WeiXin,Content,CreateTime,
+				LearnForward,IsValid,Record,IsReturnVist,FirstVisitTime,IsHome,HomeTime,
+				LostValid,IsPay,PayTime,Money,IsReturnMoney,IsInClass,InClassTime,
+				InClassContent,AskerContent,IsDel,FromPart,StuConcern,IsBaoBei,ZiXunName,
+				CreateUser,ReturnMoneyReason,PreMoney,PreMoneyTime
+			FROM
+				students 
+		<where>
+			<if test="consultantStuCondition.Name !=null and consultantStuCondition.Name!=''">
+			  and	Name like "%"#{consultantStuCondition.Name}"%"
+			</if>
+			<if test="consultantStuCondition.Phone !=null and consultantStuCondition.Phone!='' ">
+				and Phone like "%"#{consultantStuCondition.Phone}"%"
+			</if>
+			<if test="consultantStuCondition.IsPay !=null and consultantStuCondition.IsPay !='' ">
+				and IsPay like "%"#{consultantStuCondition.IsPay}"%"
+			</if>
+			<if test="consultantStuCondition.QQ !=null and consultantStuCondition.QQ !='' ">
+				and QQ like "%"#{consultantStuCondition.QQ}"%"
+			</if>
+			<if test="consultantStuCondition.IsReturnVist !=null and consultantStuCondition.IsReturnVist !='' ">
+				and IsReturnVist like "%"#{consultantStuCondition.IsReturnVist}"%"
+			</if>
+			<!-- 时间条件 -->
+			<if test="consultantStuCondition.minHomeTime !=null and consultantStuCondition.minHomeTime !='' ">
+				and HomeTime &gt;= #{consultantStuCondition.minHomeTime} 
+			</if>
+			<if test="consultantStuCondition.maxHomeTime !=null and consultantStuCondition.maxHomeTime !=''">
+				and HomeTime &lt;= #{consultantStuCondition.maxHomeTime}
+			</if>
+			<if test="consultantStuCondition.minPayTime !=null and consultantStuCondition.minPayTime !='' ">
+				and PayTime &gt;= #{consultantStuCondition.minPayTime} 
+			</if>
+			<if test="consultantStuCondition.maxPayTime !=null and consultantStuCondition.maxPayTime !=''">
+				and PayTime &lt;= #{consultantStuCondition.maxPayTime}
+			</if>
+			<if test="consultantStuCondition.minInClassTime !=null and consultantStuCondition.minInClassTime !='' ">
+				and InClassTime &gt;= #{consultantStuCondition.minInClassTime} 
+			</if>
+			<if test="consultantStuCondition.maxInClassTime !=null and consultantStuCondition.maxInClassTime !=''">
+				and InClassTime &lt;= #{consultantStuCondition.maxInClassTime}
+			</if>
+			<if test="consultantStuCondition.minFirstVisitTime !=null and consultantStuCondition.minFirstVisitTime !='' ">
+				and FirstVisitTime &gt;= #{consultantStuCondition.minFirstVisitTime} 
+			</if>
+			<if test="consultantStuCondition.maxFirstVisitTime !=null and consultantStuCondition.maxFirstVisitTime !=''">
+				and FirstVisitTime &lt;= #{consultantStuCondition.maxFirstVisitTime}
+			</if>
+			<if test="consultantStuCondition.minCreateTime !=null and consultantStuCondition.minCreateTime !='' ">
+				and CreateTime &gt;= #{consultantStuCondition.minCreateTime} 
+			</if>
+			<if test="consultantStuCondition.maxCreateTime !=null and consultantStuCondition.maxCreateTime !=''">
+				and CreateTime &lt;= #{consultantStuCondition.maxCreateTime}
+			</if>
+			<if test="consultantStuCondition.IsValid !=null and consultantStuCondition.IsValid !='' ">
+				and IsValid like "%"#{consultantStuCondition.IsValid}"%"
+			</if>
+			<if test="consultantStuCondition.AskerId !=null and consultantStuCondition.AskerId !='' ">
+				and AskerId=#{consultantStuCondition.AskerId}
+			</if>
+			and ZiXunName=#{consultantStuCondition.ZiXunName}
+		</where>
+			limit #{page},#{rows}
+		</select>
+		<!-- 咨询师对应学生的总条数 -->
+		<select id="selectCountStuAsker" parameterType="com.ysd.entity.Fenye" resultType="int">
+			SELECT
+				count(id)
+			FROM
+				students 
+		<where>
+			<if test="consultantStuCondition.Name !=null and consultantStuCondition.Name!=''">
+			  and	Name like "%"#{consultantStuCondition.Name}"%"
+			</if>
+			<if test="consultantStuCondition.Phone !=null and consultantStuCondition.Phone!='' ">
+				and Phone like "%"#{consultantStuCondition.Phone}"%"
+			</if>
+			<if test="consultantStuCondition.IsPay !=null and consultantStuCondition.IsPay !='' ">
+				and IsPay like "%"#{consultantStuCondition.IsPay}"%"
+			</if>
+			<if test="consultantStuCondition.QQ !=null and consultantStuCondition.QQ !='' ">
+				and QQ like "%"#{consultantStuCondition.QQ}"%"
+			</if>
+			<if test="consultantStuCondition.IsReturnVist !=null and consultantStuCondition.IsReturnVist !='' ">
+				and IsReturnVist like "%"#{consultantStuCondition.IsReturnVist}"%"
+			</if>
+			<!-- 时间条件 -->
+			<if test="consultantStuCondition.minHomeTime !=null and consultantStuCondition.minHomeTime !='' ">
+				and HomeTime &gt;= #{consultantStuCondition.minHomeTime} 
+			</if>
+			<if test="consultantStuCondition.maxHomeTime !=null and consultantStuCondition.maxHomeTime !=''">
+				and HomeTime &lt;= #{consultantStuCondition.maxHomeTime}
+			</if>
+			<if test="consultantStuCondition.minPayTime !=null and consultantStuCondition.minPayTime !='' ">
+				and PayTime &gt;= #{consultantStuCondition.minPayTime} 
+			</if>
+			<if test="consultantStuCondition.maxPayTime !=null and consultantStuCondition.maxPayTime !=''">
+				and PayTime &lt;= #{consultantStuCondition.maxPayTime}
+			</if>
+			<if test="consultantStuCondition.minInClassTime !=null and consultantStuCondition.minInClassTime !='' ">
+				and InClassTime &gt;= #{consultantStuCondition.minInClassTime} 
+			</if>
+			<if test="consultantStuCondition.maxInClassTime !=null and consultantStuCondition.maxInClassTime !=''">
+				and InClassTime &lt;= #{consultantStuCondition.maxInClassTime}
+			</if>
+			<if test="consultantStuCondition.minFirstVisitTime !=null and consultantStuCondition.minFirstVisitTime !='' ">
+				and FirstVisitTime &gt;= #{consultantStuCondition.minFirstVisitTime} 
+			</if>
+			<if test="consultantStuCondition.maxFirstVisitTime !=null and consultantStuCondition.maxFirstVisitTime !=''">
+				and FirstVisitTime &lt;= #{consultantStuCondition.maxFirstVisitTime}
+			</if>
+			<if test="consultantStuCondition.minCreateTime !=null and consultantStuCondition.minCreateTime !='' ">
+				and CreateTime &gt;= #{consultantStuCondition.minCreateTime} 
+			</if>
+			<if test="consultantStuCondition.maxCreateTime !=null and consultantStuCondition.maxCreateTime !=''">
+				and CreateTime &lt;= #{consultantStuCondition.maxCreateTime}
+			</if>
+			<if test="consultantStuCondition.IsValid !=null and consultantStuCondition.IsValid !='' ">
+				and IsValid like "%"#{consultantStuCondition.IsValid}"%"
+			</if>
+			<if test="consultantStuCondition.AskerId !=null and consultantStuCondition.AskerId !='' ">
+				and AskerId=#{consultantStuCondition.AskerId}
+			</if>
+			and ZiXunName=#{consultantStuCondition.ZiXunName}
+		</where>
+		</select>
+		
+		<select id="selectNetfollowsID" parameterType="com.ysd.entity.hpy.Netfollows" resultType="com.ysd.entity.hpy.Netfollows">
+			select Id,StudentId,StudentName,FollowTime,NextFollowTime,Content,UserId,FollowType,CreateTime,FollowState,Remarks from netfollows 
+			ORDER BY Id DESC
+			where StudentId=#{StudentId}
 		</select>
 </mapper>

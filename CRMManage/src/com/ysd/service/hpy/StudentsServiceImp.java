@@ -1,6 +1,8 @@
 package com.ysd.service.hpy;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,15 @@ public class StudentsServiceImp implements StudentsService {
 		dataGridData.setTotal(studentMapper.selectCountNet(fenye));
 		return dataGridData;
 	}
-
+	@Override
+	public DataGridData selectStuAsker(Fenye fenye) {
+		fenye.getConsultantStuCondition().getAskerId();
+		dataGridData.setRows(studentMapper.selectStuAsker(fenye));
+		dataGridData.setTotal(studentMapper.selectCountStuAsker(fenye));
+		return dataGridData;
+	}
+	public List<Netfollows> selectNetfollowsID(Netfollows netfollows) {
+		// TODO Auto-generated method stub
+		return studentMapper.selectNetfollowsID(netfollows);
+	}
 }

@@ -34,8 +34,10 @@ public class Fenye {
 		this.userCondition = userCondition;
 	}
 	public Integer getPage() {
-		page = page>0? (page-1)*rows:0;
-		return page;
+		if(page<0||page==null) {
+			return 0;
+		}
+		return (page-1)*rows;
 	}
 	
 	public ConsultantStuCondition getConsultantStuCondition() {

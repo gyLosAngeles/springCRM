@@ -35,4 +35,17 @@ public interface StudentMapper {
 	List<CustomerStudents> selectNetfollows(Fenye fenye);
 	
 	Integer selectCountNet(Fenye fenye);
+	List<Netfollows> selectNetfollowsID(Netfollows netfollows);
+	/**
+	 *  查询所有咨询师对应学生信息
+	 * @param fenye
+	 * @return
+	 */
+	List<CustomerStudents> selectStuAsker(Fenye fenye);
+	/**
+	 * 查询所有咨询师对应学生信息总条数
+	 * @param fenye
+	 * @return
+	 */
+	Integer selectCountStuAsker(Fenye fenye);
 }

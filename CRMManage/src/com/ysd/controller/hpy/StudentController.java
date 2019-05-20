@@ -1,6 +1,8 @@
 package com.ysd.controller.hpy;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +45,17 @@ public class StudentController {
 	public DataGridData selectNetfollows(Fenye fenye,ConsultantStuCondition consultantStuCondition) {
 		fenye.setConsultantStuCondition(consultantStuCondition);
 		return studentsServiceImp.selectNetfollows(fenye);
+	}
+	
+	@RequestMapping(value="/wl/selectStuAsker",method=RequestMethod.POST)
+	@ResponseBody
+	public DataGridData selectStuAsker(Fenye fenye,ConsultantStuCondition consultantStuCondition  ) {
+		fenye.setConsultantStuCondition(consultantStuCondition);
+		return studentsServiceImp.selectStuAsker(fenye);
+	}
+	@RequestMapping(value="/wl/selectNetfollowsID",method=RequestMethod.POST)
+	@ResponseBody
+	public List<Netfollows> selectNetfollowsID(Netfollows netfollows) {
+		return studentsServiceImp.selectNetfollowsID(netfollows);
 	}
 }
