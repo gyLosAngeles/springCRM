@@ -282,8 +282,8 @@
 		            <th data-options="field:'sourceUrl',width:80">来源网站</th> 
 		            <th data-options="field:'learnForward',width:80">课程方向</th>  
 		            <th data-options="field:'askerId',width:80">咨询师编号</th>  
-		            <th data-options="field:'qq',width:80">QQ</th>
-		            <th data-options="field:'weiXin',width:80">微信</th>
+		            <th data-options="field:'qq',width:120">QQ</th>
+		            <th data-options="field:'weiXin',width:120">微信</th>
 		            <th data-options="field:'address',width:80">地址</th>
 		            <th data-options="field:'stuStatus',width:80">客户状态</th>
 		            <th data-options="field:'isValid',width:80,formatter:formatteryx">是否有效</th>
@@ -479,9 +479,9 @@
 		    </div>
 		</div>
 		<!-- 查看对应学生的跟踪日志 -->
-			<div id="rizhi" class="easyui-dialog" title="My Dialog" style="width:800px;height:200px;"   
+			<div id="rizhi" class="easyui-dialog" title="My Dialog" style="width:800px;height:500px;"   
 	        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
-		<table id="rz" style="width:750px;height:250px">   
+		<table id="rz">   
 		    <thead>   
 	        <tr>   
 	            <th data-options="field:'followTime',width:150">回访时间</th>   

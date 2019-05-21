@@ -436,7 +436,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		<select id="selectNetfollowsID" parameterType="com.ysd.entity.hpy.Netfollows" resultType="com.ysd.entity.hpy.Netfollows">
 			select Id,StudentId,StudentName,FollowTime,NextFollowTime,Content,UserId,FollowType,CreateTime,FollowState,Remarks from netfollows 
-			ORDER BY Id DESC
 			where StudentId=#{StudentId}
+			ORDER BY Id DESC
 		</select>
 </mapper>
