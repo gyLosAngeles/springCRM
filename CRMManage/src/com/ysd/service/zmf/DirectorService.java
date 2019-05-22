@@ -6,7 +6,6 @@ import java.util.List;
 import com.ysd.entity.Askers;
 import com.ysd.entity.DataGridData;
 import com.ysd.entity.Fenye;
-import com.ysd.entity.UserChecks;
 
 public interface DirectorService {
 	/**
@@ -15,13 +14,13 @@ public interface DirectorService {
 	 */
 	DataGridData selectSignIn(Fenye fenye);
 	/**
-	 * 签到
+	 * 签到和退签
 	 * @param userChecks
 	 * @return
 	 */
-	int updateSignIn(UserChecks userChecks);
+	int updateSignIn(Askers askers);
 	/**
-	 * 查询所有咨询师
+	 * 查询所有咨询表中的数据
 	 * @return
 	 */
 	public List<Askers> selectAskersAll();
@@ -38,4 +37,11 @@ public interface DirectorService {
 	 * @return
 	 */
 	public int selectUserCheckStateByUserName(String userName);
+	/**
+	 * 查询所有的咨询师
+	 * @return
+	 */
+	List<Askers> selectAskersByRoleName();
+	 
+	
 }

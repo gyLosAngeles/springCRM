@@ -7,17 +7,31 @@ import com.ysd.entity.wxx.Students;
 
 public interface StudentsMapper {
 	/**
-	 * 多条件查询
+	 *咨询师经理查询全部
 	 * @param fenye
 	 * @return
 	 */
 	List<Students> selectAllStudents(Fenye fenye);
 	/**
-	 * 多条件分页查询
+	 * 咨询师经理查询全部数量
 	 * @param fenye
 	 * @return
 	 */
 	Integer selectCountStudents(Fenye fenye);
+	
+	/**
+	 * 网络咨询师查询自己
+	 * @param fenye
+	 * @return
+	 */
+	List<Students> selectStudentsByroleName(Fenye fenye);
+	/**
+	 *  网络咨询师查询自己数量
+	 * @param fenye
+	 * @return
+	 */
+	Integer selectCountStudentsByroleName(Fenye fenye);
+	
 	/**
 	 * 添加
 	 * @param fenye

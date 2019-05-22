@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ysd.entity.UserChecks;
+import com.ysd.entity.Askers;
 import com.ysd.entity.zmf.ModuleTree;
 import com.ysd.service.zmf.ConservatorServise;
 import com.ysd.service.zmf.DirectorService;
@@ -31,8 +31,8 @@ public class ConservatorController {
 	}
 	@ResponseBody
 	@RequestMapping(value="user/userSignIn",method=RequestMethod.POST)
-	public int signInUser(UserChecks userChecks) {
-		return directorService.updateSignIn(userChecks);
+	public int signInUser(Askers askers) {
+		return directorService.updateSignIn(askers);
 	}
 	@ResponseBody
 	@RequestMapping(value="user/userSignInCheckState",method=RequestMethod.POST)

@@ -20,17 +20,28 @@ public class DirectorServiseImpl implements DirectorService {
 	private UserChecksMapper userChecksMapper; 
 	@Autowired
 	private DataGridData dataGridData;
-	
+	@Autowired
+	private UserChecks userChecks;
 	public DataGridData selectSignIn(Fenye fenye) {
-		dataGridData.setRows(userChecksMapper.selectUserChecksByFenye(fenye));
-		dataGridData.setTotal(userChecksMapper.selectUserChecksCountByFenye(fenye));
+		dataGridData.setRows(userChecksMapper.selectAskersChecksByFenye(fenye));
+		dataGridData.setTotal(userChecksMapper.selectAskersChecksCountByFenye(fenye));
 		return dataGridData;
 	}
-	public int updateSignIn(UserChecks userChecks) {
-		return userChecksMapper.updateUserChecks(userChecks);
+	public int updateSignIn(Askers askers) {
+		if(userChecksMapper.updateAskersCheckState(askers)>0) {
+			if(askers.getCheckState()==1) {
+				userChecks.setCheckState(askers.getCheckState());
+				userChecks.setUserName(askers.getAskerName());
+				userChecks.setUserId(askers.getAskerId());
+				return userChecksMapper.insertUserChecksNetfollows(userChecks);
+			}else {
+				userChecks.setCheckState(askers.getCheckState());
+				userChecks.setUserName(askers.getAskerName());
+				return userChecksMapper.updateUserChecksNetfollows(userChecks);
+			}
+		}
+		return 0;
 	}
-
-	
 	public List<Askers> selectAskersAll(){
 		return userChecksMapper.selectAskersAll();
 	}
@@ -41,5 +52,9 @@ public class DirectorServiseImpl implements DirectorService {
 	 
 	public int selectUserCheckStateByUserName(String userName) {
 		return userChecksMapper.selectCheckStateByUserName(userName);
+	}
+	 
+	public List<Askers> selectAskersByRoleName() {
+		return userChecksMapper.selectAskersByroleName();
 	}
 }

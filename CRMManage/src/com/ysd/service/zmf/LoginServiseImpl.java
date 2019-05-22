@@ -1,5 +1,7 @@
 package com.ysd.service.zmf;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,12 +39,36 @@ public class LoginServiseImpl implements LoginServise {
 			loginReponse.setMessage("用户被锁定");
 			loginReponse.setSuccess(false);
 		}else {
-			ServletRequestAttributes attrs =(ServletRequestAttributes) RequestContextHolder.getRequestAttributes(); 
+			List<Integer> selectRoleIdByuserName = userTabMapper.selectRoleIdByuserName(selectUserByuserName.getUserId());
+			ServletRequestAttributes attrs =(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+			for (int i = 0; i < selectRoleIdByuserName.size(); i++) {
+				if(selectRoleIdByuserName.get(i)>1&&selectRoleIdByuserName.get(i)<5) {
+					attrs.getRequest().getSession().setAttribute("role",selectRoleIdByuserName.get(i)-1);
+				}
+			}
 			attrs.getRequest().getSession().setAttribute("user",selectUserByuserName);
 			loginReponse.setMessage("登陆成功");
 			loginReponse.setSuccess(true);
 		}
 		return loginReponse;
+	}
+
+	/**
+	 * 	查询用户
+	 */
+	@Override
+	public UserTab selectUserUserTab(Integer userId) {
+		// TODO Auto-generated method stub
+		return userTabMapper.selectUserUserTab(userId);
+	}
+
+	/**
+	 * 修改密码
+	 */
+	@Override
+	public Integer updateUserMima(UserTab userTab) {
+		// TODO Auto-generated method stub
+		return userTabMapper.updateUserMima(userTab);
 	}
 
 	

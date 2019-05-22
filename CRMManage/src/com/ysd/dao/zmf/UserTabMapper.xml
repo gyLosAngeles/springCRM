@@ -103,4 +103,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id="selectUserByuserName" parameterType="String" resultType="com.ysd.entity.UserTab">
 	 	SELECT userId,userName,userPassWord,userIsLockout,userPassWrongCout FROM usertab where userName = #{0}
 	 </select>
+	 <select id="selectUserByuserId" parameterType="int" resultType="com.ysd.entity.UserTab">
+	 	SELECT userName FROM usertab where userId = #{0}
+	 </select>
+	 <!--修改密码- -->
+	 
+	 <select id="selectUserUserTab" parameterType="Integer"  resultType="com.ysd.entity.UserTab">
+	 			select   userId,userName,userPassWord from usertab
+	 			<where>
+	 					userId=#{userId}
+
+	 			</where>
+	 			
+	 </select>
+	 
+	 <update id="UserTab"  parameterType="com.ysd.entity.UserTab" >
+				<set>
+						<if test="userName !=null and userName !=''">
+	 							userName=#{userName}
+	 					</if>
+	 					<if test="userPassWord !=null and userPassWord !=''">
+	 							userPassWord=#{userPassWord}
+	 					</if>
+				</set>	 
+				<where>
+						userId=#{userId}
+				</where>
+	 </update>
+	 
+	 <!-- 查询角色编号 -->
+	 <select id="selectRoleIdByuserName" resultType="int" parameterType="int">
+	 	SELECT roleId FROM userroletab where userId = #{0}
+	 </select>
 </mapper>

@@ -6,4 +6,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectAskers" parameterType="com.ysd.entity.Askers" resultType="com.ysd.entity.Askers">
 	SELECT askerId,askerName,CheckState,ChangeState,Weight,RoleName,BakContent FROM askers; 
 </select>
+
+<insert id="insertAskers" parameterType="com.ysd.entity.Askers">
+	insert into askers(askerName,RoleName,Weight) values(#{askerName},#{roleName},60.0)
+</insert>
+<delete id="deleteAskers" parameterType="String">
+	delete from askers where askerName=#{0}
+</delete>
+
+<select id="selectCountByaskersName" parameterType="String" resultType="int">
+	SELECT count(askerId)  FROM askers where  askerName=#{0}
+</select>
+<select id="selectRoleNameByUserName" parameterType="String" resultType="String">
+	SELECT  RoleName  FROM askers where  askerName=#{0}
+</select>
+<!-- 查询咨询师经理的自动分配状态 -->
+<select id="selectAskersByRoleName" resultType="int">
+	SELECT ChangeState FROM askers where roleName=1; 
+</select>
+<!-- 查询咨询师对应的学生 -->
+<select id="selectStaffParcel" resultType="com.ysd.entity.zmf.StaffParcel">
+	SELECT count(s.Id) count,a.askerName,a.Weight,a.CheckState FROM askers a left join students s on a.askerName = s.ZiXunName where a.RoleName=3 GROUP BY a.askerName
+</select>
+
 </mapper>

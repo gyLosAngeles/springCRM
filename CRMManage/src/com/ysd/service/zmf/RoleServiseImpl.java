@@ -24,11 +24,15 @@ public class RoleServiseImpl implements RoleServise {
 	private ModuleMapper moduleMapper;
 	
 	public int insertRole(String roleName) {
+		
+		
 		return roleMapper.insertRole(roleName);
 	}
 
  
 	public int updateRole(RoleTab roleTab) {
+		
+		
 		return roleMapper.updateRole(roleTab);
 	}
 

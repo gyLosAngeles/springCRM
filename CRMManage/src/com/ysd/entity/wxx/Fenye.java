@@ -20,6 +20,14 @@ private String IsReturnVist;//是否回访
 private String QQ;//qq
 private String minCreateTime;//创建时间
 private String maxCreateTime;//创建时间
+private String userName;//用户名称
+private String roleName;//咨询师名称
+public String getRoleName() {
+	return roleName;
+}
+public void setRoleName(String roleName) {
+	this.roleName = roleName;
+}
 private Askers askers;
 public Integer getPage() {
 	return page;
@@ -62,6 +70,12 @@ public void setPhone(String phone) {
 }
 public String getIsPay() {
 	return IsPay;
+}
+public String getUserName() {
+	return userName;
+}
+public void setUserName(String userName) {
+	this.userName = userName;
 }
 public void setIsPay(String isPay) {
 	IsPay = isPay;
