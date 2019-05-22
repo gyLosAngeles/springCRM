@@ -29,7 +29,12 @@
 			}
 		});		
 	}
-	
+	function changeCode() { //刷新
+		var data = new Date().getTime();
+
+		$("#kaptcha").val("");
+		$('#kaptchaImage').click().attr('src', 'KaptchaServlet?tt=' + data);
+	}
 	</script>
 	
 </head>
@@ -60,6 +65,14 @@
 							<div class="pwd">
 								<input type="password" placeholder="密码"  id="password" name="password"  >
 							</div>
+							<!-- 验证码 -->
+							<tr style="padding: 20px;">
+								<td>验证码：</td>
+								<td><input name="kaptcha" type="text" id="kaptcha" maxlength="4" class="easyui-textbox" required="required"
+									style="width:60px;height:25px" /> <img src="KaptchaServlet" id="kaptchaImage" style="height: 30px;" /> 
+									<a href="javascript:changeCode()">看不清?换一张</a></td>
+							</tr>
+							
 						</div>
 						<input type="hidden" name="formhash" value="5abb5d21"/>
 						<input onclick="submitFromUser()" class="btn text-center login-btn" value="立即登录">
@@ -76,6 +89,7 @@
 				</div>
 			</div>
 		</div>
+		<div><a href="http://www.miitbeian.gov.cn/">豫ICP备19014571号-1</a></div>
 	</body>
 </body>
 </html>

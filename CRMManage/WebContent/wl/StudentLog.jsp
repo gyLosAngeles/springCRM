@@ -23,6 +23,8 @@
 		    url:'../wl/selectNetfollows',
 		    toolbar:"#Logtoolbar",
 		    pagination:true,
+		    sortName: 'id', //排序字段
+		    sortOrder: 'desc',//排序方式
 		    queryParams:{
 		    	StudentName:$("#logn_studentname").val(),
 		    	Content:$("#logn_content").val(),
@@ -39,9 +41,10 @@
 		<table id="rz">   
 	    	<thead>   
 	        <tr>
-	        	<th data-options="field:'id'">ID</th>
-				<th data-options="field:'studentId'">学生编号</th>
+	        	<th data-options="field:'id',checkbox:true" >ID</th>
+				<th data-options="field:'studentId'" sortable="true">学生编号</th>
 				<th data-options="field:'studentName'">学生名字</th>
+				<th data-options="field:'createTime'" sortable="true">创建时间</th>
 	            <th data-options="field:'followTime',width:150">回访时间</th>   
 	            <th data-options="field:'content',width:150">回访情况</th>   
 	            <th data-options="field:'followType',width:80">跟踪方式</th>   
@@ -55,14 +58,15 @@
 		<form id="Logtoolform" class="easyui-form">
 			<label for="name">学生名称:</label>
 			<input class="easyui-textbox" type="text" id="logn_studentname">
+			
 			<label for="name">回访情况:</label>
 			<input class="easyui-textbox" type="text" id="logn_content">
 			
 			<label for="name">始跟时间:</label>
 			<input class="easyui-datebox" type="text" id="logn_followtime">
+			
 			<label for="name">束跟时间:</label>
 			<input class="easyui-datebox" type="text" id="logn_nextfollowtime">
-			
 			
 			<label for="name">跟踪方式:</label>
 			<input class="easyui-textbox" type="text" id="logn_followtype">

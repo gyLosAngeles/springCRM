@@ -25,8 +25,16 @@ public class ConsultantStuCondition {
 	private String Content;
 	private Integer UserId;
 	private String FollowType;
+	private String	ZiXunName;
 	
 	
+	
+	public String getZiXunName() {
+		return ZiXunName;
+	}
+	public void setZiXunName(String ziXunName) {
+		ZiXunName = ziXunName;
+	}
 	public String getStudentId() {
 		return StudentId;
 	}
