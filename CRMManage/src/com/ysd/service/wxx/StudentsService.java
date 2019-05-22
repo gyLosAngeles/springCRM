@@ -2,6 +2,8 @@ package com.ysd.service.wxx;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.ysd.entity.Askers;
 import com.ysd.entity.wxx.Fenye;
 import com.ysd.entity.wxx.Students;
@@ -27,11 +29,13 @@ public interface StudentsService {
 	 * @param askers
 	 * @return
 	 */
-//	  Integer updateAskers(Askers askers);
+  	  Integer updateAskers(Students students,@RequestParam("ids") int[] ids);
 	  /**
 	   * ²éÑ¯ËùÓĞ
 	   * @param fenye
 	   * @return
 	   */
 	  List<Askers> selectAskers(Askers askers);
+	  
+	  
 }

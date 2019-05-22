@@ -8,7 +8,7 @@ public class Askers {
 
 	private int askerId;//咨询师编号
 	private String askerName;//咨询师名称
-	private int checkState;//
+	private int checkState;//签到状态
 	private String checkInTime;//
 	private int changeState;//
 	private Double weight;//权重

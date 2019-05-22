@@ -1,7 +1,7 @@
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,14 +10,49 @@
 <link rel="stylesheet" type="text/css" href="../js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="../js/easyui demo/css/wu.css" />
 <link rel="stylesheet" type="text/css" href="../js/easyui demo/css/icon.css" />
+<link rel="stylesheet" type="text/css" href="../css/huadong.css" />
 <script type="text/javascript" src="../js/easyui demo/js/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
+var fieldArr=[];
 $(function() {
-	into();
-	 
-})
+	init();
+	var jl= $("th[name='jingli']");
+	for (var i = 0; i < jl.length; i++) {
+		var st = $(jl[i]).attr("data-options");
+		/* console.log(st) */
+		fieldArr[i]=st.substring(st.indexOf("'")+1,st.indexOf(",")-1);//获取刚开始需要隐藏的列名
+		/* console.log(arr[i])*/
+	}
+	var cbx = $("#hiddenColumn_form input[type='checkbox']").prop("checked", true);
+	for (var i = 0; i < fieldArr.length; i++) {
+		for (var j = 0; j < cbx.length; j++) {
+			if(fieldArr[i]==cbx[j].value){
+				$(cbx[j]).removeAttr("checked","checked");
+			}
+		}
+	}
+	if("${role}"=="1"){
+		$('#cc').combobox({    
+		    url:'/CRMManage/directorSelectAskers',    
+		    valueField:'askerId',    
+		    textField:'askerName'   
+		});
+		document.getElementById("inner").onclick = function() {
+			if (this.className == "inner-on") {
+				this.style.left = -51 + "px";
+				this.childNodes[1].checked = false;
+				this.className = "inner-off";
+				alert("关")
+			}else{
+				this.style.left = 0;
+				this.childNodes[1].checked = true;
+				this.className = "inner-on";
+			}
+		}	
+	}
+});
 function selects(numbers){
 	$(numbers).combobox({    
 	    url:'../wl/selectAskers',    
@@ -26,7 +61,7 @@ function selects(numbers){
 	    method:'post'
 	});
 }
-function into(){
+function init(){
 	$("#wlsdg").datagrid({
 		url : "../wl/selectAllStudentsController",
 		type:"post",
@@ -41,7 +76,8 @@ function into(){
 			maxCreateTime : $("#maxCreateTime2").datebox("getValue"),
 			IsPay : $("#IsPay1").combobox("getValue"),
 			IsValid : $("#IsValid1").combobox("getValue"),
-			IsReturnVist : $("#IsReturnVist1").combobox("getValue")
+			IsReturnVist : $("#IsReturnVist1").combobox("getValue"),
+			userName:"${user.userName}"
 		}
 	});
 }
@@ -158,74 +194,90 @@ function updatesubmitForm(){
 		}) 
 }
 //打开设置隐藏列对话框
+var checked_arr;
 function Shezhi() {
+	checked_arr = $("#hiddenColumn_form :checked");//默认的选中状态
 	$("#hiddenColumn_dialog").dialog("open");
 }
-function saveLie() {
-	alert("123")
-	
-	var cbx = $("#hiddenColumn_form input[type='checkbox']"); //获取Form里面是checkbox的Object
-	
-	
-   var checkedValue = "";
-   var unCheckValue = "";
-   for (var i = 0; i < cbx.length; i++) {
-       if (cbx[i].checked) {//获取已经checked的Object
-           if (checkedValue.length > 0) {
-               checkedValue += "," + cbx[i].value; //获取已经checked的value
-           }
-           else {
-               checkedValue = cbx[i].value;
-           }
-       }
-       if (!cbx[i].checked) {//获取没有checked的Object
-           if (unCheckValue.length > 0) {
-               unCheckValue += "," + cbx[i].value; //获取没有checked的value
-           }
-           else {
-               unCheckValue = cbx[i].value;
-           }
-       }
-   }
-  
-    var unChecks = new Array();
-   if (unCheckValue != null && unCheckValue != "") {
-       unChecks = unCheckValue.split(',');
-       for (var i = 0; i < unChecks.length; i++) {
-           $('#wlsdg').datagrid('hideColumn',unChecks[i]); //隐藏相应的列
-         
-       }
-   } 
-   var checkeds = new Array();
-   
-   if (checkedValue != null && checkedValue != "") {
-       checkeds = checkedValue.split(',');
-       for (var i = 0; i < checkeds.length; i++) {
-    	   
-           $('#wlsdg').datagrid('showColumn',checkeds[i]); //显示相应的列
-       }
-   }
 
-   $('#wlsdg').datagrid('reload');
-   
+function saveLie(){
+	var checked_arr2 = $("#hiddenColumn_form :checked");//之后的选中状态
+	var checks=[];
+	var unchecks=[];
+	for (var i = 0; i < checked_arr.length; i++) {
+		checks[i]=checked_arr[i].value;
+	}
+	for (var i = 0; i < checked_arr2.length; i++) {
+		unchecks[i]=checked_arr2[i].value;
+	}
+	for (var i = 0; i < unchecks.length; i++) {
+		if(checks.indexOf(unchecks[i])==-1){
+			 $('#wlsdg').datagrid('showColumn',unchecks[i]);
+		}
+	}
+	for (var i = 0; i < checks.length; i++) {
+		if(unchecks.indexOf(checks[i])==-1){
+			 $('#wlsdg').datagrid('hideColumn',checks[i]);
+		}
+	}
 }
+
 //关闭设置隐藏列弹框
 function closed_hiddenColumn() {
 	$('#hiddenColumn_dialog').dialog('close');
 }
 //全选按钮
-function ChooseAll() {
-  
+function ChooseAll() {  
    var a=$("#isQuanXuan").text();//获取按钮的值
    if("全选"==a.trim()){
    	 $("#hiddenColumn_form input[type='checkbox']").prop("checked", true);//全选
-   	$('#isQuanXuan').linkbutton({ text:'全不选' });
+   	 $('#isQuanXuan').linkbutton({ text:'全不选' });
    }else{    	
    	 $("#hiddenColumn_form input[type='checkbox']").removeAttr("checked", "checked");//取消全选
    	 $('#isQuanXuan').linkbutton({ text:'全选' });
    }
    
 }
+function batchOperation() {
+	 var selRow = $("#wlsdg").datagrid('getSelections');
+	 /* console.log(); */
+	 
+	 var value= $("#cc").combobox("getValue");
+	 if(value=='---未选择---"'){
+		 return;
+	 }
+	 var text = $("#cc").combobox("getText");
+	 var ids = [];
+     for (var i = 0; i < selRow.length; i++) {
+         var id = selRow[i].id;
+         ids.push(id); //把单个id循环放到ids的数组中  
+     }
+     $.ajax({
+         url : '../directorUpdateAskers',
+         dataType : 'json',
+         type : 'post',
+         data : {
+      	   ids : ids,
+      	   askerId:value,
+      	   ZiXunName:text
+         },
+         success : function(data) {
+             $.messager.show({
+                 title : '提示',
+                 msg : '跟踪成功',
+             });
+             $("#updatezixun").window("close");
+             $("#wlsdg").datagrid("reload");
+         },
+         error : function(data) {
+      	   $.messager.show({
+                 title : '提示',
+                 msg : '删除失败',
+             });
+         }
+     });
+}
+
 </script>
 </head>
 <body>
@@ -258,10 +310,18 @@ function ChooseAll() {
 		data-options="iconCls:'icon-search'" onclick="into()">搜索</a>
 	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
 		onclick="add()">添加</a>
-	<a href="#" class="easyui-linkbutton" onclick="Shezhi()">设置</a>
-	<a href="javascript:void(0);" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
 	<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
 	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="Shezhi()">设置隐藏列</a>
+	<c:if test="${role == 1}">
+		<a href="javascript:void(0);" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
+		<a href="javascript:void(0);" class="easyui-linkbutton" onclick="$('#updatezixun').window('open')">批量操作</a>
+		<div class="slide-btn">
+		<div class="inner-on" id="inner">
+			<input style="display:none;" type="checkbox" checked>
+			<span class="left">ON</span><span class="space">&nbsp;</span><span class="right">OFF</span>
+		</div>
+	</div>
+	</c:if>
 	</div>
 	<table id="wlsdg" data-options="checkbox:true ">
 		<thead>
@@ -273,55 +333,63 @@ function ChooseAll() {
 				<th data-options="field:'sex'">性别</th>
 				<th data-options="field:'phone'">电话</th>
 				<th data-options="field:'stuStatus'">客户状态</th>
-				<th data-options="field:'perState'">学员关注</th>
-				<th data-options="field:'msgSource'">来源部门</th>
+				<th name="jingli" data-options="field:'perState',hidden:true">学员关注</th>
+				<th name="jingli" data-options="field:'msgSource',hidden:true">来源部门</th>
 				<th data-options="field:'sourceUrl'">来源网站</th>
 				<th data-options="field:'sourceKeyWord'">来源关键词</th>
-				<th data-options="field:'address'">地址</th>
-				<th data-options="field:'netPusherId'"></th>
-				<th data-options="field:'askerId'">咨询师编号</th>
+				<th name="jingli" data-options="field:'address',hidden:true">地址</th>
+				<th name="jingli" data-options="field:'netPusherId',hidden:true"></th>
+				<th name="jingli" data-options="field:'askerId',hidden:true">咨询师编号</th>
 				<th data-options="field:'qq'">qq</th>
 				<th data-options="field:'weiXin'">微信</th>
-				<th data-options="field:'content'">内容</th>
-				<th data-options="field:'createTime'">创建时间</th>
-				<th data-options="field:'learnForward'">课程方向</th>
-				<th data-options="field:'isValid'">是否有效</th>
-				<th data-options="field:'record'">记录</th>
-				<th data-options="field:'isReturnVist'">是否回访</th>
-				<th data-options="field:'firstVisitTime'">首访时间</th>
-				<th data-options="field:'isHome'">是否上门</th>
-				<th data-options="field:'homeTime'">上门时间</th>
-				<th data-options="field:'lostValid'">无效原因</th>
-				<th data-options="field:'isPay'">是否缴费</th>
-				<th data-options="field:'payTime'">缴费时间</th>
-				<th data-options="field:'money'">金额</th>
-				<th data-options="field:'isReturnMoney'">是否退费</th>
-				<th data-options="field:'isInClass'">是否进班</th>
-				<th data-options="field:'inClassTime'">进班时间</th>
-				<th data-options="field:'inClassContent'">进班备注</th>
-				<th data-options="field:'askerContent'">咨询师备注</th>
-				<th data-options="field:'isDel'">是否删除</th>
+				<th name="jingli" data-options="field:'content',hidden:true">内容</th>
+				<th name="jingli" data-options="field:'createTime',hidden:true">创建时间</th>
+				<th name="jingli" data-options="field:'learnForward',hidden:true">课程方向</th>
+				<th name="jingli" data-options="field:'isValid',hidden:true">是否有效</th>
+				<th name="jingli" data-options="field:'record',hidden:true">记录</th>
+				<th name="jingli" data-options="field:'isReturnVist',hidden:true">是否回访</th>
+				<th name="jingli" data-options="field:'firstVisitTime',hidden:true">首访时间</th>
+				<th name="jingli" data-options="field:'isHome',hidden:true">是否上门</th>
+				<th name="jingli" data-options="field:'homeTime',hidden:true">上门时间</th>
+				<th name="jingli" data-options="field:'lostValid',hidden:true">无效原因</th>
+				<th name="jingli" data-options="field:'isPay',hidden:true">是否缴费</th>
+				<th name="jingli" data-options="field:'payTime',hidden:true">缴费时间</th>
+				<th name="jingli" data-options="field:'money',hidden:true">金额</th>
+				<th name="jingli" data-options="field:'isReturnMoney',hidden:true">是否退费</th>
+				<th name="jingli" data-options="field:'isInClass',hidden:true">是否进班</th>
+				<th name="jingli" data-options="field:'inClassTime',hidden:true">进班时间</th>
+				<th name="jingli" data-options="field:'inClassContent',hidden:true">进班备注</th>
+				<th name="jingli" data-options="field:'askerContent',hidden:true">咨询师备注</th>
+				<th name="jingli" data-options="field:'isDel',hidden:true">是否删除</th>
 				<th data-options="field:'fromPart'">来源渠道</th>
+				<th name="jingli" data-options="field:'ziXunName',hidden:true">咨询师名称</th>
 				<th data-options="field:'stuConcern'">学员关注</th>
 				<th data-options="field:'isBaoBei'">是否报备</th>
-				<th data-options="field:'askerName',formatter:function(value,row,index){return row.askers.askerName}">咨询师</th>
+				<th name="jingli" data-options="field:'askerName',hidden:true,formatter:function(value,row,index){return row.askers.askerName}">咨询师</th>
 				<th data-options="field:'createUser'">录入人</th>
-				<th data-options="field:'returnMoneyReason'">退费原因</th>
-				<th data-options="field:'preMoney'">定金金额</th>
-				<th data-options="field:'preMoneyTime'">定金时间</th>
-				<th data-options="field:'scoring'">打分</th>
+				<th name="jingli" data-options="field:'returnMoneyReason',hidden:true">退费原因</th>
+				<th name="jingli" data-options="field:'preMoney',hidden:true">定金金额</th>
+				<th name="jingli" data-options="field:'preMoneyTime',hidden:true">定金时间</th>
+				<th name="jingli" data-options="field:'scoring',hidden:true">打分</th>
 				<th data-options="field:'education'">学历</th>
-				<th data-options="field:'location'">所在区域</th>
-				<th data-options="field:'onlineremark'">在线备注</th>
+				<th name="jingli" data-options="field:'location',hidden:true">所在区域</th>
+				<th name="jingli" data-options="field:'onlineremark',hidden:true">在线备注</th>
 				<th data-options="field:'caozuo',formatter:formattercaozuo">操作</th>
 			</tr>
 		</thead>
 	</table>
+<div id="updatezixun" class="easyui-window" title="修改咨询师" 
+        data-options="iconCls:'icon-save',modal:true,closed:'true'">
+        <select id="cc" class="easyui-combobox" style="width:200px;">
+        	<option value="---未选择---"></option>
+        </select>
+        <a href="javascript:void(0);" class="easyui-linkbutton" onclick="batchOperation()">提交</a>
+</div>
 <!-- 添加弹出框 -->
 	<div id="add" class="easyui-dialog" title="添加" style="width:400px;"  data-options="resizable:true,modal:true,closed:true">   
    <form id="addfrm">
    <table >
-  <tr>
+  			<tr>
 				<td><label> 姓名</label></td>
 				<td><input class="easyui-textbox" name="name"  ></td>
 			</tr>
@@ -337,7 +405,11 @@ function ChooseAll() {
 				<td><label>电话</label></td>
 				<td><input class="easyui-textbox" name="phone" ></td>
 			</tr>
-		<tr>
+			<tr>
+	    		<td>录入人  :</td>
+	    		<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" value="${user.userName}" ></input></td>
+	    	</tr>
+			<tr>
 				<td><label>学历</label></td>
 				<td><!-- <input class="easyui-textbox" name="stuStatus"  > -->
 				<select id="educa_tion" name="education">
@@ -1045,8 +1117,6 @@ function ChooseAll() {
 		<table>
 			<tr>
 				<td><input type="checkbox" value="id"/>编号</td>
-			
-				
 			</tr>
 			<tr>
 			<td><input type="checkbox" value="name"/>姓名</td>
@@ -1062,7 +1132,7 @@ function ChooseAll() {
 			<tr>
 				<td><input type="checkbox" value="stuStatus"/>客户状态</td>
 			
-				<td><input type="checkbox" value="perState"/>学员关注</td>
+				<td><input type="checkbox" value="stuConcern"/>学员关注</td>
 			</tr>
 			<tr>
 				<td><input type="checkbox" value="msgSource"/>来源部门</td>
@@ -1072,10 +1142,10 @@ function ChooseAll() {
 			<tr>
 				<td><input type="checkbox" value="sourceKeyWord"/>来源关键词</td>
 			
-				<td><input type="checkbox" value=address/>地址</td>
+				<td><input type="checkbox" value="address"/>地址</td>
 			</tr>
 			<tr>
-				<td><input type="checkbox" value=netPusherId"/>22</td>
+				<td><input type="checkbox" value="netPusherId"/>22</td>
 			
 				<td><input type="checkbox" value="askerId"/>咨询师编号</td>
 			</tr>
@@ -1141,7 +1211,7 @@ function ChooseAll() {
 				<td><input type="checkbox" value="isBaoBei"/>是否报备</td>
 			</tr>
 			<tr>
-				<td><input type="checkbox" value="ziXunName"/>咨询师</td>
+				<td><input type="checkbox" value="ziXunName"/>咨询师名称</td>
 			
 				<td><input type="checkbox" value="createUser"/>录入人</td>
 			</tr>
@@ -1251,4 +1321,6 @@ $("#btnExport").click(function() {
 	JSONToCSVConvertor(data, "数据信息", true);
 });
 </script>
+
+
 </html>

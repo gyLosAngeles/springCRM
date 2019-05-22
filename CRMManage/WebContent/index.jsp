@@ -26,7 +26,7 @@
 	                        $('#tab_Module').tabs('add', {  
 	                            title: node.text,   
 	                            closable: true,
-	                            content: "<iframe style='width:100%;height:600px;'  src='"+node.attributes.url+".jsp'/>"    //此处做了调整，推荐使用iframe的方式实现
+	                            content: "<iframe style='width:100%;height:100%;'  src='"+node.attributes.url+".jsp'/>"    //此处做了调整，推荐使用iframe的方式实现
 	                       });
 	                    } else {
 	                        $("#tab_Module").tabs('select', node.text);  
@@ -58,8 +58,9 @@
 	} 
 	function signIn() {
 		$.post("/CRMManage/user/userSignIn",{
-			userName:"${user.userName}",
-			CheckState:1
+			askerId:"${user.userId}",
+			askerName:"${user.userName}",
+			checkState:1
 			},function (res){
 				if(res){
 					alert("签到成功");

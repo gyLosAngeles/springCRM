@@ -45,4 +45,31 @@ public interface UserTabMapper {
 	 * @return
 	 */
 	UserTab selectUserByuserName(String userName);
+	/**
+	 * 根据编号查询姓名
+	 * @param id
+	 * @return
+	 */
+	UserTab selectUserByuserId(Integer id);
+	
+	
+	/**
+	 * 		根据id查询用户是否存在
+	 * @param userTab
+	 * @return
+	 */
+	UserTab	selectUserUserTab(Integer userId);
+	
+	/**
+	 *    	修改密码
+	 * @param userTab
+	 * @return
+	 */
+	Integer updateUserMima(UserTab userTab);
+	/**
+	 * 根据用户名查询对应的角色编号
+	 * @param userName
+	 * @return
+	 */
+	List<Integer> selectRoleIdByuserName(Integer id);
 }

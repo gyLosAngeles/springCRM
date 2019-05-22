@@ -62,16 +62,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="RoleName" property="roleName"/>
 			<result column="BakContent" property="bakContent"/>
 		</resultMap>
+		
 <!-- 查询数据 -->
 	<select id="selectAllStudents" parameterType="com.ysd.entity.wxx.Fenye"
 		resultMap="studentMap">
 	SELECT
-		s.Id,s.Name,s.Age,s.Sex,s.Phone,s.StuStatus,s.PerState,s.MsgSource,s.SourceUrl,s.SourceKeyWord,s.Address,
+		s.Id,s.Name,s.Age,s.Sex,s.ZiXunName,s.Phone,s.StuStatus,s.PerState,s.MsgSource,s.SourceUrl,s.SourceKeyWord,s.Address,
 		s.NetPusherId,s.AskerId,s.QQ,s.WeiXin,s.Content,s.CreateTime,s.LearnForward,s.IsValid,s.Record,s.IsReturnVist,
 		s.FirstVisitTime,s.IsHome,s.HomeTime,s.LostValid,s.IsPay,s.PayTime,s.Money,s.IsReturnMoney,s.IsInClass,
 		s.InClassTime,s.InClassContent,s.AskerContent,s.IsDel,s.FromPart,s.StuConcern,s.IsBaoBei,a.askerName,
 		s.CreateUser,s.ReturnMoneyReason,s.PreMoney,s.PreMoneyTime,s.Scoring,s.Education,s.Location,s.Onlineremark
-		FROM students s left JOIN askers a on s.AskerId=a.askerId
+		FROM 
+			students s left JOIN askers a on s.AskerId=a.askerId
 		<where>
 			<if test=" Name !=null and Name !=''">
 			and	s.Name like "%"#{Name}"%"
@@ -136,12 +138,101 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			and	s.CreateTime &lt;=#{maxCreateTime}
 			</if>
 		</where>
-		
 	</select>
+	<!--网络咨询师需要查询的  -->
+	<select id="selectStudentsByroleName" parameterType="com.ysd.entity.wxx.Fenye"
+		resultMap="studentMap">
+	SELECT
+		 Id, Name, Age, Sex, Phone, StuStatus, PerState, MsgSource, SourceUrl, SourceKeyWord, Address,
+		 NetPusherId, AskerId, QQ, WeiXin, Content, CreateTime, LearnForward, IsValid, Record,IsReturnVist,
+		 FirstVisitTime, IsHome, HomeTime, LostValid, IsPay, PayTime, Money, IsReturnMoney, IsInClass,
+		 InClassTime, InClassContent, AskerContent, IsDel, FromPart, StuConcern, IsBaoBei,
+		 CreateUser, ReturnMoneyReason, PreMoney, PreMoneyTime, Scoring, Education, Location, Onlineremark,ZiXunName
+		FROM 
+			students   
+		<where>
+			CreateUser = #{userName}
+			<if test=" Name !=null and Name !=''">
+			and	 Name like "%"#{Name}"%"
+			</if>
+			<if test=" Phone !=null and Phone !=''">
+			and	 Phone =#{Phone}
+			</if>
+			<if test=" askers.askerName !=null and askers.askerName !=''">
+			and	 askerName like "%"#{askers.askerName}"%"
+			</if>
+			<if test=" IsPay !=null and IsPay !=''">
+			and	 IsPay=#{IsPay}
+			</if>
+			<if test=" IsValid !=null and IsValid !=''">
+			and	 IsValid=#{IsValid}
+			</if>
+			<if test=" IsReturnVist !=null and IsReturnVist !=''">
+			and	 IsReturnVist=#{IsReturnVist}
+			</if>
+			<if test=" QQ !=null and QQ !=''">
+			and	 QQ=#{QQ}
+			</if>
+			<if test=" minCreateTime !=null and minCreateTime !=''">
+			and	 CreateTime &gt;= #{minCreateTime}
+			</if>
+			<if test=" maxCreateTime !=null and maxCreateTime !=''">
+			and	 CreateTime &lt;=#{maxCreateTime}
+			</if>
+		</where>
+		limit #{page},#{row}
+	</select>
+	<!--网络咨询师需要查询的  -->
+	<select id="selectCountStudentsByroleName" parameterType="com.ysd.entity.wxx.Fenye"
+		resultType="int">
+	SELECT
+		  count(Id) 
+		FROM 
+			students   
+		<where>
+			CreateUser = #{userName}
+			<if test=" Name !=null and Name !=''">
+			and	 Name like "%"#{Name}"%"
+			</if>
+			<if test=" Phone !=null and Phone !=''">
+			and	 Phone =#{Phone}
+			</if>
+			<if test=" askers.askerName !=null and askers.askerName !=''">
+			and	 askerName like "%"#{askers.askerName}"%"
+			</if>
+			<if test=" IsPay !=null and IsPay !=''">
+			and	 IsPay=#{IsPay}
+			</if>
+			<if test=" IsValid !=null and IsValid !=''">
+			and	 IsValid=#{IsValid}
+			</if>
+			<if test=" IsReturnVist !=null and IsReturnVist !=''">
+			and	 IsReturnVist=#{IsReturnVist}
+			</if>
+			<if test=" QQ !=null and QQ !=''">
+			and	 QQ=#{QQ}
+			</if>
+			<if test=" minCreateTime !=null and minCreateTime !=''">
+			and	 CreateTime &gt;= #{minCreateTime}
+			</if>
+			<if test=" maxCreateTime !=null and maxCreateTime !=''">
+			and	 CreateTime &lt;=#{maxCreateTime}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <!-- 添加 -->
-	<insert id="insertCountStudents" parameterType="com.ysd.entity.wxx.Students">
-	INSERT INTO students(Name,Sex,Age,Phone,Education,StuStatus,FromPart,SourceUrl,SourceKeyWord,QQ,WeiXin,IsBaoBei,Onlineremark)
-VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{SourceUrl},#{SourceKeyWord},#{QQ},#{WeiXin},#{IsBaoBei},#{Onlineremark})
+	<insert id="insertCountStudents" parameterType="com.ysd.entity.wxx.Students" useGeneratedKeys="true" keyProperty="Id">
+	INSERT INTO students(Name,Sex,Age,Phone,Education,StuStatus,FromPart,SourceUrl,SourceKeyWord,QQ,WeiXin,IsBaoBei,Onlineremark,CreateUser)
+VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{SourceUrl},#{SourceKeyWord},#{QQ},#{WeiXin},#{IsBaoBei},#{Onlineremark},#{CreateUser})
   </insert>
  <!-- 修改 -->
  <update id="updateStudents" parameterType="com.ysd.entity.wxx.Students">
@@ -255,9 +346,9 @@ VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{So
 			<if test=" IsBaoBei !=null and IsBaoBei !=''">
 				IsBaoBei=#{IsBaoBei},
 			</if>
-			<!-- <if test=" ZiXunName !=null and ZiXunName !=''">
+			 <if test=" ZiXunName !=null and ZiXunName !=''">
 				ZiXunName=#{ZiXunName},
-			</if> -->
+			</if> 
 			<if test=" CreateUser !=null and CreateUser !=''">
 				CreateUser=#{CreateUser},
 			</if>

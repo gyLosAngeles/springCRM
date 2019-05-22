@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ysd.dao.wxx.AskersMapper;
 import com.ysd.dao.zmf.RoleUserMapper;
-import com.ysd.dao.zmf.UserChecksMapper;
 import com.ysd.dao.zmf.UserTabMapper;
+import com.ysd.entity.Askers;
 import com.ysd.entity.DataGridData;
 import com.ysd.entity.Fenye;
 import com.ysd.entity.RoleTab;
-import com.ysd.entity.UserChecks;
 import com.ysd.entity.UserRoleTab;
 import com.ysd.entity.UserTab;
 @Service
@@ -22,9 +22,9 @@ public class UserServiseImpl implements UserServise {
 	@Autowired
 	private RoleUserMapper roleUserMapper;
 	@Autowired
-	private UserChecksMapper userChecksMapper;
+	private AskersMapper askersMapper;
 	@Autowired
-	private UserChecks userChecks;
+	private Askers  askers;
 	@Autowired
 	private DataGridData dataGridData;
 	public DataGridData selectUserByTiaoJian(Fenye fenye) {
@@ -35,13 +35,7 @@ public class UserServiseImpl implements UserServise {
 	public int insertUser(UserTab userTab) {
 		UserTab selectUserByuserName = userTabMapper.selectUserByuserName(userTab.getUserName());
 		if(selectUserByuserName==null) {
-			if(userTabMapper.insertUser(userTab)>0) {
-				userChecks.setUserId(userTab.getUserId());
-				userChecks.setUserName(userTab.getUserName());
-				System.out.println(userTab);
-				System.out.println(userChecks);
-				return userChecksMapper.inserUserChecks(userChecks);
-			}
+			return  userTabMapper.insertUser(userTab);
 		}
 		return 0;
 	}
@@ -63,10 +57,23 @@ public class UserServiseImpl implements UserServise {
 	}
 
 	public int insertUserRole(UserRoleTab userRoleTab) {
+		UserTab selectUserByuserId = userTabMapper.selectUserByuserId(userRoleTab.getUserId());
+		
+		if(userRoleTab.getRoleId()>1&&userRoleTab.getRoleId()<5) {
+			if(askersMapper.selectCountByaskersName(selectUserByuserId.getUserName())>0) {
+				return 0;
+			} 
+			askers.setRoleName(String.format("%s", (userRoleTab.getRoleId()-1)));
+			askers.setAskerName(selectUserByuserId.getUserName());
+			askersMapper.insertAskers(askers);
+		}
 		return roleUserMapper.insertUserRole(userRoleTab);
 	}
- 
 	public int deleteUserRole(UserRoleTab userRoleTab) {
+		if(userRoleTab.getRoleId()>1&&userRoleTab.getRoleId()<5) {
+			UserTab selectUserByuserId = userTabMapper.selectUserByuserId(userRoleTab.getUserId());
+			askersMapper.deleteAskers(selectUserByuserId.getUserName());
+		}
 		return roleUserMapper.deleteUserRole(userRoleTab);
 	}
 

@@ -31,8 +31,14 @@ function init(){
    })
 }
 function Cancel(value,row,index) {
-	return '<a href="javascript:userCancel('+index+')">退签</a>'
+	return '<a href="javascript:userCancel('+index+')">退签</a>'+"  "+'<a href="javascript:openupdate('+index+')">分量设置</a>';
 } 
+function openupdate(index){
+	 var row = $("#dg").datagrid("getRows");
+	 $('#widthAsker').form('load',row[index]);
+	 $('#win').window('open');
+}
+
 function userCancel(index){
 	var row=$("#dg").datagrid("getRows")[index];
 	if(row.checkState==2){
@@ -42,8 +48,8 @@ function userCancel(index){
 	$.messager.confirm("确认","你确认要退签吗？",function(r){
 		if(r){
     		$.post("/CRMManage/directorSignInUpdate",{
-    			UserName:row.userName,
-    			CheckState:2
+    			askerName:row.askerName,
+    			checkState:2
 		},function (res){
 			if(res){
 				alert("成功");
@@ -55,6 +61,22 @@ function userCancel(index){
 		}
 	});
 }
+function submitUpdate(){
+	 $.post("/CRMManage/directorAskersUpdateWidth",{
+		 weight:$("#weight").val(),
+		 bakContent:$("#bakContent").val(),
+		 askerId:$("#askerId").val()
+		},function (res){
+			if(res){
+				alert("修改成功");
+				$("#win").window("close");
+				$("#dg").datagrid("reload");
+			}else{
+				alert("失败");
+			}
+	},"json")
+}
+
 </script>
 </head>
 <body>
@@ -75,14 +97,32 @@ function userCancel(index){
     	</form> 
     </div>
 </div>
+<div id="win" class="easyui-window" title="编辑"    
+        data-options="iconCls:'icon-save',modal:true,closed:true">
+    <form id="widthAsker">
+    <div style="display: none;">   
+        <input class="easyui-validatebox" type="text" id="askerId" name="askerId"  />   
+    </div>   
+    <div>   
+        <label for="weight">权重:</label>   
+        <input class="easyui-validatebox" type="text" name="weight" id="weight"  />   
+    </div>   
+    <div>   
+        <label for="bakContent">备注:</label>   
+        <input class="easyui-validatebox" type="text" name="bakContent" id="bakContent"  />   
+    </div>
+    <div style="text-align:center;padding:5px">
+         <a href="javascript:void(0)" class="easyui-linkbutton" type="button" onclick="submitUpdate()">保存</a>
+     </div>   
+</form>   
+	</div>
 <table id="dg" title="用户列表" style="width:300;height:400">
     <thead>
         <tr>
-             <th data-options="field:'userId',width:280,hidden:true">用户ID</th>
-             <th data-options="field:'userName',width:100">用户名</th>
+             <th data-options="field:'askerId',width:280,hidden:true">用户ID</th>
+             <th data-options="field:'askerName',width:100">用户名</th>
              <th data-options="field:'checkInTime',width:100">签到时间</th>
              <th data-options="field:'checkState',width:100,formatter:function(value,row,index){return value==1?'已签到':'未签到';}">签到状态</th>
-             <th data-options="field:'checkOutTime',width:160">退签时间</th>
              <th data-options="field:'Cancel',width:160,formatter:Cancel">功能</th>
         </tr>
     </thead>
