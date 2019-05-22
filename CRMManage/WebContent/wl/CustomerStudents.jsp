@@ -284,6 +284,7 @@
 			});  
 		 $("from").from("load","../wl/selectPush");
 		 }
+	
  	var int=self.setInterval("Dynamic()",60000);
 	function Dynamic(){
 		 $.post("../wl/selectPush",{
@@ -559,11 +560,11 @@
 		     </tr>   
 		    </thead>   
 		</table>
-		</div>
-		<!-- 一键标为已读 -->
 		<div id="yjyd" align="center">
 		<a href="javascript:void(0)" onclick="yjyd()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
 		</div>
+		</div>
+		<!-- 一键标为已读 -->
 		<!-- 查看学生详细信息 -->
 		<div id="chaKanStuxq" class="easyui-dialog" title="查看学生详细信息" data-options="iconCls:'icon-save',closed:true" style="width:800px;height:600px;padding:10px;">
 			<div style="padding:10px 60px 20px 60px">
