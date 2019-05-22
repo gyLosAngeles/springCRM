@@ -3,6 +3,7 @@ package com.ysd.dao.hpy;
 import java.util.List;
 
 import com.ysd.entity.Fenye;
+import com.ysd.entity.Push;
 import com.ysd.entity.hpy.CustomerStudents;
 import com.ysd.entity.hpy.Netfollows;
 
@@ -48,4 +49,16 @@ public interface StudentMapper {
 	 * @return
 	 */
 	Integer selectCountStuAsker(Fenye fenye);
+	/**
+	 * 动态显示推送信息
+	 * @param push
+	 * @return
+	 */
+	List<Push> selectPush(Push push);
+	/**
+	 * 把消息标为已读
+	 * @param customerStudents
+	 * @return
+	 */
+	Integer UpdatePush(Push push);
 }

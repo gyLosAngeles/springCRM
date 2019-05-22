@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ysd.dao.hpy.StudentMapper;
 import com.ysd.entity.DataGridData;
 import com.ysd.entity.Fenye;
+import com.ysd.entity.Push;
 import com.ysd.entity.hpy.CustomerStudents;
 import com.ysd.entity.hpy.Netfollows;
 @Service
@@ -44,5 +45,14 @@ public class StudentsServiceImp implements StudentsService {
 	public List<Netfollows> selectNetfollowsID(Netfollows netfollows) {
 		// TODO Auto-generated method stub
 		return studentMapper.selectNetfollowsID(netfollows);
+	}
+	@Override
+	public List<Push> selectPush(Push push) {
+		return studentMapper.selectPush(push);
+	}
+	@Override
+	public Integer UpdatePush(Push push) {
+		// TODO Auto-generated method stub
+		return studentMapper.UpdatePush(push);
 	}
 }

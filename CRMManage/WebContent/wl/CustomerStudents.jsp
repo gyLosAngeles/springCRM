@@ -31,8 +31,10 @@
 	$(function(){
 		shezhidongtai();
 		chaXun();
+		Dynamic();
 	})
 	/* 查询全部信息 */
+	
 	function chaXun(){
 		var ispay=$("#ispay").combobox('getValue');
 		if(ispay=="--请选择--"){
@@ -267,6 +269,54 @@
 	/* 动态显示 */
 	function shezhidongtai(){var createGridHeaderContextMenu=function(e,field){e.preventDefault();var grid=$(this);var headerContextMenu=this.headerContextMenu;if(!headerContextMenu){var tmenu=$('<div style="width:100px;"></div>').appendTo('body');
 	var fields=grid.datagrid('getColumnFields');for(var i=0;i<fields.length;i++){var fildOption=grid.datagrid('getColumnOption',fields[i]);if(!fildOption.hidden){$('<div iconCls="icon-ok" field="'+fields[i]+'"/>').html(fildOption.title).appendTo(tmenu)}else{$('<div iconCls="icon-empty" field="'+fields[i]+'"/>').html(fildOption.title).appendTo(tmenu)}}headerContextMenu=this.headerContextMenu=tmenu.menu({onClick:function(item){var field=$(item.target).attr('field');if(item.iconCls=='icon-ok'){grid.datagrid('hideColumn',field);$(this).menu('setIcon',{target:item.target,iconCls:'icon-empty'})}else{grid.datagrid('showColumn',field);$(this).menu('setIcon',{target:item.target,iconCls:'icon-ok'})}}})}headerContextMenu.menu('show',{left:e.pageX,button:e.pageY})};$.fn.datagrid.defaults.onHeaderContextMenu=createGridHeaderContextMenu;$.fn.treegrid.defaults.onHeaderContextMenu=createGridHeaderContextMenu}
+	function formattertszt(value,row,index){
+		return value==0? '未读':'已读';
+	}
+	function ts(){
+		$('#tsdiv').dialog('open');
+		 $('#tstable').datagrid({
+				method:'post',
+			    url:'../wl/selectPush',
+			    toolbar:'#yjyd',
+			    queryParams: {
+			    	zxname:'${user.userName}'
+			    }
+			});  
+		 $("from").from("load","../wl/selectPush");
+		 }
+ 	var int=self.setInterval("Dynamic()",60000);
+	function Dynamic(){
+		 $.post("../wl/selectPush",{
+			 zxname:'${user.userName}'
+		 },function(data){
+			 console.log(data);
+			 for (var i = 0; i < data.length; i++) {
+				if(data[i].isreader==0){
+					$.messager.confirm('Confirm','您有未读消息?一分钟后会再次推送',function(r){
+					});
+				}
+			}
+		},"json")	 
+	} 
+	/* function formatteryd(value,row,index){
+		return '<button onclick="updatepush('+index+')">已读</button>';
+	} */
+	function yjyd(){
+		/* if(row.isreader>0){
+			alert("该消息已经标为已读，请勿重复操作")
+		}else{} */
+		$.post("../wl/UpdatePush",{
+    		isreader:'1'
+    	},function(res){
+			if(res){
+				alert("全部标为已读");
+				ts();
+			}else{
+		    	alert("失败");
+		    }
+    	})
+		
+	}
 	
 	</script>
 </head>
@@ -274,7 +324,8 @@
 		<table id="dg" data-options="fitColumns:true,checkbox: true" >  
 		<thead>
 			<tr>
-		            <th data-options="field:'id',width:80,checkbox:true">编码</th>   
+		            <th data-options="field:'ID',width:80,checkbox:true">编码</th>
+		            <th data-options="field:'id',width:40">学生编号</th>      
 		            <th data-options="field:'name',width:80">名称</th>   
 		            <th data-options="field:'age',width:80">年龄</th>  
 		            <th data-options="field:'sex',width:80">性别</th> 
@@ -347,7 +398,7 @@
 				<input type="text" id="Stu_maxinclasstime" class= "easyui-datebox" />
 			 <a href="javascript:void(0)" onclick="chaXun()"	class="easyui-linkbutton"	data-options="iconCls:'icon-search',plain:true">搜索</a>
 
-			 <a href="javascript:void(0)" onclick="tianjiastu()"	class="easyui-linkbutton"	data-options="iconCls:'icon-add',plain:true">添加</a>
+			 <a href="javascript:void(0)" onclick="ts()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">推送信息</a>
 			<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
 		</form>
 	</div>
@@ -479,7 +530,7 @@
 		    </div>
 		</div>
 		<!-- 查看对应学生的跟踪日志 -->
-			<div id="rizhi" class="easyui-dialog" title="My Dialog" style="width:800px;height:500px;"   
+			<div id="rizhi" class="easyui-dialog" title="学生跟踪信息" style="width:800px;height:500px;"   
 	        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
 		<table id="rz">   
 		    <thead>   
@@ -492,6 +543,26 @@
 		     </tr>   
 		    </thead>   
 		</table>
+		</div>
+		<!-- 推送信息 -->
+		<div id="tsdiv" class="easyui-dialog" title="推送信息" style="width:800px;height:500px;"   
+	        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+		<table id="tstable">   
+		    <thead>   
+	        <tr>   
+	            <th data-options="field:'studentid',width:50">学生ID</th>   
+	            <th data-options="field:'studentname',width:80">学生名字</th>   
+	            <th data-options="field:'context',width:250">推送内容</th>   
+	            <th data-options="field:'isreader',width:80,formatter:formattertszt">推送状态</th>   
+	            <th data-options="field:'tstime',width:150">推送时间</th>   
+	            <!-- <th data-options="field:'yd',width:80,formatter:formatteryd">操作</th> -->
+		     </tr>   
+		    </thead>   
+		</table>
+		</div>
+		<!-- 一键标为已读 -->
+		<div id="yjyd" align="center">
+		<a href="javascript:void(0)" onclick="yjyd()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
 		</div>
 		<!-- 查看学生详细信息 -->
 		<div id="chaKanStuxq" class="easyui-dialog" title="查看学生详细信息" data-options="iconCls:'icon-save',closed:true" style="width:800px;height:600px;padding:10px;">

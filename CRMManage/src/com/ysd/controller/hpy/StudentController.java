@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ysd.entity.Askers;
 import com.ysd.entity.DataGridData;
 import com.ysd.entity.Fenye;
+import com.ysd.entity.Push;
 import com.ysd.entity.hpy.ConsultantStuCondition;
 import com.ysd.entity.hpy.CustomerStudents;
 import com.ysd.entity.hpy.Netfollows;
@@ -57,5 +58,15 @@ public class StudentController {
 	@ResponseBody
 	public List<Netfollows> selectNetfollowsID(Netfollows netfollows) {
 		return studentsServiceImp.selectNetfollowsID(netfollows);
+	}
+	@RequestMapping(value="/wl/selectPush",method=RequestMethod.POST)
+	@ResponseBody
+	public List<Push> selectPush(Push push) {
+		return studentsServiceImp.selectPush(push);
+	}
+	@RequestMapping(value="/wl/UpdatePush",method=RequestMethod.POST)
+	@ResponseBody
+	public Integer UpdatePush(Push push) {
+		return studentsServiceImp.UpdatePush(push);
 	}
 }

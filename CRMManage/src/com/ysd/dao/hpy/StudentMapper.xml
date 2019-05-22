@@ -439,4 +439,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			where StudentId=#{StudentId}
 			ORDER BY Id DESC
 		</select>
+		<select id="selectPush" resultType="com.ysd.entity.Push" parameterType="com.ysd.entity.Push">
+			select id,studentid,studentname,context,zxname,isreader,tstime from push where zxname=#{zxname}
+			ORDER BY Id DESC
+		</select>
+		
+		<update id="UpdatePush" parameterType="com.ysd.entity.Push">
+			UPDATE push
+			<set>
+				<if test="isreader !=null and isreader !=''">
+					isreader=#{isreader}
+				</if>
+			</set> 
+		<!-- 	where id=#{id} -->
+		</update>
 </mapper>
