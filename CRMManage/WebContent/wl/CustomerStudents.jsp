@@ -248,7 +248,7 @@
 				 FollowType:$("#add_FollowType").val(),
 				 StudentName:row.name,
 				 StudentId:row.id,
-				 UserId:row.askerId,
+				 UserId:'${user.userId}',
 				 FollowState:'1',
 			 },function(res){
 				if(res){
@@ -285,7 +285,7 @@
 		 $("from").from("load","../wl/selectPush");
 		 }
 	
- 	var int=self.setInterval("Dynamic()",60000);
+ 	var ss=self.setInterval("Dynamic()",60000);
 	function Dynamic(){
 		 $.post("../wl/selectPush",{
 			 zxname:'${user.userName}'
@@ -349,8 +349,8 @@
 		            <th data-options="field:'stuStatus',width:100">客户状态</th>  
 		            <th data-options="field:'sourceKeyWord',width:100">来源关键词</th>  
 		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
-		            <th data-options="field:'caozuo',width:100,title:'操作',formatter:formattercaozuo"></th>
-		            <th data-options="field:'rizhi',width:50,title:'日志',formatter:formatterrizhi"></th>
+		            <th data-options="field:'caozuo',width:120,title:'操作',formatter:formattercaozuo"></th>
+		            <th data-options="field:'rizhi',width:65,title:'日志',formatter:formatterrizhi"></th>
 		        </tr>   
 		    </thead>   
 		</table> 
