@@ -42,4 +42,11 @@ public interface ModuleMapper {
 	 * @return
 	 */
 	List<ModuleTree> selectModuleByUserId(Integer userId);
+	/**
+	 * 查询模块对应的角色数量
+	 * @param moduleId
+	 * @return
+	 */
+	Integer selectRoleModuleCount(Integer moduleId);
+	
 }

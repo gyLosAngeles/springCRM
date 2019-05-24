@@ -39,6 +39,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <delete id="deleteModule" parameterType="com.ysd.entity.ModuleTab">
 	 	delete from moduletab where moduleId = #{moduleId}
 	 </delete>
+	 <!-- 删除模块的时候判断该模块是否被引用 -->
+	 <select id="selectRoleModuleCount" resultType="int" parameterType="int">
+	 	SELECT count(roleModuleId) FROM rolemoduletab where moduleId = #{0}
+	 </select>
 	 <update id="updateModule" parameterType="com.ysd.entity.ModuleTab">
 	 		update moduletab 
 	 	<set>

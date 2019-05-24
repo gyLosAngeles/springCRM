@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>模块管理</title>
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/icon.css" />
-<script type="text/javascript" src="/CRMManage/js/easyui demo/js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function(){
      $('#menuTree').tree({
@@ -35,8 +35,6 @@ function menuHandler(item){
 		reloadModules();
 	}else if(item.name=='del'){
 		var row = $("#menuTree").tree("getSelected");
-		alert(row.id);
-		return;
 		$.messager.confirm("确认","你确认要删除模块吗？",function(r){
     		if(r){
 	    		$.post("../moduleRemove",{
@@ -46,7 +44,7 @@ function menuHandler(item){
 					alert("成功");
 					 $("#menuTree").tree("reload");
 				}else{
-					alert("失败");
+					alert("删除失败该模块正在被引用");
 				}
 			},"json") 
     		}
@@ -67,6 +65,13 @@ function updateModules(){
 	var weight=$("#weight").val();
 	var url=$("#url").val();
 	var name=$("#name").val();
+	var root = $('#menuTree').tree('getChildren');
+	for (var i = 0; i < root.length; i++) {
+		if(root[i].text==name){
+			alert("修改失败用户名称重复");
+			return;
+		}
+	}
 	$.ajax({
 		type:'post',
 		url:'/CRMManage/moduleUpdate',
@@ -89,9 +94,16 @@ function updateModules(){
 }
 function addSim(){
 	var row = $("#menuTree").tree("getSelected");
+	var root = $('#menuTree').tree('getChildren');
+	var name=$("#add_name").val();
+	for (var i = 0; i < root.length; i++) {
+		if(root[i].text==name){
+			alert("节点重复不可添加");
+			return;
+		}
+	}
 	var weight=$("#add_weight").val();
 	var url=$("#add_url").val();
-	var name=$("#add_name").val();
 	$.ajax({
 		method:'get',
 		url:'../moduleAdd',
@@ -119,7 +131,7 @@ function addSim(){
     </div>
     
         <div data-options="region:'west',split:true" title="导航应用" style="width:100%;">
-           <div id="menuTree" ><!--这个地方显示树状结构--></div>
+           <div id="menuTree" class="easyui-tree" ><!--这个地方显示树状结构--></div>
         </div>
     <div id="mm" class="easyui-menu" data-options = "onClick:menuHandler" style="width: 160px;">
     	<div data-options = "iconCls:'icon-add',name:'add'">追加</div>

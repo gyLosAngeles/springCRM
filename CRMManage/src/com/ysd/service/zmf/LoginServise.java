@@ -1,5 +1,8 @@
 package com.ysd.service.zmf;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.ysd.entity.UserTab;
 import com.ysd.entity.zmf.LoginReponse;
 
@@ -11,7 +14,7 @@ public interface LoginServise {
 	 * @param userPassWord
 	 * @return
 	 */
-	LoginReponse login(String userName,String userPassWord);
+	LoginReponse login(String userName,String userPassWord, HttpServletRequest request,String kaptcha,HttpServletResponse response);
 	
 	
 	

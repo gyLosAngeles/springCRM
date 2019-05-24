@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>角色管理</title>
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/icon.css" />
-<script type="text/javascript" src="/CRMManage/js/easyui demo/js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 function searchRoleInfo(){
     $("#dg").datagrid({
@@ -53,16 +53,20 @@ function deletejs(index){
 	var row=$("#dg").datagrid("getRows");
 	$.messager.confirm("确认","你确认要删除角色吗？",function(r){
 		if(r){
-    		$.post("/CRMManage/Roledelete",{
-			roleId:row[index].roleId
+		if(row[index].roleId<5){
+			alert("删除失败模块正在被引用");
+			return;
+		}
+    	  $.post("/CRMManage/Roledelete",{
+		roleId:row[index].roleId
 		},function (res){
 			if(res){
 				alert("成功");
 				$("#dg").datagrid("reload");
 			}else{
-				alert("失败");
+				alert("删除失败模块正在引用");
 			}
-		},"json")
+		},"json")  
 		}
 	});
 }

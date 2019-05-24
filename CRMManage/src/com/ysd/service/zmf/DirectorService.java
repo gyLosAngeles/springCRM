@@ -23,25 +23,30 @@ public interface DirectorService {
 	 * 查询所有咨询表中的数据
 	 * @return
 	 */
-	public List<Askers> selectAskersAll();
+	List<Askers> selectAskersAll();
 
 	/**
 	 * 修改对应咨询师的权重
 	 * @param askers
 	 * @return
 	 */
-	public int updateAskersByAskerId(Askers askers);
+	int updateAskersByAskerId(Askers askers);
 	/**
 	 * 查询用户的签到状态
 	 * @param userName
 	 * @return
 	 */
-	public int selectUserCheckStateByUserName(String userName);
+	int selectUserCheckStateByUserName(String userName);
 	/**
 	 * 查询所有的咨询师
 	 * @return
 	 */
 	List<Askers> selectAskersByRoleName();
-	 
+	 /**
+	  * 开启自动分配
+	  * @param ChangeState
+	  * @return
+	  */
+	int updateAskerChangeStateByRoleName(int ChangeState);
 	
 }

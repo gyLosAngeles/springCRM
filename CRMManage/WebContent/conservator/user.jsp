@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>用户管理</title>
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/icon.css" />
-<script type="text/javascript" src="/CRMManage/js/easyui demo/js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function(){
 	init();
@@ -21,8 +21,10 @@ function init(){
         queryParams: { //要发送的参数列表
         	userName:$("#Name").val(),
         	userCreateTimeBigin:$("#userCreateTimeBigin").val(),
+        	orderBy:$("#ord").combobox("getValue"),
         	userCreateTimeEnd:$("#userCreateTimeEnd").val(),
-        	userIsLockout:$("#userIsLockout").combobox("getValue"),
+        	userIsLockout:$("#userIsLockout").combobox("getValue")
+        	
         },
         method:'post',
         singleSelect:true,
@@ -188,19 +190,18 @@ function cz3(value,row,index){
     <div style="margin-bottom:5px" title="用户信息">
     	<form id="ff" method="post">   
 		    <div>
-		    	 
-		                        用户名:   <input class="easyui-validatebox" type="text" id="Name"   data-options="required:true" />   
-				起止时时间:<input class="easyui-datebox" type="text"  id="userCreateTimeBigin" required="required" />-   
-		    		    <input class="easyui-datebox" type="text" id="userCreateTimeEnd"  required="required" />
+		                        用户名:   <input class="easyui-textbox" type="text" id="Name"  />   
+				起止时时间:<input class="easyui-datebox" type="text"  id="userCreateTimeBigin"  />-   
+		    		    <input class="easyui-datebox" type="text" id="userCreateTimeEnd"   />
 		    	是否锁定:	<select id="userIsLockout" class="easyui-combobox" name="dept">   
 						    <option value="">请选择</option>   
 						    <option value="1">是</option>   
 						    <option value="2">否</option>   
 						</select>
-				排序:	<select id="ord" class="easyui-combobox" name="orderBy" style="height:auto;">
+				排序:	<select id="ord" class="easyui-combobox" name="orderBy"  style="height:auto;">
 					    <option value="">请选择</option>
-					    <option value="CreateTime">创建时间</option>
-					    <option value="LastLoginTime">最后登录时间</option>
+					    <option value="userCreateTime">创建时间</option>
+					    <option value="userLastLoginTime">最后登录时间</option>
 					</select>
 					 <a href="javascript:init()" class="easyui-linkbutton" iconCls="icon-search">查找</a>
 			  		 <a onclick="$('#adduser_window').window('open')" class="easyui-linkbutton" iconCls="icon-add" >创建</a>

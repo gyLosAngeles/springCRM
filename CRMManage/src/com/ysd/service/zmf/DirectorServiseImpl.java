@@ -51,10 +51,19 @@ public class DirectorServiseImpl implements DirectorService {
 	}
 	 
 	public int selectUserCheckStateByUserName(String userName) {
-		return userChecksMapper.selectCheckStateByUserName(userName);
+		Integer i = userChecksMapper.selectCheckStateByUserName(userName);
+		if(i!=null) {
+			return i;
+		}
+		return 0;
+		
 	}
 	 
 	public List<Askers> selectAskersByRoleName() {
 		return userChecksMapper.selectAskersByroleName();
+	}
+	 
+	public int updateAskerChangeStateByRoleName(int ChangeState) {
+		return  userChecksMapper.udpateDirectorControllerChecks(ChangeState);
 	}
 }

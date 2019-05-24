@@ -37,7 +37,10 @@ public class RoleServiseImpl implements RoleServise {
 	}
 
 	public int deleteRole(Integer roleId) {
-		return roleMapper.deleteRole(roleId);
+		 if(roleMapper.selectRoleModuleCountByRoleId(roleId)==0) {
+			 return roleMapper.deleteRole(roleId);
+		 }
+		return 0;
 	}
 
 	public int updateRoleModule(String Modules,int RoleId) {

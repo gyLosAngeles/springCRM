@@ -7,12 +7,12 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="../js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-	<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/wu.css" />
-	<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/icon.css" />
-	<script type="text/javascript" src="../js/easyui demo/js/jquery-1.8.0.min.js"></script>
-	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="datagrid-export.js"></script>
 	<style type="text/css">
 	 input {
@@ -328,28 +328,27 @@
 		            <th data-options="field:'id',width:40">学生编号</th>      
 		            <th data-options="field:'name',width:80">名称</th>   
 		            <th data-options="field:'age',width:80">年龄</th>  
-		            <th data-options="field:'sex',width:80">性别</th> 
-		            <th data-options="field:'phone',width:80">手机号码</th> 
-		            <th data-options="field:'sourceUrl',width:80">来源网站</th> 
-		            <th data-options="field:'learnForward',width:80">课程方向</th>  
-		            <th data-options="field:'askerId',width:80">咨询师编号</th>  
-		            <th data-options="field:'qq',width:120">QQ</th>
-		            <th data-options="field:'weiXin',width:120">微信</th>
-		            <th data-options="field:'address',width:80">地址</th>
-		            <th data-options="field:'stuStatus',width:80">客户状态</th>
-		            <th data-options="field:'isValid',width:80,formatter:formatteryx">是否有效</th>
+		            <th data-options="field:'sex',width:100">性别</th> 
+		            <th data-options="field:'phone',width:150">手机号码</th> 
+		            <th data-options="field:'sourceUrl',width:100">来源网站</th> 
+		            <th data-options="field:'learnForward',width:100">课程方向</th>  
+		            <th data-options="field:'askerId',width:80" hidden="true">咨询师编号</th>  
+		            <th data-options="field:'qq',width:150">QQ</th>
+		            <th data-options="field:'weiXin',width:150">微信</th>
+		            <th data-options="field:'address',width:150">地址</th>
+		            <th data-options="field:'isValid',width:80,formatter:formatteryx" hidden="true">是否有效</th>
 		            <th data-options="field:'isHome',width:80,formatter:formattersm">是否上门</th>
 		            <th data-options="field:'isReturnMoney',width:80,formatter:formattertf">是否退费</th>
 		            <th data-options="field:'isPay',width:80,formatter:formatterjf">是否缴费</th>  
 		            <th data-options="field:'isReturnVist',width:80,formatter:formatterhf">是否回访</th>  
 		            <th data-options="field:'isInClass',width:80,formatter:formattersfjb">是否进班</th>  
-		            <th data-options="field:'inClassContent',width:80,hidden:true">创建备注</th>  
-		            <th data-options="field:'createTime',width:150">创建时间</th>
-		            <th data-options="field:'stuStatus',width:100">客户状态</th>  
-		            <th data-options="field:'sourceKeyWord',width:100">来源关键词</th>  
-		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
-		            <th data-options="field:'caozuo',width:100,title:'操作',formatter:formattercaozuo"></th>
-		            <th data-options="field:'rizhi',width:50,title:'日志',formatter:formatterrizhi"></th>
+		            <th data-options="field:'inClassContent',width:80" hidden="true" >创建备注</th>  
+		            <th data-options="field:'createTime',width:150" hidden="true">创建时间</th>
+		            <th data-options="field:'stuStatus',width:100" >客户状态</th>  
+		            <th data-options="field:'sourceKeyWord',width:100" hidden="true">来源关键词</th>  
+		            <th data-options="field:'firstVisitTime',width:150" hidden="true">创建时间</th>  
+		            <th data-options="field:'caozuo',width:200,title:'操作',formatter:formattercaozuo"></th>
+		            <th data-options="field:'rizhi',width:100,title:'日志',formatter:formatterrizhi"></th>
 		        </tr>   
 		    </thead>   
 		</table> 
@@ -559,11 +558,12 @@
 		     </tr>   
 		    </thead>   
 		</table>
-		</div>
-		<!-- 一键标为已读 -->
 		<div id="yjyd" align="center">
 		<a href="javascript:void(0)" onclick="yjyd()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
 		</div>
+		</div>
+		<!-- 一键标为已读 -->
+		
 		<!-- 查看学生详细信息 -->
 		<div id="chaKanStuxq" class="easyui-dialog" title="查看学生详细信息" data-options="iconCls:'icon-save',closed:true" style="width:800px;height:600px;padding:10px;">
 			<div style="padding:10px 60px 20px 60px">

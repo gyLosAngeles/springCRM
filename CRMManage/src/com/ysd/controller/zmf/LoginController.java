@@ -1,5 +1,8 @@
 package com.ysd.controller.zmf;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +20,9 @@ public class LoginController {
 	private LoginServise loginServise;
 	
 	@ResponseBody
-	@RequestMapping(value="login",method=RequestMethod.GET)
-	public LoginReponse selectModule(String userName,String userPassWord) {
-		return  loginServise.login(userName, userPassWord);
+	@RequestMapping(value="login",method=RequestMethod.POST)
+	public LoginReponse selectModule(String userName,String userPassWord, HttpServletRequest request,String kaptcha,HttpServletResponse response) {
+		return  loginServise.login(userName, userPassWord,request,kaptcha,response);
 	}
 	
 	

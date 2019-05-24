@@ -50,7 +50,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value="userRefreshPassWord",method=RequestMethod.POST)
 	public int refreshPwd(UserTab userTab) {
-		userTab.setUserPassWord("ysd123");
+		userTab.setUserPassWord("13a+dx40KTlT1m68BS0FJA==");
 		return userServise.updateUser(userTab);
 	}
 	@ResponseBody

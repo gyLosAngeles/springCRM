@@ -5,7 +5,7 @@ public class ConsultantStuCondition {
 	private String	Phone;
 	private Integer	AskerId;
 	private String	IsPay;
-	private Integer	IsValid;
+	private String	IsValid;
 	private String	QQ;
 	private String	IsReturnVist;
 	private String	minHomeTime;
@@ -101,10 +101,11 @@ public class ConsultantStuCondition {
 	public void setIsPay(String isPay) {
 		IsPay = isPay;
 	}
-	public Integer getIsValid() {
+	
+	public String getIsValid() {
 		return IsValid;
 	}
-	public void setIsValid(Integer isValid) {
+	public void setIsValid(String isValid) {
 		IsValid = isValid;
 	}
 	public String getQQ() {

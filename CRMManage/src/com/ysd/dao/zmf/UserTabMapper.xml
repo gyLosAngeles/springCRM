@@ -42,7 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and userIsLockout = #{userCondition.userIsLockout}
 			</if>
 		</where>
+		<if test="userCondition.orderBy != null and userCondition.orderBy != ''">
+				ORDER BY ${userCondition.orderBy}  desc
+		</if>
 		limit #{page},#{rows}
+		
 	</select>
 	<select id="selectUserCountByTiaoJian" resultType="int" parameterType="com.ysd.entity.Fenye">
 		select count(userId) from usertab  
@@ -79,14 +83,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		<if test="userEmail != null or userUpdateTime != '' or userTelephone != null or userTelephone != ''">
 	 			userUpdateTime = NOW(),
 	 		</if>
-	 		<if test="userLastLoginTime != null and userLastLoginTime != ''">
-	 			userLastLoginTime = #{userLastLoginTime},
-	 		</if>
 	 		<if test="userPassWrongCout != null and userPassWrongCout != ''">
 	 			userPassWrongCout = #{userPassWrongCout},
 	 		</if>
 	 		<if test="userLockoutTime != null and userLockoutTime != ''">
-	 			userLockoutTime = #{userLockoutTime},
+	 			userLockoutTime = NOW(),
+	 		</if>
+	 		<if test="userLastLoginTime != null and userLastLoginTime != ''">
+	 			userLastLoginTime = NOW(),
 	 		</if>
 	 		<if test="userLastLoginIp != null and userLastLoginIp != ''">
 	 			userLastLoginIp = #{userLastLoginIp},
