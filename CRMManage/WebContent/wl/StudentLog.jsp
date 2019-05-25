@@ -23,8 +23,6 @@
 		    url:'../wl/selectNetfollows',
 		    toolbar:"#Logtoolbar",
 		    pagination:true,
-		    sortName: 'id', //排序字段
-		    sortOrder: 'desc',//排序方式
 		    queryParams:{
 		    	StudentName:$("#logn_studentname").val(),
 		    	Content:$("#logn_content").val(),
