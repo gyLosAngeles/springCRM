@@ -48,17 +48,38 @@
 		
 	});
 	function updatePassword() {
-		var pwd = $("#passWord").val();
+		var pwd = $("#userPassWord").val();
 		var newpwd = $("#newPassWord").val();
-		var confirmpwd = $("#newPassWord").val();
+		var confirmpwd = $("#confirmPassWrod").val();
 		if(pwd==""||newpwd==""||confirmpwd==""){
 			return;
 		}
-		if(pwd!=confirmpwd){
+		if(newpwd!=confirmpwd){
 			alert("确认密码不一致");
 			return;
 		}
+		$.post("updateUserMima",{
+			pwd:pwd,
+			userName:"${user.userName}",
+			newpwd:newpwd
+			},function(res){
+				if(res){
+					alert("修改成功")
+				}else{
+					alert("修改失败")
+				}
+					
+				
+			},"json")
 	} 
+	
+		function win(){
+						
+		}
+	
+	
+	
+	
 	function signIn() {
 		$.post("/CRMManage/user/userSignIn",{
 			askerId:"${user.userId}",
@@ -79,7 +100,7 @@
 	 </div>
 	 <div id="indexTools">
 	 <strong class="easyui-tooltip" title="2条未读消息">${user.userName}，欢迎您！</strong>
-	 	<a href="#" onclick="$('#win').window('open')" style="width:50px">修改密码</a>
+	 	<a href="javascript:void(0)" onclick="$('#win').window('open')" style="width:50px">修改密码</a>
 	 	<c:if test="${role==4}">
 	 		<a id="userSignIn" style="width:45px" href="javascript:signIn()">签到</a>
 	 	</c:if>
@@ -102,7 +123,7 @@
         data-options="iconCls:'icon-save',modal:true,closed:true">   
 		    <div>   
 		        <label for="passWord">原密码:</label>   
-		        <input class="easyui-validatebox" type="password" name="passWord" id="passWord" data-options="required:true" />   
+		        <input class="easyui-validatebox" type="password" name="userPassWord" id="userPassWord" data-options="required:true" />   
 		    </div>   
 		    <div>   
 		        <label for="newPassWord">新密码:</label>   

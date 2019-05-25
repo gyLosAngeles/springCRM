@@ -3,7 +3,6 @@ package com.ysd.service.zmf;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ysd.entity.UserTab;
 import com.ysd.entity.zmf.LoginReponse;
 
 public interface LoginServise {
@@ -18,20 +17,12 @@ public interface LoginServise {
 	
 	
 	
-
-	/**
-	 * 		根据id查询用户是否存在
-	 * @param userTab
-	 * @return
-	 */
-	UserTab	selectUserUserTab(Integer userId);
-	
 	/**
 	 *    	修改密码
 	 * @param userTab
 	 * @return
 	 */
-	Integer updateUserMima(UserTab userTab);
+	Integer updateUserMima(String pwd,String newpwd,String userName);
 	
 	
 }

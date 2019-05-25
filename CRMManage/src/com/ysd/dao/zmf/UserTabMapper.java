@@ -53,12 +53,14 @@ public interface UserTabMapper {
 	UserTab selectUserByuserId(Integer id);
 	
 	
+	
+	
 	/**
-	 * 		根据id查询用户是否存在
+	 * 		根据姓名查询用户账号密码
 	 * @param userTab
 	 * @return
 	 */
-	UserTab	selectUserUserTab(Integer userId);
+	UserTab	selectUserUserTab(String userName);
 	
 	/**
 	 *    	修改密码

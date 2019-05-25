@@ -18,6 +18,6 @@ public class ConservatorServiseImpl implements ConservatorServise {
 	private TreeNode treeNode;
 	
 	public List<ModuleTree> selectModuleByRoleId(Integer userId) {
-		return treeNode.parseTree(moduleMapper.selectModuleByUserId(userId));
+		return treeNode.parseTree_2(moduleMapper.selectModuleByUserId(userId));
 	}
 }

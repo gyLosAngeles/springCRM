@@ -112,27 +112,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </select>
 	 <!--修改密码- -->
 	 
-	 <select id="selectUserUserTab" parameterType="Integer"  resultType="com.ysd.entity.UserTab">
+	 <select id="selectUserUserTab" parameterType="String"  resultType="com.ysd.entity.UserTab">
 	 			select   userId,userName,userPassWord from usertab
 	 			<where>
-	 					userId=#{userId}
+	 					userName=#{0}
 
 	 			</where>
 	 			
 	 </select>
 	 
-	 <update id="UserTab"  parameterType="com.ysd.entity.UserTab" >
+	 <update id="updateUserMima"  parameterType="com.ysd.entity.UserTab" >
+		 update usertab 
 				<set>
-						<if test="userName !=null and userName !=''">
-	 							userName=#{userName}
-	 					</if>
 	 					<if test="userPassWord !=null and userPassWord !=''">
 	 							userPassWord=#{userPassWord}
 	 					</if>
 				</set>	 
-				<where>
-						userId=#{userId}
-				</where>
+				 
+				where	userName=#{userName}
+				 
 	 </update>
 	 
 	 <!-- 查询角色编号 -->

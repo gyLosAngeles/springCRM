@@ -86,18 +86,20 @@ public class LoginServiseImpl implements LoginServise {
 		return loginReponse;
 	}
 
-	/**
-	 * 	查询用户
-	 */
-	public UserTab selectUserUserTab(Integer userId) {
-		return userTabMapper.selectUserUserTab(userId);
-	}
 
 	/**
 	 * 修改密码
 	 */
-	public Integer updateUserMima(UserTab userTab) {
-		return userTabMapper.updateUserMima(userTab);
+	public Integer updateUserMima(String pwd,String newpwd,String userName) {
+		UserTab selectUserUserTab = userTabMapper.selectUserUserTab(userName);
+		System.out.println(selectUserUserTab.getUserPassWord());
+		if(selectUserUserTab !=null && (md5.MD5jia(pwd)).equals(selectUserUserTab.getUserPassWord())) {
+			UserTab userTab = new UserTab();
+			userTab.setUserName(userName);
+			userTab.setUserPassWord(md5.MD5jia(newpwd));
+			return userTabMapper.updateUserMima(userTab);
+		}
+		return 0;
 	}
 
 	
