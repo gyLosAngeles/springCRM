@@ -86,13 +86,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and Phone like "%"#{consultantStuCondition.Phone}"%"
 			</if>
 			<if test="consultantStuCondition.IsPay !=null and consultantStuCondition.IsPay !='' ">
-				and IsPay like "%"#{consultantStuCondition.IsPay}"%"
+				and IsPay  =#{consultantStuCondition.IsPay}
 			</if>
 			<if test="consultantStuCondition.QQ !=null and consultantStuCondition.QQ !='' ">
 				and QQ like "%"#{consultantStuCondition.QQ}"%"
 			</if>
 			<if test="consultantStuCondition.IsReturnVist !=null and consultantStuCondition.IsReturnVist !='' ">
-				and IsReturnVist like "%"#{consultantStuCondition.IsReturnVist}"%"
+				and IsReturnVist =#{consultantStuCondition.IsReturnVist}
 			</if>
 			<!-- 时间条件 -->
 			<if test="consultantStuCondition.minHomeTime !=null and consultantStuCondition.minHomeTime !='' ">
@@ -126,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and CreateTime &lt;= #{consultantStuCondition.maxCreateTime}
 			</if>
 			<if test="consultantStuCondition.IsValid !=null and consultantStuCondition.IsValid !='' ">
-				and IsValid like "%"#{consultantStuCondition.IsValid}"%"
+				and IsValid =#{consultantStuCondition.IsValid}
 			</if>
 			<if test="consultantStuCondition.AskerId !=null and consultantStuCondition.AskerId !='' ">
 				and s.AskerId=#{consultantStuCondition.AskerId}
@@ -147,13 +147,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and Phone like "%"#{consultantStuCondition.Phone}"%"
 			</if>
 			<if test="consultantStuCondition.IsPay !=null and consultantStuCondition.IsPay !='' ">
-				and IsPay like "%"#{consultantStuCondition.IsPay}"%"
+				and IsPay  =#{consultantStuCondition.IsPay}
 			</if>
 			<if test="consultantStuCondition.QQ !=null and consultantStuCondition.QQ !='' ">
 				and QQ like "%"#{consultantStuCondition.QQ}"%"
 			</if>
 			<if test="consultantStuCondition.IsReturnVist !=null and consultantStuCondition.IsReturnVist !='' ">
-				and IsReturnVist like "%"#{consultantStuCondition.IsReturnVist}"%"
+				and IsReturnVist =#{consultantStuCondition.IsReturnVist}
 			</if>
 			<!-- 时间条件 -->
 			<if test="consultantStuCondition.minHomeTime !=null and consultantStuCondition.minHomeTime !='' ">
@@ -187,9 +187,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and CreateTime &lt;= #{consultantStuCondition.maxCreateTime}
 			</if>
 			<if test="consultantStuCondition.IsValid !=null and consultantStuCondition.IsValid !='' ">
-				and IsValid like "%"#{consultantStuCondition.IsValid}"%"
+				and IsValid =#{consultantStuCondition.IsValid}
 			</if>
-			and s.AskerId=a.askerId
+			<if test="consultantStuCondition.AskerId !=null and consultantStuCondition.AskerId !='' ">
+				and s.AskerId=#{consultantStuCondition.AskerId}
+			</if>
 		</where>
 		</select>
 		<update id="UpdateStu" parameterType="com.ysd.entity.hpy.CustomerStudents">

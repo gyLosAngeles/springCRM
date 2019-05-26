@@ -81,8 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" Phone !=null and Phone !=''">
 			and	s.Phone =#{Phone}
 			</if>
-			<if test=" askers.askerName !=null and askers.askerName !=''">
-			and	a.askerName like "%"#{askers.askerName}"%"
+			<if test=" ziXunName !=null and ziXunName !=''">
+			and	s.ziXunName like "%"#{ziXunName}"%"
 			</if>
 			<if test=" IsPay !=null and IsPay !=''">
 			and	s.IsPay=#{IsPay}
@@ -116,8 +116,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" Phone !=null and Phone !=''">
 			and	s.Phone =#{Phone}
 			</if>
-			<if test=" askers.askerName !=null and askers.askerName !=''">
-			and	a.askerName like "%"#{askers.askerName}"%"
+			<if test=" ziXunName !=null and ziXunName !=''">
+			and	s.ziXunName like "%"#{ziXunName}"%"
 			</if>
 			<if test=" IsPay !=null and IsPay !=''">
 			and	s.IsPay=#{IsPay}
@@ -158,8 +158,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" Phone !=null and Phone !=''">
 			and	 Phone =#{Phone}
 			</if>
-			<if test=" askers.askerName !=null and askers.askerName !=''">
-			and	 askerName like "%"#{askers.askerName}"%"
+			<if test=" ziXunName !=null and ziXunName !=''">
+			and	 ziXunName like "%"#{ziXunName}"%"
 			</if>
 			<if test=" IsPay !=null and IsPay !=''">
 			and	 IsPay=#{IsPay}
@@ -197,8 +197,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test=" Phone !=null and Phone !=''">
 			and	 Phone =#{Phone}
 			</if>
-			<if test=" askers.askerName !=null and askers.askerName !=''">
-			and	 askerName like "%"#{askers.askerName}"%"
+			<if test=" ziXunName !=null and ziXunName !=''">
+				and	ziXunName like "%"#{ziXunName}"%"
 			</if>
 			<if test=" IsPay !=null and IsPay !=''">
 			and	 IsPay=#{IsPay}

@@ -124,8 +124,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 开启自动分配 -->
-	<update id="udpateDirectorControllerChecks" parameterType="com.ysd.entity.Askers">
-		update askers set ChangeState = #{ChangeState} where askerName=#{askerName}
+	<update id="udpateDirectorControllerChecks" parameterType="int">
+		update askers set ChangeState = #{ChangeState} where roleName=1
 	</update>
 	
 	<!-- 员工签到状态 -->
