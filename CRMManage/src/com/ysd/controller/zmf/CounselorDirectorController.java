@@ -56,4 +56,10 @@ public class CounselorDirectorController {//×ÉÑ¯Ê¦¾­Àí
 	public int updateAskers(Students students,@RequestParam("ids[]") int[] ids){
 		return studentsService.updateAskers(students, ids);	
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="directorUpdateAskersChangeState",method=RequestMethod.POST)
+	public int updateAskers(int changeState){
+		return directorService.updateAskerChangeStateByRoleName(changeState);
+	}
 }

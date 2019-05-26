@@ -42,7 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and userIsLockout = #{userCondition.userIsLockout}
 			</if>
 		</where>
+		<if test="userCondition.orderBy != null and userCondition.orderBy != ''">
+				ORDER BY ${userCondition.orderBy}  desc
+		</if>
 		limit #{page},#{rows}
+		
 	</select>
 	<select id="selectUserCountByTiaoJian" resultType="int" parameterType="com.ysd.entity.Fenye">
 		select count(userId) from usertab  
@@ -79,14 +83,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		<if test="userEmail != null or userUpdateTime != '' or userTelephone != null or userTelephone != ''">
 	 			userUpdateTime = NOW(),
 	 		</if>
-	 		<if test="userLastLoginTime != null and userLastLoginTime != ''">
-	 			userLastLoginTime = #{userLastLoginTime},
-	 		</if>
 	 		<if test="userPassWrongCout != null and userPassWrongCout != ''">
 	 			userPassWrongCout = #{userPassWrongCout},
 	 		</if>
 	 		<if test="userLockoutTime != null and userLockoutTime != ''">
-	 			userLockoutTime = #{userLockoutTime},
+	 			userLockoutTime = NOW(),
+	 		</if>
+	 		<if test="userLastLoginTime != null and userLastLoginTime != ''">
+	 			userLastLoginTime = NOW(),
 	 		</if>
 	 		<if test="userLastLoginIp != null and userLastLoginIp != ''">
 	 			userLastLoginIp = #{userLastLoginIp},
@@ -108,27 +112,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </select>
 	 <!--修改密码- -->
 	 
-	 <select id="selectUserUserTab" parameterType="Integer"  resultType="com.ysd.entity.UserTab">
+	 <select id="selectUserUserTab" parameterType="String"  resultType="com.ysd.entity.UserTab">
 	 			select   userId,userName,userPassWord from usertab
 	 			<where>
-	 					userId=#{userId}
+	 					userName=#{0}
 
 	 			</where>
 	 			
 	 </select>
 	 
-	 <update id="UserTab"  parameterType="com.ysd.entity.UserTab" >
+	 <update id="updateUserMima"  parameterType="com.ysd.entity.UserTab" >
+		 update usertab 
 				<set>
-						<if test="userName !=null and userName !=''">
-	 							userName=#{userName}
-	 					</if>
 	 					<if test="userPassWord !=null and userPassWord !=''">
 	 							userPassWord=#{userPassWord}
 	 					</if>
 				</set>	 
-				<where>
-						userId=#{userId}
-				</where>
+				 
+				where	userName=#{userName}
+				 
 	 </update>
 	 
 	 <!-- 查询角色编号 -->

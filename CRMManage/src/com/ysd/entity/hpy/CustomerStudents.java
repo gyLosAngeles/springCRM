@@ -24,7 +24,7 @@ public class CustomerStudents {
 			private String	Content;
 			private String	CreateTime;
 			private String	LearnForward;
-			private Integer	IsValid;
+			private String	IsValid;
 			private String	Record;
 			private String	IsReturnVist;
 			private String	FirstVisitTime;
@@ -172,10 +172,11 @@ public class CustomerStudents {
 			public void setLearnForward(String learnForward) {
 				LearnForward = learnForward;
 			}
-			public Integer getIsValid() {
+			
+			public String getIsValid() {
 				return IsValid;
 			}
-			public void setIsValid(Integer isValid) {
+			public void setIsValid(String isValid) {
 				IsValid = isValid;
 			}
 			public String getRecord() {

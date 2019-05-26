@@ -5,6 +5,14 @@ public class UserCondition {
 	private String userCreateTimeBigin;//起始时间
 	private String userCreateTimeEnd;//结束时间
 	private Integer userIsLockout;//是否锁定
+	private String orderBy;//排序
+	 
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
 	public String getUserName() {
 		return userName;
 	}

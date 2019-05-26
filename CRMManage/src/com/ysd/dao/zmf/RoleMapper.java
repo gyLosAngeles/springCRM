@@ -26,6 +26,12 @@ public interface RoleMapper {
 	 * @return
 	 */
 	int deleteRole(Integer roleId);
+	/**
+	 * 查询角色模块的数量根据角色的编号 
+	 * @param roleId
+	 * @return
+	 */
+	int selectRoleModuleCountByRoleId(Integer roleId);
 	 /**
 	  * 添加权限
 	  * @param roleModuleTab

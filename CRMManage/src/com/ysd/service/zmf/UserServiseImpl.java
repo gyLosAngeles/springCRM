@@ -14,6 +14,7 @@ import com.ysd.entity.Fenye;
 import com.ysd.entity.RoleTab;
 import com.ysd.entity.UserRoleTab;
 import com.ysd.entity.UserTab;
+import com.ysd.util.MD5;
 @Service
 public class UserServiseImpl implements UserServise {
 
@@ -27,6 +28,8 @@ public class UserServiseImpl implements UserServise {
 	private Askers  askers;
 	@Autowired
 	private DataGridData dataGridData;
+	@Autowired
+	private MD5 md5;
 	public DataGridData selectUserByTiaoJian(Fenye fenye) {
 		dataGridData.setRows(userTabMapper.selectUserByTiaoJian(fenye));
 		dataGridData.setTotal(userTabMapper.selectUserCountByTiaoJian(fenye));
@@ -34,7 +37,10 @@ public class UserServiseImpl implements UserServise {
 	}
 	public int insertUser(UserTab userTab) {
 		UserTab selectUserByuserName = userTabMapper.selectUserByuserName(userTab.getUserName());
+		
 		if(selectUserByuserName==null) {
+			String userPassWord = userTab.getUserPassWord();
+			userTab.setUserPassWord(userPassWord==null||"".equals(userPassWord)? md5.MD5jia("ysd123"):md5.MD5jia(userPassWord));
 			return  userTabMapper.insertUser(userTab);
 		}
 		return 0;

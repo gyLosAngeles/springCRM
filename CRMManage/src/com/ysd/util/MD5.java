@@ -1,23 +1,14 @@
 package com.ysd.util;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import sun.misc.BASE64Encoder;
+import org.springframework.stereotype.Component;
 
+import sun.misc.BASE64Encoder;
+@Component
 public class MD5 {
-public static void main(String[] args) {
-	String pass="ysd123";
-	System.out.println("原始："+pass);
-	System.out.println("加密1："+MD5jia(pass));
-	System.out.println("加密2："+MD5jia(pass));
-	System.out.println("加密3："+MD5jia(pass));
-	System.out.println("加密4："+MD5jia(pass));
-	System.out.println("解密："+MD5jie(MD5jie(pass)));
-	
-}
-public static String MD5jia(String inStr) {
+public  String MD5jia(String inStr) {
 	String pwd2="";
 	try {
 		MessageDigest md5=MessageDigest.getInstance("MD5");
@@ -34,7 +25,7 @@ public static String MD5jia(String inStr) {
 	
 	return pwd2;
 }
-public static String MD5jie(String inStr) {
+public String MD5jie(String inStr) {
 	char[] c=inStr.toCharArray();
 	for (int i = 0; i < c.length; i++) {
 		c[i]=(char) (c[i]^'t');

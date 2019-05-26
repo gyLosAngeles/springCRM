@@ -75,7 +75,7 @@ public interface UserChecksMapper {
 	 * @param askers
 	 * @return
 	 */
-	int udpateDirectorControllerChecks(Askers askers);
+	int udpateDirectorControllerChecks(int ChangeState);
 	/**
 	 * ÐÞ¸ÄÇ©µ½×´Ì¬
 	 * @param askers

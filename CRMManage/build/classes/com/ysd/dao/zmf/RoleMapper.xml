@@ -9,6 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <delete id="deleteRole" parameterType="int">
 	 	delete from roleTab where roleId = #{0}
 	 </delete>
+	 <select id="selectRoleModuleCountByRoleId" resultType="int" parameterType="int">
+	 	SELECT count(roleModuleId) FROM rolemoduletab where roleId = #{0}
+	 </select>
+	 
 	 <update id="updateRole" parameterType="com.ysd.entity.RoleTab">
 	 	update roleTab 
 	 		<set>

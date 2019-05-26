@@ -24,7 +24,9 @@ public class ModuleServiseImpl implements ModuleServise {
 		return moduleMapper.insertModule(moduleTab);
 	}
 	public int removeModule(ModuleTab moduleTab) {
-		return moduleMapper.deleteModule(moduleTab);
+		if(moduleMapper.selectRoleModuleCount(moduleTab.getModuleId())==0)
+			return moduleMapper.deleteModule(moduleTab);
+		return 0;
 	}
 	public int updateModule(ModuleTab moduleTab) {
 		return moduleMapper.updateModule(moduleTab);

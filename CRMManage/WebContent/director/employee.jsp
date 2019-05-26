@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8">
 <title>员工签到</title>
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="/CRMManage/js/easyui demo/css/icon.css" />
-<script type="text/javascript" src="/CRMManage/js/easyui demo/js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="/CRMManage/js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 $(function(){
 	init();

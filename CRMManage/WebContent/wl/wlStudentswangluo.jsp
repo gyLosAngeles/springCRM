@@ -7,13 +7,12 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/wu.css" />
-<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/icon.css" />
-<link rel="stylesheet" type="text/css" href="../css/huadong.css" />
-<script type="text/javascript" src="../js/easyui demo/js/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 var fieldArr=[];
 $(function() {
@@ -39,18 +38,33 @@ $(function() {
 		    valueField:'askerId',    
 		    textField:'askerName'   
 		});
-		document.getElementById("inner").onclick = function() {
-			if (this.className == "inner-on") {
-				this.style.left = -51 + "px";
-				this.childNodes[1].checked = false;
-				this.className = "inner-off";
-				alert("关")
-			}else{
-				this.style.left = 0;
-				this.childNodes[1].checked = true;
-				this.className = "inner-on";
+		
+		$('#automaticButton').switchbutton({
+			onChange: function(checked){
+				 $.ajax({
+	                   url : '../directorUpdateAskersChangeState',
+	                   dataType : 'json',
+	                   type : 'post',
+	                   data : {
+	                	   changeState : checked==true? 1:2
+	                   },
+	                   success : function(data) {
+	                     	if(data){
+	                     		alert("开启成功");
+	                     	}else{
+	                     		alert("开启失败");
+	                     	}
+	                   },
+	                   error : function(data) {
+	                	   $.messager.show({
+	                           title : '提示',
+	                           msg : '开启失败',
+	                       });
+	                   }
+	             }); 
 			}
-		}	
+		});
+		
 	}
 });
 function selects(numbers){
@@ -61,6 +75,48 @@ function selects(numbers){
 	    method:'post'
 	});
 }
+
+/* 格式化表格 */
+/* 是否有效 */
+function isValidf(value,row,index){
+	 var arr = $("#wlsdg").datagrid("getData");
+	if(arr.rows[index].isValid==1){
+		return "是";
+	}else if(arr.rows[index].isValid==2){
+		return "否";
+	}
+	else {
+		return "待定";
+	}
+}
+/*  是否回访*/
+function isReturnVistf(value,row,index){
+	 return value==1? '已回访':'未回访';
+	}
+/*  是否上门*/
+function isHomef(value,row,index){
+	 return value==1? '是':'否';
+	}
+/*  是否缴费*/
+function isPayf(value,row,index){
+	 return value==1? '已缴费':'未缴费';
+	}
+/*  是否退费*/
+function isReturnMoneyf(value,row,index){
+	 return value==1? '已退费':'未退费';
+	}
+/* 是否进班*/
+function isInClassf(value,row,index){
+	 return value==1? '已进班':'未进班';
+	}
+/* 是否删除 */
+function isDelf(value,row,index){
+	 return value==1? '是':'否';
+	}
+/* 是否报备 */
+function isBaoBeif(value,row,index){
+	 return value==1? '是':'否';
+	}
 function init(){
 	$("#wlsdg").datagrid({
 		url : "../wl/selectAllStudentsController",
@@ -70,7 +126,7 @@ function init(){
 		queryParams : {
 			Name : $("#Name1").val(),
 			Phone : $("#Phone1").val(),
-			askerName : $("#askerName1").val(),
+			ziXunName : $("#askerName1").val(),
 			QQ : $("#QQ1").val(),
 			minCreateTime : $("#minCreateTime1").datebox("getValue"),
 			maxCreateTime : $("#maxCreateTime2").datebox("getValue"),
@@ -88,6 +144,27 @@ function add(){
 	$("#add").dialog("open");
 }
  function addTijiao(){
+	 
+	 if($("#name1").val()=="" || $("#name1").val()==null && $("#sex1").val()=="" || $("#sex1").val()==null  && $("#phone1").val()=="" || $("#phone1").val()==null&& $("#age1").val()=="" || $("#age1").val()==null){
+		 return alert("！性别，名子，年龄，电话不能为空，请完善");
+	 }
+	 if($("#name1").val()=="" || $("#name1").val()==null){
+		 return alert("！名子不能为空，请完善");
+	 }
+	 if( $("#sex1").val()=="" ||  $("#sex1").val()==null){
+		 return alert("！性别不能为空，请完善");
+	 }
+	  if( $("#age1").val()=="" ||$("#age1").val()==null ){
+		 return alert("！年龄不能为空，请完善");
+	 }
+	 if( $("#phone1").val()=="" || $("#phone1").val()==null){
+		 return alert("！电话不能为空，请完善");
+	 } 
+	 if(!(/^1[3|5|8][0-9]\d{4,8}$/.test($('#phone1').val())))
+	 {
+	 alert('手机号码格式不对');
+	 return false;
+	 }
 	 $.ajax({
 			url:"../wl/insertCountStudents",
 			type:"post",
@@ -105,7 +182,9 @@ function add(){
 			}
 		}) 
 }
- 
+ function addQuexiao(){
+	 $("#add").dialog("close");
+ }
  /*  删除*/
  function Shanchu(){
 	   var selRow = $("#wlsdg").datagrid('getSelections');
@@ -154,9 +233,45 @@ function add(){
            }
        });
  }
-function formattercaozuo(value,row,index){
-	return "<a href='javascript:void(0)' class='easyui-linkbutton'  onclick='ChaKan("+index+")'>查看</a>||<a href='javascript:void(0)'  class='easyui-linkbutton' onclick='Updatestudents("+index+")'>编辑</a>";
-}
+ function formattercaozuo(value,row,index){
+		return "<a href='javascript:void(0)' class='easyui-linkbutton'  onclick='ChaKan("+index+")'>查看</a>||<a href='javascript:void(0)'  class='easyui-linkbutton' onclick='Updatestudents("+index+")'>编辑</a>||<a href='javascript:void(0)'  class='easyui-linkbutton' onclick='Tuisong("+index+")'>动态推送</a>";
+	}
+ function Tuisong(index){
+		var arr = $("#wlsdg").datagrid("getData");
+		$("#sname").html(arr.rows[index].name)
+		$("#pushfrms").form("load",arr.rows[index].ziXunName);
+		console.log(arr.rows[index].ziXunName);
+		$("#selectidss").html(arr.rows[index].ziXunName);
+		$("#push").dialog("open");
+	}
+
+	function pushTijiao(){
+		/* alert(JSON.stringify($("#pushfrms").serializeArray()));  */
+		 
+		 $.ajax({
+			url:"../wl/addPush",
+			type:"post",
+			dataType:"json",
+			data:{
+				studentid:$("#ids").val(),
+				studentname:$("#names").val(),
+				zxname:$("#selectidss").html(),
+				context:$("#textareas").val(),
+				isreader:$("#bss").val()
+			},
+			success:function(res){
+				if(res>0){
+					$.messager.alert('提示','推送成功');
+					$("#push").dialog("close");
+					$("#pushfrm").form("clear");
+				}
+				else{
+					$.messager.alert('警告','推送失败');
+				}
+			}
+		})  
+	}
+ 
 /* 查看 */
 function ChaKan(index){
 	var arr = $("#wlsdg").datagrid("getData");
@@ -293,21 +408,21 @@ function batchOperation() {
 	 是否缴费：
 	<select id="IsPay1" class="easyui-combobox">
 		<option value="">---请选择---</option>
-		<option value="是">是</option>
-		<option value="否">否</option>
+		<option value="1">是</option>
+		<option value="2">否</option>
 	</select> 是否有效：
 	<select id="IsValid1" class="easyui-combobox">
 		<option value="">---请选择---</option>
-		<option value="是">是</option>
-		<option value="否">否</option>
+		<option value="1">是</option>
+		<option value="2">否</option>
 	</select> 是否回访：
 	<select id="IsReturnVist1" class="easyui-combobox">
 		<option value="">---请选择---</option>
-		<option value="是">是</option>
-		<option value="否">否</option>
+		<option value="1">是</option>
+		<option value="2">否</option>
 	</select>
 	<a href="#" class="easyui-linkbutton"
-		data-options="iconCls:'icon-search'" onclick="into()">搜索</a>
+		data-options="iconCls:'icon-search'" onclick="init()">搜索</a>
 	<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'"
 		onclick="add()">添加</a>
 	<a href="javascript:void(0);" id="btnExport" class="easyui-linkbutton" iconCls='icon-print'>导出Excel</a>
@@ -315,12 +430,7 @@ function batchOperation() {
 	<c:if test="${role == 1}">
 		<a href="javascript:void(0);" class="easyui-linkbutton" onclick="Shanchu()">删除</a>
 		<a href="javascript:void(0);" class="easyui-linkbutton" onclick="$('#updatezixun').window('open')">批量操作</a>
-		<div class="slide-btn">
-		<div class="inner-on" id="inner">
-			<input style="display:none;" type="checkbox" checked>
-			<span class="left">ON</span><span class="space">&nbsp;</span><span class="right">OFF</span>
-		</div>
-	</div>
+		<input class="easyui-switchbutton" data-options="onText:'开',offText:'关'" id="automaticButton">
 	</c:if>
 	</div>
 	<table id="wlsdg" data-options="checkbox:true ">
@@ -362,10 +472,9 @@ function batchOperation() {
 				<th name="jingli" data-options="field:'askerContent',hidden:true">咨询师备注</th>
 				<th name="jingli" data-options="field:'isDel',hidden:true">是否删除</th>
 				<th data-options="field:'fromPart'">来源渠道</th>
-				<th name="jingli" data-options="field:'ziXunName',hidden:true">咨询师名称</th>
+				<th  data-options="field:'ziXunName'">咨询师名称</th>
 				<th data-options="field:'stuConcern'">学员关注</th>
 				<th data-options="field:'isBaoBei'">是否报备</th>
-				<th name="jingli" data-options="field:'askerName',hidden:true,formatter:function(value,row,index){return row.askers.askerName}">咨询师</th>
 				<th data-options="field:'createUser'">录入人</th>
 				<th name="jingli" data-options="field:'returnMoneyReason',hidden:true">退费原因</th>
 				<th name="jingli" data-options="field:'preMoney',hidden:true">定金金额</th>
@@ -385,166 +494,119 @@ function batchOperation() {
         </select>
         <a href="javascript:void(0);" class="easyui-linkbutton" onclick="batchOperation()">提交</a>
 </div>
+<!-- 动态推送  -->
+<div id="push" class="easyui-dialog" title="推送" style="width:500px;text-align:center;"   data-options="resizable:true,modal:true,closed:true">
+<form id="pushfrms">
+	<table>
+		<tr>
+			<td>学生姓名：</td>
+			<td><input type="hidden"   name="id"  id="ids"  />
+				<input type="hidden"   name="bs"  id="bss" value="0"  />
+				<div id="sname"></div>
+				<input type="hidden"   name="name" id="names"/></td>
+			<td>推送的咨询师姓名：</td>
+			<td>
+			<div id="selectidss"></div>
+		</tr>
+		<tr>
+			<td>推送内容：</td>
+			<td colspan="3" rowspan="1">
+			<textarea name="sdfgh" id="textareas" style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="输入推送内容"></textarea>
+			</td>
+		</tr>
+	</table>
+</form>
+<div style="text-align:center;padding:5px">
+   <a href="javascript:void(0)" class="easyui-linkbutton"   onclick="pushTijiao()">立即推送</a> 
+   </div> 
+</div>
+
 <!-- 添加弹出框 -->
-	<div id="add" class="easyui-dialog" title="添加" style="width:400px;"  data-options="resizable:true,modal:true,closed:true">   
+	<div id="add" class="easyui-dialog" title="添加" style="width:500px;text-align:center;"   data-options="resizable:true,modal:true,closed:true">   
    <form id="addfrm">
-   <table >
-  			<tr>
+  <table >
+  <tr>
 				<td><label> 姓名</label></td>
-				<td><input class="easyui-textbox" name="name"  ></td>
-			</tr>
-			<tr>
+				<td><input class="easyui-textbox" name="name" id="name1" data-options="required:true,prompt:'姓名'" ></td>
 				<td><label>性别</label></td>
-				<td><input class="easyui-textbox" name="sex"  ></td>
+				<td><input class="easyui-textbox" name="sex" id="sex1"></td>
 			</tr>
 			<tr>
 				<td><label>年龄</label></td>
-				<td><input class="easyui-textbox" name="age"  ></td>
-			</tr>
-			<tr>
+				<td><input class="easyui-textbox" name="age" id="age1"></td>
 				<td><label>电话</label></td>
-				<td><input class="easyui-textbox" name="phone" ></td>
+				<td><input class="easyui-textbox" name="phone" id="phone1" ></td>
 			</tr>
-			<tr>
-	    		<td>录入人  :</td>
-	    		<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" value="${user.userName}" ></input></td>
-	    	</tr>
-			<tr>
+		<tr>
 				<td><label>学历</label></td>
-				<td><!-- <input class="easyui-textbox" name="stuStatus"  > -->
-				<select id="educa_tion" name="education">
-				<option>未知</option>
-				<option>大专</option>
-				<option>高中</option>
-				<option>中专</option>
-				<option>初中</option>
-				<option>本科</option>
-				<option>其它</option>
+				<td><select id="educa_tion" class="easyui-combobox" name="education">
+				<option value="">---请选择---</option>
+				<option value="未知">未知</option>
+				<option value="大专">大专</option>
+				<option value="高中">高中</option>
+				<option value="中专">中专</option>
+				<option value="初中">初中</option>
+				<option value="本科">本科</option>
+				<option value="其它">其它</option>
 				</select>
 				</td>
-			</tr>
-			<tr>
-				<td><label>状态</label></td>
-				<td>
-				<!-- <input class="easyui-textbox" name="phone" > -->
-				<select id="stu_Status" name="stuStatus">
-				<option>未知</option>
-				<option>待业</option>
-				<option>在职</option>
-				<option>在读</option>
-				</select>
-				</td>
+				<td>录入人  :</td>
+	    		<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" value="${user.userName}" ></input></td>
+				
 			</tr>
 			<tr>
 				<td><label>来源渠道</label></td>
-				<td><!-- <input class="easyui-textbox" name="fromPart" > -->
-				<select id="from_Part" name="fromPart">
-				<option>未知</option>
-				<option>百度</option>
-				<option>百度移动端</option>
-				<option>360</option>
-				<option>360移动端</option>
-				<option>搜狗</option>
-				<option>搜狗移动端</option>
-				<option> UC移动端</option>
-				<option>直接输入</option>
-				<option>自然流量</option>
-				<option>直电</option>
-				<option>微信</option>
-				<option>QQ</option>
-				<option>其它</option>
+				<td><input class="easyui-textbox" name="fromPart" >
+				<select id="from_Part" class="easyui-combobox" name="fromPart">
+				<option value="">---请选择---</option>
+				<option value="未知" >未知</option>
+				<option value="百度" >百度</option>
+				<option value="百度移动端" >百度移动端</option>
+				<option value="360" >360</option>
+				<option value="360移动端" >360移动端</option>
+				<option value="搜狗" >搜狗</option>
+				<option value="搜狗移动端" >搜狗移动端</option>
+				<option value="UC移动端" > UC移动端</option>
+				<option value="直接输入" >直接输入</option>
+				<option value="自然流量" >自然流量</option>
+				<option value="直电" >直电</option>
+				<option value="微信" >微信</option>
+				<option value="QQ" >QQ</option>
+				<option value="其它" >其它</option>
 				</select>
 				</td>
-			</tr>
-			<tr>
 				<td><label>来源网站</label></td>
 				<td>
-				<!-- <input class="easyui-textbox" name="sourceUrl" > -->
-				<select id="source_Url" name="sourceUrl">
-				<option>其它</option>
-				<option>职英B站</option>
-				<option>高考站</option>
-				<option>职英A站</option>
-				<option>其它</option>
+				<input class="easyui-textbox" name="sourceUrl" >
+				<select id="source_Url" class="easyui-combobox" name="sourceUrl">
+				<option value="">---请选择---</option>
+				<option value="其它" >其它</option>
+				<option value="职英B站" >职英B站</option>
+				<option value="高考站" >高考站</option>
+				<option value="职英A站" >职英A站</option>
+				<option value="其它" >其它</option>
 				</select>
 				</td>
 			</tr>
-
 			<tr>
 				<td><label>来源关键词</label></td>
 				<td><input class="easyui-textbox" name="sourceKeyWord" ></td>
-			</tr>
-			<tr>
 				<td><label>学员QQ</label></td>
 				<td><input class="easyui-textbox" name="qq" ></td>
 			</tr>
 			<tr>
 				<td><label>微信号</label></td>
 				<td><input class="easyui-textbox" name="weiXin" ></td>
-			</tr>
-			<tr>
 				<td><label>是否报备</label></td>
 				<td><input class="easyui-textbox" name="isBaoBei" ></td>
 			</tr>
 			<tr>
 				<td><label>在线备注</label></td>
 				<td><input class="easyui-textbox" name="inClassContent" ></td>
-			</tr>
-			 </table>
-   </form> 
-   <div style="text-align:center;padding:5px">
-   <a href="javascript:void(0)" class="easyui-linkbutton"   onclick="addTijiao()">提交</a> 
-   <a href="javascript:void(0)" class="easyui-linkbutton"  >取消</a>   
-   </div>  
-</div>  
-<!-- 查看弹出框 -->
-<div id="ChaKan" class="easyui-dialog" title="查看" style="width:400px;height:500px;"   data-options="resizable:true,modal:true,closed:true">
-<form id="ChaKanfrm">
-	    	<table >
-	    		<tr>
-	    			<td>Name:</td>
-	    			<td><input class="easyui-textbox"  name="name" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>年龄:</td>
-	    			<td><input class="easyui-textbox" type="text" name="age" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>性别:</td>
-	    			<td><input class="easyui-textbox" type="text" name="sex" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>电话:</td>
-	    			<td><input class="easyui-textbox" name="phone" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<!-- <tr>
-	    			<td>学历:</td>
-	    			<td><input class="easyui-textbox" name="education" data-options="multiline:true" ></input></td>
-	    		</tr> -->
-	    		<tr>
-				<td><label>学历</label></td>
-				<td><!-- <input class="easyui-textbox" name="stuStatus"  > -->
-				<select id="educa_tion" name="education">
-				<option value="未知">未知</option>
-				<option value="大专">大专</option>
-				<option value="高中">高中</option>
-				<option value="中专">中专</option>
-				<option value="初中">初中</option>
-				<option value="本科">本科</option>
-				<option alue="其它">其它</option>
-				</select>
-				</td>
-			</tr>
-	    		
-	    		<!-- <tr>
-	    			<td>状态:</td>
-	    			<td><input class="easyui-textbox" name="stuStatus" data-options="multiline:true" ></input></td>
-	    		</tr> -->
-	    		<tr>
 				<td><label>状态</label></td>
 				<td>
-				<!-- <input class="easyui-textbox" name="phone" > -->
-				<select id="stu_Status" name="stuStatus">
+				<select id="stu_Status" class="easyui-combobox" name="stuStatus">
+				<option value="">---请选择---</option>
 				<option value="未知">未知</option>
 				<option value="待业">待业</option>
 				<option value="在职">在职</option>
@@ -552,304 +614,244 @@ function batchOperation() {
 				</select>
 				</td>
 			</tr>
-	    		
-	    		<!-- <tr>
-	    			<td>来源渠道:</td>
-	    			<td><input class="easyui-textbox" name="fromPart" data-options="multiline:true" ></input></td>
-	    		</tr> -->
+			 </table> 
+   </form> 
+   <div style="text-align:center;padding:5px">
+   <a href="javascript:void(0)" class="easyui-linkbutton"   onclick="addTijiao()">提交</a> 
+   <a href="javascript:void(0)" class="easyui-linkbutton"   onclick="addQuexiao()">取消</a>   
+   </div>  
+</div>   
+<!-- 查看弹出框 -->
+
+<div id="ChaKan" class="easyui-dialog" title="查看" style="width:500px;height:500px;text-align:center;"   data-options="resizable:true,modal:true,closed:true">
+<form id="ChaKanfrm">
+	    	<table  >
+	    	<tr style="border:0;border-bottom:1 solid black;background:;" >
+	    			<td style="background: gray;">在线录入:</td>
+	    		</tr>
+	    		<tr style="border:0;border-bottom:1 solid black;background:;">
+	    			<td>Name:</td>
+	    			<td><input class="easyui-textbox"  name="name" data-options="required:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;" ></input></td>
+	    			<td>年龄:</td>
+	    			<td><input class="easyui-textbox" type="text" name="age" data-options="required:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
+	    		</tr>
 	    		<tr>
-				<td><label>来源渠道</label></td>
-				<td><!-- <input class="easyui-textbox" name="fromPart" > -->
-				<select id="from_Part" name="fromPart">
-				<option value="未知">未知</option>
-				<option value="百度">百度</option>
-				<option value="百度移动端">百度移动端</option>
-				<option value="360">360</option>
-				<option value="360移动端">360移动端</option>
-				<option value="搜狗">搜狗</option>
-				<option value="搜狗移动端">搜狗移动端</option>
-				<option value="UC移动端"> UC移动端</option>
-				<option value="直接输入">直接输入</option>
-				<option value="自然流量">自然流量</option>
-				<option value="直电">直电</option>
-				<option value="微信">微信</option>
-				<option value="QQ">QQ</option>
-				<option value="其它">其它</option>
-				</select>
+	    			<td>性别:</td>
+	    			<td><input class="easyui-textbox" type="text" name="sex" data-options="required:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
+	    			<td>电话:</td>
+	    			<td><input class="easyui-textbox" name="phone" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
+	    		</tr>
+	    		<tr>
+				<td><label>学历:</label></td>
+				<td> <input class="easyui-textbox" name="education" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;" >
+				</td>
+				<td><label>状态:</label></td>
+				<td><input class="easyui-textbox" name="stuStatus" disabled="disabled"  style="border:0;border-bottom:1 solid black;background:;">
 				</td>
 			</tr>
-	    		
-	    		<!-- <tr>
-	    			<td>来源网站:</td>
-	    			<td><input class="easyui-textbox" name="sourceUrl" data-options="multiline:true" ></input></td>
-	    		</tr> -->
 	    		<tr>
-				<td><label>来源网站</label></td>
+				<td><label>来源渠道:</label></td>
+				<td> <input class="easyui-textbox" name="fromPart" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;">
+				</td>
+				<td><label>来源网站:</label></td>
 				<td>
-				<!-- <input class="easyui-textbox" name="sourceUrl" > -->
-				<select id="source_Url" name="sourceUrl">
-				<option value="其它">其它</option>
-				<option value="职英B站">职英B站</option>
-				<option value="高考站">高考站</option>
-				<option value="职英A站">职英A站</option>
-				<option value="其它">其它</option>
-				</select>
+				<input class="easyui-textbox" name="sourceUrl" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;">
 				</td>
 			</tr>
 	    		
 	    		<tr>
 	    			<td>来源关键词:</td>
-	    			<td><input class="easyui-textbox" name="sourceKeyWord" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td><input class="easyui-textbox" name="sourceKeyWord" disabled="disabled" data-options="multiline:true" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    			<td>所在区域:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="location" data-options="multiline:true" ></input> -->
-	    			<select id="loca_tion" name="location">
-				<option value="未知">未知</option>
-				<option value="其它">其它</option>
-				<option value="郑州">郑州</option>
-				<option value="开封">开封</option>
-				<option value="洛阳">洛阳</option>
-				<option value="南阳">南阳</option>
-				<option value="漯河">漯河</option>
-				<option value="三门峡"> 三门峡</option>
-				<option value="平顶山">平顶山</option>
-				<option value="周口">周口</option>
-				<option value="驻马店">驻马店</option>
-				<option value="新乡">新乡</option>
-				<option value="鹤壁">鹤壁</option>
-				<option value="焦作">焦作</option>
-				<option value="濮阳">濮阳</option>
-				<option value="安阳">安阳</option>
-				<option value="商丘">商丘</option>
-				<option value="信阳">信阳</option>
-				<option value="济源">济源</option>
-				</select>
+	    			 <input class="easyui-textbox" name="location" disabled="disabled" data-options="multiline:true" style="border:0;border-bottom:1 solid black;background:;"></input>
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>学员关注:</td>
-	    			<td><!-- <input class="easyui-textbox" name="stuConcern" data-options="multiline:true" ></input> -->
-	    			<select id="stu_Concern" name="stuConcern">
-				<option value="课程">课程</option>
-				<option value="学费">学费</option>
-				<option value="学时">学时</option>
-				<option value="学历">学历</option>
-				<option value="师资">师资</option>
-				<option value="就业">就业</option>
-				<option value="环境">环境</option>
-				<option value="其它">其它</option>
-				</select>
+	    			<td>
+	    			<input class="easyui-textbox" name="stuConcern" disabled="disabled" data-options="multiline:true" style="border:0;border-bottom:1 solid black;background:;"></input>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>来源部门:</td>
-	    			<td><!-- <input class="easyui-textbox" name="msgSource" data-options="multiline:true" ></input> -->
-	    			<select id="msg_Source" name="msgSource">
-				<option value="网络">网络</option>
-				<option value="市场">市场</option>
-				<option value="教质">教质</option>
-				<option value="学术">学术</option>
-				<option value="就业">就业</option>
-				</select>
+	    			<td>
+	    			<input class="easyui-textbox" name="msgSource" disabled="disabled" data-options="multiline:true" style="border:0;border-bottom:1 solid black;background:;"></input> 
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>学员QQ:</td>
-	    			<td><input class="easyui-textbox" name="qq" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td><input class="easyui-textbox" name="qq" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    			<td>微信号:</td>
-	    			<td><input class="easyui-textbox" name="weiXin" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" name="weiXin" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否报备:</td>
-	    			<td><!-- <input class="easyui-textbox" name="isBaoBei" data-options="multiline:true" ></input> -->
-	    			<select id="is_BaoBei" name="isBaoBei">
+	    			<td>
+	    			<!--  <input class="easyui-textbox" name="isBaoBei" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input> -->
+	    			 <select id="is_BaoBei" class="easyui-combobox" name="isBaoBei" disabled="disabled">
 				<option value="1">是</option>
 				<option value="2">否</option>
-				</select>
+				</select> 
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>咨询师:</td>
-	    			<td><select id="selectid" class="easyui-combobox"  style="width:50px;"></select></td>
+	    			<td>
+	    			<input id="selectid" class="easyui-textbox" name="askerName" disabled="disabled" data-options="multiline:true" style="border:0;border-bottom:1 solid black;background:;"></input>
+	    			<!-- <select id="selectid" class="easyui-combobox"  style="width:50px;"></select></td> -->
 	    		</tr>
 	    		<tr>
 	    			<td>录入人  :</td>
-	    			<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    		</tr>
-	    		<tr>
-	    			<td>咨询师录入:</td>
-	    			<td></td>
+	    		<tr  style="background:green;">
+	    			<td >咨询师录入:</td>
 	    		</tr>
 	    		<tr>
 	    			<td>课程方向:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="learnForward" data-options="multiline:true" ></input> -->
-	    			<select id="learn_Forward" name="learnForward">
-				<option value="软件开发">软件开发</option>
-				<option value="软件设计">软件设计</option>
-				<option value="网络营销">网络营销</option>
-				</select>
+	    			 <input class="easyui-textbox" name="learnForward" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>打分:</td>
-	    			<td><!-- <input class="easyui-textbox" name="scoring" data-options="multiline:true" ></input> -->
-	    			<select id="s_coring" name="scoring">
-				<option value="A、近期可报名">A、近期可报名</option>
-				<option value="B、一个月内可报名">B、一个月内可报名</option>
-				<option value="C、长期跟踪">C、长期跟踪</option>
-				<option value="D、无效">D、无效</option>
-				</select>
+	    			<td>
+	    			<input class="easyui-textbox" name="scoring" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input>
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否有效:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="isValid" data-options="multiline:true" ></input> -->
-	    			<select id="is_Valid" name="isValid">
+	    			 <!-- <input class="easyui-textbox" name="isValid" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input> -->
+	    			<select id="is_Valid" class="easyui-combobox" name="isValid" disabled="disabled">
 						<option value="1">是</option>
 						<option value="2">否</option>
-						<option value="0">待定</option>
-					</select>
+						<option value="3">待定</option>
+					</select> 
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>无效原因:</td>
 	    			<td>
-	    			 <input class="easyui-textbox" name="lostValid" data-options="multiline:true" ></input> 
+	    			 <input class="easyui-textbox" name="lostValid" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input> 
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否回访:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="isReturnVist" data-options="multiline:true" ></input> -->
-	    			<select id="is_ReturnVist" name="isReturnVist">
+	    			<!--  <input class="easyui-textbox" name="isReturnVist" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input>  -->
+	    			 <select id="is_ReturnVist" class="easyui-combobox" name="isReturnVist" disabled="disabled">
 				<option value="1">已回访</option>
 				<option  value="2">未回访</option>
 				</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>首访时间:</td>
-	    			<td><input class="easyui-textbox" name="firstVisitTime" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" name="firstVisitTime" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
+				
 	    		</tr>
 	    		<tr>
+	    		<td>上门时间:</td>
+	    			<td><input class="easyui-textbox" name="homeTime" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    			<td>是否上门:</td>
-	    			<td><input class="easyui-textbox" name="isHome" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>上门时间:</td>
-	    			<td><input class="easyui-textbox" name="homeTime" data-options="multiline:true" ></input></td>
+	    			<td>
+	    			<!--  <input class="easyui-textbox" name="isHome" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input> -->
+	    			 <select id="is_Home" class="easyui-combobox" name="isHome" disabled="disabled">
+						<option value="1">是</option>
+						<option value="2">否</option>
+					</select>
+	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>定金金额:</td>
-	    			<td><input class="easyui-textbox" name="preMoney" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td><input class="easyui-textbox" name="preMoney" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    			<td>定金时间:</td>
-	    			<td><input class="easyui-textbox" name="preMoneyTime" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" name="preMoneyTime" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否缴费:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="isPay" data-options="multiline:true" ></input> -->
-	    			<select id="is_Pay" name="isPay">
-				<option>已缴费</option>
-				<option>未缴费</option>
-				</select>
+	    			 <!-- <input class="easyui-textbox" name="isPay" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input> -->
+	    			 <select id="is_Pay" class="easyui-combobox" name="isPay" disabled="disabled">
+				<option value="1">已缴费</option>
+				<option value="2">未缴费</option>
+				</select> 
+	    			</td>
+	    			<td>缴费时间:</td>
+	    			<td><input class="easyui-textbox" name="payTime" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
+	    		</tr>
+	    		<tr>
+	    		<td>缴费金额:</td>
+	    			<td><input class="easyui-textbox" name="money" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
+	    			<td>是否退费:</td>
+	    			<td>
+	    			<!--  <input class="easyui-textbox" name="isReturnMoney" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input>  -->
+	    			 <select id="is_ReturnMoney" class="easyui-combobox" name="isReturnMoney" disabled="disabled">
+						<option value="1">已退费</option>
+						<option value="2">未退费</option>
+					</select>
 	    			</td>
 	    		</tr>
 	    		<tr>
-	    			<td>缴费时间:</td>
-	    			<td><input class="easyui-textbox" name="payTime" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>缴费金额:</td>
-	    			<td><input class="easyui-textbox" name="money" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>是否退费:</td>
-	    			<td><input class="easyui-textbox" name="isReturnMoney" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
-	    			<td>退费原因:</td>
-	    			<td><input class="easyui-textbox" name="returnMoneyReason" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    		<td>退费原因:</td>
+	    			<td><input class="easyui-textbox" name="returnMoneyReason" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    			<td>是否进班:</td>
-	    			<td><input class="easyui-textbox" name="isInClass" data-options="multiline:true" ></input></td>
+	    			<td>
+	    			<!--  <input class="easyui-textbox" name="isInClass" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input> -->
+	    			 <select id="is_InClass" class="easyui-combobox" name="isInClass" disabled="disabled">
+						<option value="1">已进班</option>
+						<option value="2">未进班</option>
+					</select>
+	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>进班时间:</td>
-	    			<td><input class="easyui-textbox" name="inClassTime" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td><input class="easyui-textbox" name="inClassTime" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    			<td>进班备注:</td>
-	    			<td><input class="easyui-textbox" name="inClassContent" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" name="inClassContent" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>咨询师备注:</td>
-	    			<td><input class="easyui-textbox" name="askerContent" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" name="askerContent" data-options="multiline:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    		</tr>
 	    	</table>
 	    </form>
 </div>
 <!-- 编辑弹出框 -->
-<div id="update" class="easyui-dialog" title="编辑" style="width:400px;height:500px;"   data-options="resizable:true,modal:true,closed:true">
+<div id="update" class="easyui-dialog" title="编辑" style="width:700px;height:600px;text-align:center;"   data-options="resizable:true,modal:true,closed:true">
 <form id="updatefrm">
 	    	<table >
 	    		<tr>
 	    			<td>Name:</td>
 	    			<input type="hidden" name="id" />
 	    			<td><input class="easyui-textbox"  name="name" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
 	    			<td>年龄:</td>
 	    			<td><input class="easyui-textbox" type="text" name="age" data-options="required:true"></input></td>
-	    		</tr>
-	    		<tr>
 	    			<td>性别:</td>
 	    			<td><input class="easyui-textbox" type="text" name="sex" data-options="required:true"></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>电话:</td>
 	    			<td><input class="easyui-textbox" name="phone" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
-				<td><label>学历</label></td>
+	    			<td><label>学历</label></td>
 				<td><!-- <input class="easyui-textbox" name="stuStatus"  > -->
-				<select id="educa_tion" name="education">
+				<select id="educa_tion" class="easyui-combobox" name="education">
 				<option value="未知">未知</option>
 				<option value="大专">大专</option>
 				<option value="高中">高中</option>
 				<option value="中专">中专</option>
 				<option value="初中">初中</option>
 				<option value="本科">本科</option>
-				<option alue="其它">其它</option>
+				<option value="其它">其它</option>
 				</select>
 				</td>
-			</tr>
-	    		
-	    		<tr>
 				<td><label>状态</label></td>
 				<td>
-				<!-- <input class="easyui-textbox" name="phone" > -->
-				<select id="stu_Status" name="stuStatus">
+				<select id="stu_Status" class="easyui-combobox" name="stuStatus">
 				<option value="未知">未知</option>
 				<option value="待业">待业</option>
 				<option value="在职">在职</option>
 				<option value="在读">在读</option>
 				</select>
 				</td>
-			</tr>
+	    		</tr>
+	    		
 	    		<tr>
 				<td><label>来源渠道</label></td>
-				<td><!-- <input class="easyui-textbox" name="fromPart" > -->
-				<select id="from_Part" name="fromPart">
+				<td>
+				<select id="from_Part" class="easyui-combobox" name="fromPart">
 				<option value="未知">未知</option>
 				<option value="百度">百度</option>
 				<option value="百度移动端">百度移动端</option>
@@ -866,30 +868,22 @@ function batchOperation() {
 				<option value="其它">其它</option>
 				</select>
 				</td>
-			</tr>
-	    		
-	    		<tr>
 				<td><label>来源网站</label></td>
 				<td>
-				<!-- <input class="easyui-textbox" name="sourceUrl" > -->
-				<select id="source_Url" name="sourceUrl">
+				<select id="source_Url" class="easyui-combobox" name="sourceUrl">
 				<option value="其它">其它</option>
 				<option value="职英B站">职英B站</option>
 				<option value="高考站">高考站</option>
 				<option value="职英A站">职英A站</option>
-				<option value="其它">其它</option>
 				</select>
 				</td>
-			</tr>
-	    		<tr>
-	    			<td>来源关键词:</td>
+				<td>来源关键词:</td>
 	    			<td><input class="easyui-textbox" name="sourceKeyWord" data-options="multiline:true" ></input></td>
-	    		</tr>
+			</tr>
 	    		<tr>
 	    			<td>所在区域:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="location" data-options="multiline:true" ></input> -->
-	    			<select id="loca_tion" name="location">
+	    			<select id="loca_tion" class="easyui-combobox" name="location">
 				<option value="未知">未知</option>
 				<option value="其它">其它</option>
 				<option value="郑州">郑州</option>
@@ -911,11 +905,9 @@ function batchOperation() {
 				<option value="济源">济源</option>
 				</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>学员关注:</td>
-	    			<td><!-- <input class="easyui-textbox" name="stuConcern" data-options="multiline:true" ></input> -->
-	    			<select id="stu_Concern" name="stuConcern">
+	    			<td>
+	    			<select id="stu_Concern" class="easyui-combobox" name="stuConcern">
 				<option value="课程">课程</option>
 				<option value="学费">学费</option>
 				<option value="学时">学时</option>
@@ -926,11 +918,9 @@ function batchOperation() {
 				<option value="其它">其它</option>
 				</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>来源部门:</td>
-	    			<td><!-- <input class="easyui-textbox" name="msgSource" data-options="multiline:true" ></input> -->
-	    			<select id="msg_Source" name="msgSource">
+	    			<td>
+	    			<select id="msg_Source" class="easyui-combobox" name="msgSource">
 				<option value="网络">网络</option>
 				<option value="市场">市场</option>
 				<option value="教质">教质</option>
@@ -942,15 +932,11 @@ function batchOperation() {
 	    		<tr>
 	    			<td>学员QQ:</td>
 	    			<td><input class="easyui-textbox" name="qq" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
 	    			<td>微信号:</td>
 	    			<td><input class="easyui-textbox" name="weiXin" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
 	    			<td>是否报备:</td>
-	    			<td><!-- <input class="easyui-textbox" name="isBaoBei" data-options="multiline:true" ></input> -->
-	    			<select id="is_BaoBei" name="isBaoBei">
+	    			<td>
+	    			<select id="is_BaoBei" class="easyui-combobox" name="isBaoBei">
 				<option value="1">是</option>
 				<option value="2">否</option>
 				</select>
@@ -959,10 +945,8 @@ function batchOperation() {
 	    		<tr>
 	    			<td>咨询师:</td>
 	    			<td><select id="select_id" name="askerId" class="easyui-combobox"  style="width:50px;"></select></td>
-	    		</tr>
-	    		<tr>
 	    			<td>录入人  :</td>
-	    			<td><input class="easyui-textbox" name="createUser" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-textbox" class="easyui-combobox" name="createUser" data-options="multiline:true" ></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>咨询师录入:</td>
@@ -971,59 +955,52 @@ function batchOperation() {
 	    		<tr>
 	    			<td>课程方向:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="learnForward" data-options="multiline:true" ></input> -->
-	    			<select id="learn_Forward" name="learnForward">
+	    			<select id="learn_Forward" class="easyui-combobox" name="learnForward">
 				<option value="软件开发">软件开发</option>
 				<option value="软件设计">软件设计</option>
 				<option value="网络营销">网络营销</option>
 				</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>打分:</td>
-	    			<td><!-- <input class="easyui-textbox" name="scoring" data-options="multiline:true" ></input> -->
-	    			<select id="s_coring" name="scoring">
+	    			<td>
+	    			<select id="s_coring" class="easyui-combobox" name="scoring">
 				<option value="A、近期可报名">A、近期可报名</option>
 				<option value="B、一个月内可报名">B、一个月内可报名</option>
 				<option value="C、长期跟踪">C、长期跟踪</option>
 				<option value="D、无效">D、无效</option>
 				</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>是否有效:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="isValid" data-options="multiline:true" ></input> -->
-	    			<select id="is_Valid" name="isValid">
+	    			<select id="is_Valid" class="easyui-combobox" name="isValid">
 						<option value="1">是</option>
 						<option value="2">否</option>
-						<option value="0">待定</option>
+						<option value="3">待定</option>
 					</select>
 	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td>无效原因:</td>
 	    			<td><input class="easyui-textbox" name="lostValid" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
 	    			<td>是否回访:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="isReturnVist" data-options="multiline:true" ></input> -->
-	    			<select id="is_ReturnVist" name="isReturnVist">
+	    			<select id="is_ReturnVist" class="easyui-combobox" name="isReturnVist">
 						<option value="1">已回访</option>
 						<option value="2">未回访</option>
 					</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>首访时间:</td>
-	    			<td><input class="easyui-textbox" name="firstVisitTime" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-datebox" name="firstVisitTime" data-options="multiline:true" ></input></td>
 	    		</tr>
+	    		
 	    		<tr>
 	    			<td>是否上门:</td>
-	    			<td><input class="easyui-textbox" name="isHome" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td>
+	    			<select id="is_Home" class="easyui-combobox" name="isHome">
+						<option value="1">是</option>
+						<option value="2">否</option>
+					</select>
+	    			</td>
 	    			<td>上门时间:</td>
 	    			<td>
 	    			<input class="easyui-textbox" name="homeTime" data-options="multiline:true" ></input></td>
@@ -1031,57 +1008,44 @@ function batchOperation() {
 	    		<tr>
 	    			<td>定金金额:</td>
 	    			<td><input class="easyui-textbox" name="preMoney" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
 	    			<td>定金时间:</td>
-	    			<td><input class="easyui-textbox" name="preMoneyTime" data-options="multiline:true" ></input></td>
+	    			<td><input class="easyui-datebox" name="preMoneyTime" data-options="multiline:true" ></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否缴费:</td>
 	    			<td>
-	    			<!-- <input class="easyui-textbox" name="isPay" data-options="multiline:true" ></input> -->
-	    			<select id="is_Pay" name="isPay">
+	    			<select id="is_Pay" class="easyui-combobox" name="isPay">
 						<option value="1">已缴费</option>
 						<option value="2">未缴费</option>
 					</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>缴费时间:</td>
-	    			<td><input class="easyui-textbox" name="payTime" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td><input class="easyui-datebox" name="payTime" data-options="multiline:true" ></input></td>
 	    			<td>缴费金额:</td>
 	    			<td><input class="easyui-textbox" name="money" data-options="multiline:true" ></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否退费:</td>
-	    			<td><!-- <input class="easyui-textbox" name="isReturnMoney" data-options="multiline:true" ></input> -->
-	    			<select id="is_ReturnMoney" name="isReturnMoney">
+	    			<td>
+	    			<select id="is_ReturnMoney" class="easyui-combobox" name="isReturnMoney">
 						<option value="1">已退费</option>
 						<option value="2">未退费</option>
 					</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>退费原因:</td>
 	    			<td>
-	    			<input class="easyui-textbox" name="returnMoneyReason" data-options="multiline:true" ></input></td>
+	    			<input class="easyui-textbox"  name="returnMoneyReason" data-options="multiline:true" ></input></td>
 	    		</tr>
 	    		<tr>
 	    			<td>是否进班:</td>
-	    			<td><!-- <input class="easyui-textbox" name="isInClass" data-options="multiline:true" ></input> -->
-	    			<select id="is_InClass" name="isInClass">
+	    			<td>
+	    			<select id="is_InClass" class="easyui-combobox" name="isInClass">
 						<option value="1">已进班</option>
 						<option value="2">未进班</option>
 					</select>
 	    			</td>
-	    		</tr>
-	    		<tr>
 	    			<td>进班时间:</td>
-	    			<td><input class="easyui-textbox" name="inClassTime" data-options="multiline:true" ></input></td>
-	    		</tr>
-	    		<tr>
+	    			<td><input class="easyui-datebox" name="inClassTime" data-options="multiline:true" ></input></td>
 	    			<td>进班备注:</td>
 	    			<td><input class="easyui-textbox" name="inClassContent" data-options="multiline:true" ></input></td>
 	    		</tr>
@@ -1093,7 +1057,7 @@ function batchOperation() {
 	    </form>
 	    <div style="text-align:center;padding:5px">
 	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updatesubmitForm()">Submit</a>
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateclearForm()">Clear</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateclearForm()">Close</a>
 	    </div>
 </div>
 

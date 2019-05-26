@@ -34,7 +34,6 @@ import com.google.code.kaptcha.Producer;
 
     	public void init(ServletConfig conf) throws ServletException {
     		super.init(conf);
-
     		ImageIO.setUseCache(false);
 
     		Enumeration initParams = conf.getInitParameterNames();
@@ -67,9 +66,7 @@ import com.google.code.kaptcha.Producer;
     		int r = Integer.valueOf(s1).intValue() + Integer.valueOf(s2).intValue();
 
     		req.getSession().setAttribute(this.sessionKeyValue, String.valueOf(r));
-
     		BufferedImage bi = this.kaptchaProducer.createImage(s1+"+"+s2+"=?");
-
     		ServletOutputStream out = resp.getOutputStream();
 
     		ImageIO.write(bi, "jpg", out);

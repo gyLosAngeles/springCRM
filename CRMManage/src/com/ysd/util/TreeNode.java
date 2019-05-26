@@ -1,6 +1,7 @@
 package com.ysd.util;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -34,6 +35,31 @@ public class TreeNode {
 		}
 		return childrenNode;
 	}
+	/**
+	 * 不递归的方法
+	 * @param list
+	 * @return
+	 */
+	public List<ModuleTree> parseTree_2(List<ModuleTree> list){
+		 for (int i = 0; i < list.size(); i++) {
+				List<ModuleTree> list1 = new ArrayList<ModuleTree>();
+				list.get(i).setChildren(list1);
+				for (int j = 0; j < list.size(); j++) {
+					if(list.get(i).getId()==list.get(j).getParent_id()) {
+						list.get(i).getChildren().add(list.get(j));
+					}
+				}
+			 }
+			 List<ModuleTree> tree = new ArrayList<ModuleTree>();
+			 for (int i = 0; i < list.size(); i++) {
+				if(list.get(i).getParent_id()==0) {
+					tree.add(list.get(i));
+				}
+			}
+			return tree;
+	}
+	
+	
 	/**
 	 * 将tree变成选中状态
 	 * @param totalList

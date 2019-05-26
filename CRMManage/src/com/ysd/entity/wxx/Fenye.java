@@ -18,10 +18,18 @@ private String IsPay;//是否缴费
 private Integer IsValid;//是否有效
 private String IsReturnVist;//是否回访
 private String QQ;//qq
+private String ziXunName;//咨询师
 private String minCreateTime;//创建时间
 private String maxCreateTime;//创建时间
 private String userName;//用户名称
 private String roleName;//咨询师名称
+
+public String getZiXunName() {
+	return ziXunName;
+}
+public void setZiXunName(String ziXunName) {
+	this.ziXunName = ziXunName;
+}
 public String getRoleName() {
 	return roleName;
 }

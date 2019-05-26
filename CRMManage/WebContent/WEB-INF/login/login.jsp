@@ -8,14 +8,21 @@
 	<link href="/CRMManage/css/layout.css" rel="stylesheet" type="text/css">
 	<link href="/CRMManage/css/login.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="/CRMManage/js/easyui demo/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/CRMManage/js/jquery.cookie.js"></script>
+	
 	<script type="text/javascript">
+	$(function(){
+		if($.cookie("username") != undefined){
+			$("#username").val($.cookie("username"));
+		}
+	});
 	function submitFromUser() {
-		
 		$.ajax({
-			method:'get',
+			type:'post',
 			url:'/CRMManage/login',
 			dataType:'json',
 			data:{
+				kaptcha:$("#kaptcha").val(),
 				userName:$("#username").val(),
 				userPassWord:$("#password").val()
 			},
@@ -31,7 +38,6 @@
 	}
 	function changeCode() { //刷新
 		var data = new Date().getTime();
-
 		$("#kaptcha").val("");
 		$('#kaptchaImage').click().attr('src', 'KaptchaServlet?tt=' + data);
 	}
@@ -72,7 +78,6 @@
 									style="width:60px;height:25px" /> <img src="KaptchaServlet" id="kaptchaImage" style="height: 30px;" /> 
 									<a href="javascript:changeCode()">看不清?换一张</a></td>
 							</tr>
-							
 						</div>
 						<input type="hidden" name="formhash" value="5abb5d21"/>
 						<input onclick="submitFromUser()" class="btn text-center login-btn" value="立即登录">
