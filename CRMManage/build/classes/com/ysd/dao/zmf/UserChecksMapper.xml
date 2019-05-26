@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ysd.dao.zmf.UserChecksMapper"> 
+	<select id="selectUserChecksByFenye" resultType="com.ysd.entity.UserChecks" parameterType="com.ysd.entity.Fenye">
+		SELECT 
+			UserId,
+			UserName,
+			CheckInTime,
+			CheckState,
+			IsCancel,
+			CheckOutTime 
+		FROM userchecks
+		<where>
+			<if test="userChecksCondition.userName != null and userChecksCondition.userName != ''">
+				and UserName like "%"#{userChecksCondition.userName}"%"
+			</if>
+			<if test="userChecksCondition.checkInTimeBigin != null and userChecksCondition.checkInTimeBigin != ''">
+				and CheckInTime &lt;  #{userChecksCondition.checkInTimeBigin} 
+			</if>
+			<if test="userChecksCondition.checkInTimeEnd != null and userChecksCondition.checkInTimeEnd != ''">
+				and CheckInTime &gt; #{userChecksCondition.checkInTimeEnd} 
+			</if>
+			<if test="userChecksCondition.checkState != null and userChecksCondition.checkState != ''">
+				and CheckState = #{userChecksCondition.checkState}
+			</if>
+		</where>
+		limit #{page},#{rows}
+	</select>
+	<select id="selectUserChecksCountByFenye" resultType="int" parameterType="com.ysd.entity.Fenye" >
+		SELECT 
+			count(UserId) 
+		FROM userchecks
+		<where>
+			<if test="userChecksCondition.userName != null and userChecksCondition.userName != ''">
+				and UserName like "%"#{userChecksCondition.userName}"%"
+			</if>
+			<if test="userChecksCondition.checkInTimeBigin != null and userChecksCondition.checkInTimeBigin != ''">
+				and CheckInTime &lt;  #{userChecksCondition.checkInTimeBigin} 
+			</if>
+			<if test="userChecksCondition.checkInTimeEnd != null and userChecksCondition.checkInTimeEnd != ''">
+				and CheckInTime &gt; #{userChecksCondition.checkInTimeEnd} 
+			</if>
+			<if test="userChecksCondition.checkState != null and userChecksCondition.checkState != ''">
+				and CheckState = #{userChecksCondition.checkState}
+			</if>
+		</where>
+	</select>
+	<update id="updateUserChecks" parameterType="com.ysd.entity.UserChecks">
+		update userchecks 
+			<set>
+				<if test="CheckState != null and CheckState != ''">
+				 	 CheckState = #{CheckState},
+				</if>
+				<if test="CheckState == 1">
+				 	 CheckInTime = NOW(),
+				</if>
+				<if test="IsCancel != null and IsCancel != ''">
+				 	 IsCancel = #{IsCancel},
+				</if>
+				<if test="CheckState == 2">
+				 	 CheckOutTime = NOW(),
+				</if>
+			</set>
+		where UserName = #{UserName}
+	</update>
+	<select id="selectAskersAll" resultType="com.ysd.entity.Askers">
+		SELECT askerId,askerName,CheckState,CheckInTime,ChangeState,Weight,RoleName,BakContent FROM askers
+	</select>
+	<select id="selectAskersByroleName" resultType="com.ysd.entity.Askers">
+		SELECT askerId,askerName,RoleName FROM askers where RoleName='3'
+	</select>
+	<update id="updateAskers" parameterType="com.ysd.entity.Askers">
+		update askers 
+			<set>
+				<if test="weight != null and weight != ''">
+				 	 Weight = #{weight},
+				</if>
+				<if test="bakContent != null and bakContent != ''">
+				 	 BakContent = #{bakContent},
+				</if>
+			</set>
+		where askerId = #{askerId}
+	</update>
+	<insert id="inserUserChecks" parameterType="com.ysd.entity.UserChecks">
+		insert into userchecks(UserId,UserName) values(#{UserId},#{UserName})
+	</insert>
+	<select id="selectCheckStateByUserName" resultType="int" parameterType="String">
+		SELECT CheckState FROM askers where askerName = #{0}
+	</select>
+	
+	<!--员工签到-->
+	<select id="selectAskersChecksByFenye" resultType="com.ysd.entity.Askers" parameterType="com.ysd.entity.Fenye">
+		SELECT askerId,askerName,CheckState,CheckInTime,Weight,BakContent FROM askers  where  RoleName=3
+			<if test="userChecksCondition.userName != null and userChecksCondition.userName != ''">
+				and askerName like "%"#{userChecksCondition.userName}"%"
+			</if>
+			<if test="userChecksCondition.checkInTimeBigin != null and userChecksCondition.checkInTimeBigin != ''">
+				and CheckInTime &lt;  #{userChecksCondition.checkInTimeBigin} 
+			</if>
+			<if test="userChecksCondition.checkInTimeEnd != null and userChecksCondition.checkInTimeEnd != ''">
+				and CheckInTime &gt; #{userChecksCondition.checkInTimeEnd} 
+			</if>
+			<if test="userChecksCondition.checkState != null and userChecksCondition.checkState != ''">
+				and CheckState = #{userChecksCondition.checkState}
+			</if>
+		limit #{page},#{rows}
+	</select>
+	<select id="selectAskersChecksCountByFenye" resultType="int" parameterType="com.ysd.entity.Fenye">
+		SELECT count(askerId) FROM askers  where  RoleName=3
+			<if test="userChecksCondition.userName != null and userChecksCondition.userName != ''">
+				and askerName like "%"#{userChecksCondition.userName}"%"
+			</if>
+			<if test="userChecksCondition.checkInTimeBigin != null and userChecksCondition.checkInTimeBigin != ''">
+				and CheckInTime &lt;  #{userChecksCondition.checkInTimeBigin} 
+			</if>
+			<if test="userChecksCondition.checkInTimeEnd != null and userChecksCondition.checkInTimeEnd != ''">
+				and CheckInTime &gt; #{userChecksCondition.checkInTimeEnd} 
+			</if>
+			<if test="userChecksCondition.checkState != null and userChecksCondition.checkState != ''">
+				and CheckState = #{userChecksCondition.checkState}
+			</if>
+	</select>
+	
+	<!-- 开启自动分配 -->
+	<update id="udpateDirectorControllerChecks" parameterType="com.ysd.entity.Askers">
+		update askers set ChangeState = #{ChangeState} where askerName=#{askerName}
+	</update>
+	
+	<!-- 员工签到状态 -->
+	<update id="updateAskersCheckState" parameterType="com.ysd.entity.Askers">
+		update askers 
+		<set>
+			<if test="checkState != null ">
+				CheckState = #{checkState},
+			</if>
+			<if test="checkState != null ">
+				CheckInTime = NOW(),
+			</if>
+		</set> 
+		where askerName=#{askerName}
+	</update>
+	<!-- 添加签到日志 -->
+	<insert id="insertUserChecksNetfollows" parameterType="com.ysd.entity.UserChecks">
+		INSERT INTO userchecks(UserId, UserName, CheckInTime, CheckState, IsCancel) VALUES (#{userId},#{UserName},NOW(), #{CheckState},#{IsCancel});
+	</insert>
+	<!-- 退签成功时修改退签时间 -->
+	<update id="updateUserChecksNetfollows" parameterType="com.ysd.entity.UserChecks">
+		update userchecks 
+			<set>
+				<if test="CheckState != null and CheckState != ''">
+				 	 CheckState = #{CheckState},
+				</if>
+				<if test="IsCancel != null and IsCancel != ''">
+				 	 IsCancel = #{IsCancel},
+				</if>
+				<if test="CheckState == 2">
+				 	 CheckOutTime = NOW(),
+				</if>
+			</set>
+		where  DATE_FORMAT(NOW(),'%Y-%d-%m') = DATE_FORMAT(CheckInTime,'%Y-%d-%m') and UserName = #{UserName}
+	</update>
+</mapper>
