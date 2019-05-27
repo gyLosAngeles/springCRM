@@ -193,7 +193,11 @@ function add(){
                title : '提示',
                msg : '请至少选择一行数据!',
                timeout : 3000,
-               showType : 'slide'
+               showType : 'slide',
+               style:{
+            	   right:'',
+            	   bottom:''
+            	   }
            });
            return false;
        }
@@ -220,6 +224,10 @@ function add(){
                        $.messager.show({
                            title : '提示',
                            msg : '删除成功',
+                           style:{
+                        	   right:'',
+                        	   bottom:''
+                        	   }
                        });
                        $("#wlsdg").datagrid("reload");
                    },
@@ -227,6 +235,10 @@ function add(){
                 	   $.messager.show({
                            title : '提示',
                            msg : '删除失败',
+                           style:{
+                        	   right:'',
+                        	   bottom:''
+                        	   }
                        });
                    }
                });
@@ -387,7 +399,7 @@ function batchOperation() {
          error : function(data) {
       	   $.messager.show({
                  title : '提示',
-                 msg : '删除失败',
+                 msg : '跟踪失败',
              });
          }
      });
@@ -1076,19 +1088,15 @@ function batchOperation() {
 				closed_hiddenColumn();
 				}
 			}]">
-	<form id="hiddenColumn_form" class="easyui-form">
+			<form id="hiddenColumn_form" class="easyui-form">
 	<a href="javascript:void(0)"  class="easyui-linkbutton" id="isQuanXuan" onclick="ChooseAll()" data-options="iconCls:'icon-edit'">全选</a> 
 		<table>
 			<tr>
 				<td><input type="checkbox" value="id"/>编号</td>
-			</tr>
-			<tr>
+			
 			<td><input type="checkbox" value="name"/>姓名</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" value="age"/>年龄</td>
-			</tr>
-			<tr>
+			<td><input type="checkbox" value="age"/>年龄</td>
+				<td><input type="checkbox" value="returnMoneyReason"/>退费原因</td>
 				<td><input type="checkbox" value="sex"/>性别</td>
 			
 				<td><input type="checkbox" value="phone"/>电话</td>
@@ -1096,14 +1104,10 @@ function batchOperation() {
 			<tr>
 				<td><input type="checkbox" value="stuStatus"/>客户状态</td>
 			
-				<td><input type="checkbox" value="stuConcern"/>学员关注</td>
-			</tr>
-			<tr>
+				<td><input type="checkbox" value="perState"/>学员关注</td>
 				<td><input type="checkbox" value="msgSource"/>来源部门</td>
 			
 				<td><input type="checkbox" value="sourceUrl"/>来源网站</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="sourceKeyWord"/>来源关键词</td>
 			
 				<td><input type="checkbox" value="address"/>地址</td>
@@ -1112,14 +1116,9 @@ function batchOperation() {
 				<td><input type="checkbox" value="netPusherId"/>22</td>
 			
 				<td><input type="checkbox" value="askerId"/>咨询师编号</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="qq"/>QQ</td>
 			
 				<td><input type="checkbox" value="weiXin"/>微信</td>
-			</tr>
-			
-			<tr>
 				<td><input type="checkbox" value="content"/>内容</td>
 			
 				<td><input type="checkbox" value="createTime"/>创建时间</td>
@@ -1128,13 +1127,9 @@ function batchOperation() {
 				<td><input type="checkbox" value="learnForward"/>课程方向</td>
 			
 				<td><input type="checkbox" value="isValid"/>是否有效</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="record"/>记录</td>
 			
 				<td><input type="checkbox" value="isReturnVist"/>是否回访</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="firstVisitTime"/>首访时间</td>
 			
 				<td><input type="checkbox" value="isHome"/>是否上门</td>
@@ -1143,13 +1138,9 @@ function batchOperation() {
 				<td><input type="checkbox" value="homeTime"/>上门时间</td>
 			
 				<td><input type="checkbox" value="lostValid"/>无效原因</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="isPay"/>是否缴费</td>
 			
 				<td><input type="checkbox" value="payTime"/>缴费时间</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="money"/>金额</td>
 			
 				<td><input type="checkbox" value="isReturnMoney"/>是否退费</td>
@@ -1158,13 +1149,9 @@ function batchOperation() {
 				<td><input type="checkbox" value="isInClass"/>是否进班</td>
 			
 				<td><input type="checkbox" value="inClassTime"/>进班时间</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="inClassContent"/>进班备注</td>
 			
 				<td><input type="checkbox" value="askerContent"/>咨询师备注</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="isDel"/>是否删除</td>
 			
 				<td><input type="checkbox" value="fromPart"/>来源渠道</td>
@@ -1173,16 +1160,9 @@ function batchOperation() {
 				<td><input type="checkbox" value="stuConcern"/>学员关注</td>
 			
 				<td><input type="checkbox" value="isBaoBei"/>是否报备</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" value="ziXunName"/>咨询师名称</td>
+				<td><input type="checkbox" value="askerName"/>咨询师</td>
 			
 				<td><input type="checkbox" value="createUser"/>录入人</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" value="returnMoneyReason"/>退费原因</td>
-			</tr> 
-			<tr>
 				<td><input type="checkbox" value="preMoney"/>定金金额</td>
 			
 				<td><input type="checkbox" value="preMoneyTime"/>定金时间</td>
@@ -1191,8 +1171,6 @@ function batchOperation() {
 				<td><input type="checkbox" value="scoring"/>打分</td>
 			
 				<td><input type="checkbox" value="education"/>学历</td>
-			</tr>
-			<tr>
 				<td><input type="checkbox" value="location"/>所在区域</td>
 			
 				<td><input type="checkbox" value="onlineremark"/>在线备注</td>
