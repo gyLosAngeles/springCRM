@@ -193,7 +193,11 @@ function add(){
                title : '提示',
                msg : '请至少选择一行数据!',
                timeout : 3000,
-               showType : 'slide'
+               showType : 'slide',
+               style:{
+            	   right:'',
+            	   bottom:''
+            	   }
            });
            return false;
        }
@@ -220,6 +224,10 @@ function add(){
                        $.messager.show({
                            title : '提示',
                            msg : '删除成功',
+                           style:{
+                        	   right:'',
+                        	   bottom:''
+                        	   }
                        });
                        $("#wlsdg").datagrid("reload");
                    },
@@ -227,6 +235,10 @@ function add(){
                 	   $.messager.show({
                            title : '提示',
                            msg : '删除失败',
+                           style:{
+                        	   right:'',
+                        	   bottom:''
+                        	   }
                        });
                    }
                });
