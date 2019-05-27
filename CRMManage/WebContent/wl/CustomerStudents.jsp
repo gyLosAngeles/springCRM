@@ -285,8 +285,8 @@
 		 $("from").from("load","../wl/selectPush");
 		 }
 	
- 	var ss=self.setInterval("Dynamic()",60000);
-	function Dynamic(){
+ 	/* var ss=self.setInterval("Dynamic()",60000); */
+ 	setInterval(function() {
 		 $.post("../wl/selectPush",{
 			 zxname:'${user.userName}'
 		 },function(data){
@@ -298,7 +298,7 @@
 				}
 			}
 		},"json")	 
-	} 
+ 	}, 10000);
 	/* function formatteryd(value,row,index){
 		return '<button onclick="updatepush('+index+')">已读</button>';
 	} */
