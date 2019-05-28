@@ -7,13 +7,12 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="../js/easyui demo/easyui/1.3.4/themes/default/easyui.css" />
-	<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/wu.css" />
-	<link rel="stylesheet" type="text/css" href="../js/easyui demo/css/icon.css" />
-	<script type="text/javascript" src="../js/easyui demo/js/jquery-1.8.0.min.js"></script>
-	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="../js/easyui demo/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
-	<script type="text/javascript" src="datagrid-export.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/easyui/insdep.easyui.min.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/icon.css">
+	<script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
+	<script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<style type="text/css">
 	 input {
 		width:150px;
@@ -46,7 +45,7 @@
 	$(function(){
 		shezhidongtai();
 		chaXun();
-		Dynamic();
+		
 	})
 	/* 查询全部信息 */
 	
@@ -278,9 +277,6 @@
 			 },"json")	 
 		}
 		}
-	
-	
-	
 	/* 动态显示 */
 	function shezhidongtai(){var createGridHeaderContextMenu=function(e,field){e.preventDefault();var grid=$(this);var headerContextMenu=this.headerContextMenu;if(!headerContextMenu){var tmenu=$('<div style="width:100px;"></div>').appendTo('body');
 	var fields=grid.datagrid('getColumnFields');for(var i=0;i<fields.length;i++){var fildOption=grid.datagrid('getColumnOption',fields[i]);if(!fildOption.hidden){$('<div iconCls="icon-ok" field="'+fields[i]+'"/>').html(fildOption.title).appendTo(tmenu)}else{$('<div iconCls="icon-empty" field="'+fields[i]+'"/>').html(fildOption.title).appendTo(tmenu)}}headerContextMenu=this.headerContextMenu=tmenu.menu({onClick:function(item){var field=$(item.target).attr('field');if(item.iconCls=='icon-ok'){grid.datagrid('hideColumn',field);$(this).menu('setIcon',{target:item.target,iconCls:'icon-empty'})}else{grid.datagrid('showColumn',field);$(this).menu('setIcon',{target:item.target,iconCls:'icon-ok'})}}})}headerContextMenu.menu('show',{left:e.pageX,button:e.pageY})};$.fn.datagrid.defaults.onHeaderContextMenu=createGridHeaderContextMenu;$.fn.treegrid.defaults.onHeaderContextMenu=createGridHeaderContextMenu}
@@ -340,32 +336,32 @@
 		<table id="dg" data-options="fitColumns:true,checkbox: true" >  
 		<thead>
 			<tr>
-		            <th data-options="field:'ID',width:80,checkbox:true">编码</th>
-		            <th data-options="field:'id',width:40">学生编号</th>      
-		            <th data-options="field:'name',width:80">名称</th>   
-		            <th data-options="field:'age',width:80">年龄</th>  
-		            <th data-options="field:'sex',width:80">性别</th> 
-		            <th data-options="field:'phone',width:80">手机号码</th> 
-		            <th data-options="field:'sourceUrl',width:80">来源网站</th> 
-		            <th data-options="field:'learnForward',width:80">课程方向</th>  
-		            <th data-options="field:'askerId',width:80">咨询师编号</th>  
-		            <th data-options="field:'qq',width:120">QQ</th>
-		            <th data-options="field:'weiXin',width:120">微信</th>
-		            <th data-options="field:'address',width:80">地址</th>
-		            <th data-options="field:'stuStatus',width:80">客户状态</th>
-		            <th data-options="field:'isValid',width:80,formatter:formatteryx">是否有效</th>
-		            <th data-options="field:'isHome',width:80,formatter:formattersm">是否上门</th>
-		            <th data-options="field:'isReturnMoney',width:80,formatter:formattertf">是否退费</th>
-		            <th data-options="field:'isPay',width:80,formatter:formatterjf">是否缴费</th>  
-		            <th data-options="field:'isReturnVist',width:80,formatter:formatterhf">是否回访</th>  
-		            <th data-options="field:'isInClass',width:80,formatter:formattersfjb">是否进班</th>  
-		            <th data-options="field:'inClassContent',width:80,hidden:true">创建备注</th>  
-		            <th data-options="field:'createTime',width:150">创建时间</th>
-		            <th data-options="field:'stuStatus',width:100">客户状态</th>  
-		            <th data-options="field:'sourceKeyWord',width:100">来源关键词</th>  
-		            <th data-options="field:'firstVisitTime',width:150">创建时间</th>  
-		            <th data-options="field:'caozuo',width:120,title:'操作',formatter:formattercaozuo"></th>
-		            <th data-options="field:'rizhi',width:65,title:'日志',formatter:formatterrizhi"></th>
+		            <th data-options="field:'ID',checkbox:true">编码</th>
+		            <th data-options="field:'id'">学生编号</th>      
+		            <th data-options="field:'name'">名称</th>   
+		            <th data-options="field:'age'">年龄</th>  
+		            <th data-options="field:'sex'">性别</th> 
+		            <th data-options="field:'phone',hidden:true">手机号码</th> 
+		            <th data-options="field:'sourceUrl'">来源网站</th> 
+		            <th data-options="field:'learnForward'">课程方向</th>  
+		            <th data-options="field:'askerId',hidden:true">咨询师编号</th>  
+		            <th data-options="field:'qq'">QQ</th>
+		            <th data-options="field:'weiXin',hidden:true">微信</th>
+		            <th data-options="field:'address'">地址</th>
+		            <th data-options="field:'stuStatus',hidden:true">客户状态</th>
+		            <th data-options="field:'isValid',formatter:formatteryx">是否有效</th>
+		            <th data-options="field:'isHome',formatter:formattersm">是否上门</th>
+		            <th data-options="field:'isReturnMoney',formatter:formattertf">是否退费</th>
+		            <th data-options="field:'isPay',formatter:formatterjf">是否缴费</th>  
+		            <th data-options="field:'isReturnVist',formatter:formatterhf">是否回访</th>  
+		            <th data-options="field:'isInClass',formatter:formattersfjb">是否进班</th>  
+		            <th data-options="field:'inClassContent',hidden:true">创建备注</th>  
+		            <th data-options="field:'createTime',hidden:true">创建时间</th>
+		            <th data-options="field:'stuStatus',hidden:true">客户状态</th>  
+		            <th data-options="field:'sourceKeyWord',hidden:true">来源关键词</th>  
+		            <th data-options="field:'firstVisitTime',hidden:true">创建时间</th>  
+		            <th data-options="field:'caozuo',title:'操作',formatter:formattercaozuo"></th>
+		            <th data-options="field:'rizhi',title:'日志',formatter:formatterrizhi"></th>
 		        </tr>   
 		    </thead>   
 		</table> 
@@ -551,11 +547,11 @@
 		<table id="rz">   
 		    <thead>   
 	        <tr>   
-	            <th data-options="field:'followTime',width:150">回访时间</th>   
-	            <th data-options="field:'content',width:150">回访情况</th>   
-	            <th data-options="field:'followType',width:80">跟踪方式</th>   
-	            <th data-options="field:'nextFollowTime',width:150">下次跟踪时间</th>   
-	            <th data-options="field:'remarks',width:150">备注</th>   
+	            <th data-options="field:'followTime'">回访时间</th>   
+	            <th data-options="field:'content'">回访情况</th>   
+	            <th data-options="field:'followType'">跟踪方式</th>   
+	            <th data-options="field:'nextFollowTime'">下次跟踪时间</th>   
+	            <th data-options="field:'remarks'">备注</th>   
 		     </tr>   
 		    </thead>   
 		</table>
@@ -567,11 +563,11 @@
 		    <thead>   
 	        <tr>   
 	            <th data-options="field:'studentid',width:50">学生ID</th>   
-	            <th data-options="field:'studentname',width:80">学生名字</th>   
+	            <th data-options="field:'studentname'">学生名字</th>   
 	            <th data-options="field:'context',width:250">推送内容</th>   
-	            <th data-options="field:'isreader',width:80,formatter:formattertszt">推送状态</th>   
-	            <th data-options="field:'tstime',width:150">推送时间</th>   
-	            <!-- <th data-options="field:'yd',width:80,formatter:formatteryd">操作</th> -->
+	            <th data-options="field:'isreader',formatter:formattertszt">推送状态</th>   
+	            <th data-options="field:'tstime'">推送时间</th>   
+	            <!-- <th data-options="field:'yd',formatter:formatteryd">操作</th> -->
 		     </tr>   
 		    </thead>   
 		</table>
