@@ -380,4 +380,8 @@ VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{So
  <delete id="deleteStudents" parameterType="int">
  	delete from students where Id=#{Id}
  </delete>
+ <!-- 推送添加 -->
+ <insert id="addPush" parameterType="com.ysd.entity.Push">
+ INSERT INTO push(studentid,zxname,context,studentname,isreader) values(#{studentid},#{zxname},#{context},#{studentname},#{isreader})
+  </insert>
 </mapper>

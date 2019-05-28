@@ -28,6 +28,21 @@
 </style>
 	
 	<script type="text/javascript">
+	
+	var ws=null;
+	if(WebSocket){
+		ws=new WebSocket("ws://localhost:8080/CRMManage/chat/${user.userName}");
+	}else{
+		alert("浏览器不支持WebSocket!");
+	}
+	ws.onopen=function(){
+	}
+	ws.onclose=function(){
+	}
+	//接受服务器端发送的消息
+	ws.onmessage=function(event){
+		alert(event.data)
+	}
 	$(function(){
 		shezhidongtai();
 		chaXun();
@@ -286,7 +301,7 @@
 		 }
 	
  	/* var ss=self.setInterval("Dynamic()",60000); */
- 	setInterval(function() {
+ 	/* setInterval(function() {
 		 $.post("../wl/selectPush",{
 			 zxname:'${user.userName}'
 		 },function(data){
@@ -298,7 +313,7 @@
 				}
 			}
 		},"json")	 
- 	}, 10000);
+ 	}, 10000); */
 	/* function formatteryd(value,row,index){
 		return '<button onclick="updatepush('+index+')">已读</button>';
 	} */

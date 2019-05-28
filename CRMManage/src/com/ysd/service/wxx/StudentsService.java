@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ysd.entity.Askers;
+import com.ysd.entity.Push;
 import com.ysd.entity.wxx.Fenye;
 import com.ysd.entity.wxx.Students;
 
@@ -37,5 +38,10 @@ public interface StudentsService {
 	   */
 	  List<Askers> selectAskers(Askers askers);
 	  
-	  
+	  /**
+		 * ÍÆËÍÌí¼Ó
+		 * @param push
+		 * @return
+		 */
+		Integer addPush(Push push);
 }

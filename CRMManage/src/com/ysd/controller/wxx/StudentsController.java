@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysd.entity.Askers;
+import com.ysd.entity.Push;
 import com.ysd.entity.wxx.Fenye;
 import com.ysd.entity.wxx.Students;
 import com.ysd.service.wxx.StudentsService;
@@ -69,6 +70,11 @@ private StudentsService studentsService;
 		}
 		return deleteStudents;
 	   }
+	/**
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/wl/deleteStudents2",method=RequestMethod.POST)
 	public Integer deleteStudents2(String ids) {
@@ -90,6 +96,19 @@ private StudentsService studentsService;
 	public List<Askers> selectAskers(Askers askers) {
 		List<Askers> selectAskers = studentsService.selectAskers(askers);
 		return selectAskers;
+	}
+	/**
+	 * ¶¯Ì¬ÍÆËÍ
+	 * @param push
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/wl/addPush",method=RequestMethod.POST)
+	public Integer addPush(Push push) {
+		System.out.println(push);
+		 Integer addPush = studentsService.addPush(push);
+		 System.out.println(addPush);
+		return addPush;
 	}
  
 }

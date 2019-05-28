@@ -14,6 +14,33 @@
 <script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
 <script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
+
+
+var ws=null;
+if(WebSocket){
+	ws=new WebSocket("ws://localhost:8080/CRMManage/chat/${user.userName}");
+}else{
+	alert("浏览器不支持WebSocket!");
+}
+ws.onopen=function(){
+}
+ws.onclose=function(){
+} 
+//接受录入的消息并发送给服务器
+/* $(function(){
+	$("#msg").textbox({
+		onClickButton:function(){
+			alert("这是个点击事件");
+			//发送消息到服务器端
+			var message=$("#msg").val();
+			ws.send("${name}说：<br/>"+message);
+			//清空原来的值
+			$(this).textbox("clear");
+		}
+	})
+}) */
+
+
 var fieldArr=[];
 $(function() {
 	init();
@@ -249,24 +276,25 @@ function add(){
 		return "<a href='javascript:void(0)' class='easyui-linkbutton'  onclick='ChaKan("+index+")'>查看</a>||<a href='javascript:void(0)'  class='easyui-linkbutton' onclick='Updatestudents("+index+")'>编辑</a>||<a href='javascript:void(0)'  class='easyui-linkbutton' onclick='Tuisong("+index+")'>动态推送</a>";
 	}
  function Tuisong(index){
+	 	
 		var arr = $("#wlsdg").datagrid("getData");
 		$("#sname").html(arr.rows[index].name)
 		$("#pushfrms").form("load",arr.rows[index].ziXunName);
-		console.log(arr.rows[index].ziXunName);
+		/* console.log(arr.rows[index].ziXunName); */
 		$("#selectidss").html(arr.rows[index].ziXunName);
 		$("#push").dialog("open");
 	}
 
 	function pushTijiao(){
-		/* alert(JSON.stringify($("#pushfrms").serializeArray()));  */
-		 
+		var row= $("#wlsdg").datagrid("getSelected");
+		ws.send("${user.userName},"+$('#selectidss').html()+","+$('#textareas').val());
 		 $.ajax({
 			url:"../wl/addPush",
 			type:"post",
 			dataType:"json",
 			data:{
-				studentid:$("#ids").val(),
-				studentname:$("#names").val(),
+				studentid:row.id,
+				studentname:row.name,
 				zxname:$("#selectidss").html(),
 				context:$("#textareas").val(),
 				isreader:$("#bss").val()
@@ -275,7 +303,7 @@ function add(){
 				if(res>0){
 					$.messager.alert('提示','推送成功');
 					$("#push").dialog("close");
-					$("#pushfrm").form("clear");
+					$("#pushfrms").form("clear");
 				}
 				else{
 					$.messager.alert('警告','推送失败');
@@ -499,6 +527,13 @@ function batchOperation() {
 			</tr>
 		</thead>
 	</table>
+	<div style="margin:10px 0;">
+        <span>选择模型: </span>
+        <select onchange="$('#wlsdg').datagrid({singleSelect:(this.value==0)})">
+            <option value="0">单选</option>
+            <option value="1">多选</option>
+        </select>
+    </div>
 <div id="updatezixun" class="easyui-window" title="修改咨询师" 
         data-options="iconCls:'icon-save',modal:true,closed:'true'">
         <select id="cc" class="easyui-combobox" style="width:200px;">
@@ -512,10 +547,9 @@ function batchOperation() {
 	<table>
 		<tr>
 			<td>学生姓名：</td>
-			<td><input type="hidden"   name="id"  id="ids"  />
+			<td>
 				<input type="hidden"   name="bs"  id="bss" value="0"  />
 				<div id="sname"></div>
-				<input type="hidden"   name="name" id="names"/></td>
 			<td>推送的咨询师姓名：</td>
 			<td>
 			<div id="selectidss"></div>
@@ -643,7 +677,7 @@ function batchOperation() {
 	    		</tr>
 	    		<tr style="border:0;border-bottom:1 solid black;background:;">
 	    			<td>Name:</td>
-	    			<td><input class="easyui-textbox"  name="name" data-options="required:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;" ></input></td>
+	    			<td><input class="easyui-textbox"  name="name" data-options="required:true"   style="border:0;border-bottom:1 solid black;background:;" ></input></td>
 	    			<td>年龄:</td>
 	    			<td><input class="easyui-textbox" type="text" name="age" data-options="required:true" disabled="disabled" style="border:0;border-bottom:1 solid black;background:;"></input></td>
 	    		</tr>

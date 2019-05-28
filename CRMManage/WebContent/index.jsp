@@ -76,10 +76,6 @@
 		function win(){
 						
 		}
-	
-	
-	
-	
 	function signIn() {
 		$.post("/CRMManage/user/userSignIn",{
 			askerId:"${user.userId}",

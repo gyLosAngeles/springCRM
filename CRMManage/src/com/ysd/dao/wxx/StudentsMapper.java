@@ -2,6 +2,7 @@ package com.ysd.dao.wxx;
 
 import java.util.List;
 
+import com.ysd.entity.Push;
 import com.ysd.entity.wxx.Fenye;
 import com.ysd.entity.wxx.Students;
 
@@ -50,4 +51,10 @@ public interface StudentsMapper {
 	 * @return
 	 */
 	Integer deleteStudents(Integer i);
+	/**
+	 * ÍÆËÍÌí¼Ó
+	 * @param push
+	 * @return
+	 */
+	Integer addPush(Push push);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ysd.dao.wxx.AskersMapper;
 import com.ysd.dao.wxx.StudentsMapper;
 import com.ysd.entity.Askers;
+import com.ysd.entity.Push;
 import com.ysd.entity.wxx.Fenye;
 import com.ysd.entity.wxx.Students;
 import com.ysd.entity.zmf.StaffParcel;
@@ -84,6 +85,11 @@ private StudentsMapper  studentsMapper;
 		}
 		
 		return jg;
+	}
+	@Override
+	public Integer addPush(Push push) {
+		Integer addPush = studentsMapper.addPush(push);
+		return addPush;
 	}
 
 }
