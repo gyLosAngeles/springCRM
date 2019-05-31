@@ -18,7 +18,7 @@
 
 var ws=null;
 if(WebSocket){
-	ws=new WebSocket("ws://localhost:8080/CRMManage/chat/${user.userName}");
+	ws=new WebSocket("ws://139.196.91.57:8080/CRMManage/chat/${user.userName}");
 }else{
 	alert("浏览器不支持WebSocket!");
 }
