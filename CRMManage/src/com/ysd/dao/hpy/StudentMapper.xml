@@ -328,6 +328,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					isreader=#{isreader}
 				</if>
 			</set> 
-		<!-- 	where id=#{id} -->
+			<if test="id !=null and id !=''">
+				where id=#{id}
+			</if>
 		</update>
 </mapper>

@@ -28,24 +28,29 @@
 	
 	<script type="text/javascript">
 	
-	var ws=null;
-	if(WebSocket){
-		ws=new WebSocket("ws://139.196.91.57:8080/CRMManage/chat/${user.userName}");
-	}else{
+	var ws = null;
+	if (WebSocket) {
+		ws = new WebSocket(
+				"ws://localhost:8080/CRMManage/chat/${user.userName}");
+	} else {
 		alert("浏览器不支持WebSocket!");
 	}
-	ws.onopen=function(){
+	ws.onopen = function() {
 	}
-	ws.onclose=function(){
+	ws.onclose = function() {
 	}
 	//接受服务器端发送的消息
-	ws.onmessage=function(event){
-		alert(event.data)
+	ws.onmessage = function(event) {
+		//alert(event.data);
+		var text=$("#span").html();
+		text++;
+		$("#span").html(text);
 	}
-	$(function(){
+	$(function() {
+		tsxs();
 		shezhidongtai();
 		chaXun();
-		
+
 	})
 	/* 查询全部信息 */
 	
@@ -260,19 +265,55 @@
 	function formattertszt(value,row,index){
 		return value==0? '未读':'已读';
 	}
-	function ts(){
+	function ts() {
 		$('#tsdiv').dialog('open');
-		 $('#tstable').datagrid({
-				method:'post',
-			    url:'../wl/selectPush',
-			    toolbar:'#yjyd',
-			    queryParams: {
-			    	zxname:'${user.userName}'
-			    }
-			});  
-		 $("from").from("load","../wl/selectPush");
-		 }
-	
+		$('#tstable').datagrid({
+			method : 'post',
+			url : '../wl/selectPush',
+			toolbar : '#yjyd',
+			onDblClickRow:function(index, row){
+				var dat= $('#tstable').datagrid("getData");
+				/* alert(dat.rows[index].studentid); */
+				$.ajax({
+					url:'../wl/UpdatePush',
+					method:'post',
+					data:{
+						isreader : '1',
+						id:dat.rows[index].id
+					},
+					datType:'json',
+					success:function(res){
+						var text=$("#span").html();
+						text--;
+						$("#span").html(text);
+						$("#chaKantsdivf").form("load", dat.rows[index]);
+						$("#isreaderwxx").textbox("setValue","已读");
+						/* dat.rows[index].isreader=="1" ? $("#isreaderwxx").textbox("setValue","已读") :null; */
+						$('#chaKantsdiv').dialog('open');
+						$("#tstable").datagrid("reload");
+						
+					}
+				})
+			},
+			queryParams : {
+				zxname : '${user.userName}'
+			}
+			
+		});
+		$("from").from("load", "../wl/selectPush");
+	}
+	function tsxs(){
+		 $.ajax({
+				url:"../wl/selectcountPush",
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data>=0){
+						$("#span").html(data);
+					}
+				}
+			}) 
+	}
  	/* var ss=self.setInterval("Dynamic()",60000); */
  	/* setInterval(function() {
 		 $.post("../wl/selectPush",{
@@ -537,23 +578,52 @@
 		</table>
 		</div>
 		<!-- 推送信息 -->
-		<div id="tsdiv" class="easyui-dialog" title="推送信息" style="width:800px;height:500px;"   
-	        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
-		<table id="tstable">   
-		    <thead>   
-	        <tr>   
-	            <th data-options="field:'studentid',width:50">学生ID</th>   
-	            <th data-options="field:'studentname'">学生名字</th>   
-	            <th data-options="field:'context',width:250">推送内容</th>   
-	            <th data-options="field:'isreader',formatter:formattertszt">推送状态</th>   
-	            <th data-options="field:'tstime'">推送时间</th>   
-	            <!-- <th data-options="field:'yd',formatter:formatteryd">操作</th> -->
-		     </tr>   
-		    </thead>   
+		<div id="tsdiv" class="easyui-dialog" title="推送信息"
+		style="width: 200px; height: 500px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+		<table id="tstable">
+			<thead>
+				<tr>
+				  <th data-options="field:'id',hidden:true">ID</th>
+					<th data-options="field:'studentid',hidden:true">学生ID</th>
+					<th data-options="field:'studentname'">学生名字</th>
+					<th data-options="field:'context',hidden:true">推送内容</th>
+					<th data-options="field:'isreader',formatter:formattertszt">推送状态</th>
+					<th data-options="field:'tstime',hidden:true">推送时间</th>
+					<!-- <th data-options="field:'yd',formatter:formatteryd">操作</th> -->
+				</tr>
+			</thead>
 		</table>
 		<div id="yjyd" align="center">
-		<a href="javascript:void(0)" onclick="yjyd()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
+			<a href="javascript:void(0)" onclick="yjyd()"
+				class="easyui-linkbutton"
+				data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
 		</div>
+	</div>
+	<!-- 查看推送信息 -->
+	
+	<div id="chaKantsdiv" class="easyui-dialog" title="查看学推送详细信息"
+		data-options="iconCls:'icon-save',closed:true"
+		style="width: 800px; height: 600px; padding: 10px;">
+		<form id="chaKantsdivf">
+		<table>
+		<tr>
+		<td><label>学生姓名:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" name="studentname" /></td>
+		<td><label>推送时间:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" name="tstime" /></td>
+		</tr>
+		<tr>
+		<td><label>推送内容:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" name="context" /></td>
+		<td><label>推送状态:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" id="isreaderwxx" name="isreader" /></td>
+		
+		
+		</tr>
+		</table>
+		
+		</form>
 		</div>
 		<!-- 一键标为已读 -->
 		<!-- 查看学生详细信息 -->

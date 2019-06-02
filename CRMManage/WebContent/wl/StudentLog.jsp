@@ -14,6 +14,7 @@
 <script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
 <script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
+	/* 当访问页面时加载  */
 	$(function (){
 		rizhiStu();
 	})

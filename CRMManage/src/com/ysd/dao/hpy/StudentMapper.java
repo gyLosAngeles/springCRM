@@ -9,6 +9,18 @@ import com.ysd.entity.hpy.Netfollows;
 
 public interface StudentMapper {
 	/**
+	 *  查询所有咨询师对应学生信息
+	 * @param fenye
+	 * @return
+	 */
+	List<CustomerStudents> selectStu(Fenye fenye);
+	/**
+	 * 查询所有咨询师对应学生信息总条数
+	 * @param fenye
+	 * @return
+	 */
+	Integer selectCountStu(Fenye fenye);
+	/**
 	 * 对学生信息进行更新
 	 * @param customerStudents
 	 * @return
@@ -20,24 +32,10 @@ public interface StudentMapper {
 	 * @return
 	 */
 	Integer insertNetfollows(Netfollows netfollows);
-	/**
-	 *	查询当前登录咨询师的所有学生的跟踪信息
-	 * @param fenye
-	 * @return
-	 */
-	List<CustomerStudents> selectNetfollows(Fenye fenye);
-	/**
-	 * 跟踪信息的总条数
-	 * @param fenye
-	 * @return
-	 */
-	Integer selectCountNet(Fenye fenye);
 	
-	/**
-	 *	根据学生id查询对应的跟踪信息
-	 * @param fenye
-	 * @return
-	 */
+	List<CustomerStudents> selectNetfollows(Fenye fenye);
+	
+	Integer selectCountNet(Fenye fenye);
 	List<Netfollows> selectNetfollowsID(Netfollows netfollows);
 	/**
 	 *  查询所有咨询师对应学生信息
