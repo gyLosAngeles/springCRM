@@ -1214,6 +1214,9 @@ function batchOperation() {
 </div>
 </body>
 <script type="text/javascript">
+//ReportTitle 生成的Excel文件名称
+//ShowLabel 生成的Excel文件列标题
+//JSONData 生成的Excel文件内容
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	//如果jsondata不是对象，那么json.parse将分析对象中的json字符串。
 	var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
@@ -1241,14 +1244,14 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	for (var i = 0; i < arrData.length; i++) {
 		var row = "";
 
-		//2nd loop will extract each column and convert it in string comma-seprated
+		//第二个循环将提取每个列并将其转换为以逗号分隔的字符串
 		for ( var index in arrData[i]) {
 			row += '"' + arrData[i][index] + '",';
 		}
 
-		row.slice(0, row.length - 1);
+		row.slice(0, row.length - 1);//方法可从已有的数组中返回选定的元素
 
-		//add a line break after each row
+		//每行后添加换行符
 		CSV += row + '\r\n';
 	}
 
@@ -1258,6 +1261,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	}
 
 	//Generate a file name
+	//fileName为后台返给前端的文件名，根据下载文件格式加后缀名，后缀名必须加，不然下载在本地不方便打开
 	var fileName = "我的学生_";
 	//this will remove the blank-spaces from the title and replace it with an underscore
 	fileName += ReportTitle.replace(/ /g, "_");
@@ -1272,25 +1276,30 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	// or you will not get the correct file extension    
 
 	//this trick will generate a temp <a /> tag
-	var link = document.createElement("a");
+	var link = document.createElement("a");//动态创建link方式
 	link.href = uri;
 
 	//set the visibility hidden so it will not effect on your web-layout
-	link.style = "visibility:hidden";
+	link.style = "visibility:hidden";//visibility属性用来确定元素是显示还是隐藏的
 	link.download = fileName + ".csv";
 
 	//this part will append the anchor tag and remove it after automatic click
-	document.body.appendChild(link);
+	document.body.appendChild(link);//将指定的DOM类型的节点加到document.body的末尾  
+	document.body.appendChild(link);//将指定的DOM类型的节点加到document.body的末尾  
+	//DOM（文档对象模型(Document Object Model)）是对HTML标签、属性、文本解析后存放在内存中的倒置的树
 	link.click();
-	document.body.removeChild(link);
+	document.body.removeChild(link);//前端将后台传的文件流下载为文件到本地
 }
-   
+/**
+ * 选择id增加单击时间执行方法
+ */
 $("#btnExport").click(function() {
 	var rows=$("#wlsdg").datagrid("getSelections");
 	if(rows.length==0){
 		$.messages.alert("提示","请选择你要导出的数据");
 	}
-	var data = JSON.stringify(rows);
+	//导出全部
+	var data = JSON.stringify(rows);//导出你选择的行   对象群
 	if (data == '')
 		return;
 

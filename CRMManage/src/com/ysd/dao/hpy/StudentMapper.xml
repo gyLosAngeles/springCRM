@@ -281,6 +281,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				</if>
 					and UserId =#{consultantStuCondition.UserId}
 			</where>
+			<!-- 倒序排列 -->
 			ORDER BY CreateTime DESC
 			limit #{page},#{rows}
 		</select>

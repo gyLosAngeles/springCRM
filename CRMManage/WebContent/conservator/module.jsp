@@ -54,10 +54,10 @@ function menuHandler(item){
 var parentId;
 function reloadModules(){
 	var row = $("#menuTree").tree("getSelected");
-	/* console.log(row); */
-	$("#weight").val(row.attributes.width);
-	$("#url").val(row.attributes.url);
-	$("#name").val(row.text);
+	 /* console.log(row);  */
+	$("#weight").textbox("setValue",row.attributes.width);
+	$("#url").textbox("setValue",row.attributes.url);
+	$("#name").textbox("setValue",row.text);
 	$("#updateuser_window").window("open");
 }
 function updateModules(){

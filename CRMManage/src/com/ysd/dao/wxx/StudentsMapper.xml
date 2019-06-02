@@ -384,4 +384,9 @@ VALUES(#{Name},#{Sex},#{Age},#{Phone},#{Education},#{StuStatus},#{FromPart},#{So
  <insert id="addPush" parameterType="com.ysd.entity.Push">
  INSERT INTO push(studentid,zxname,context,studentname,isreader) values(#{studentid},#{zxname},#{context},#{studentname},#{isreader})
   </insert>
+  <!--查询学生专业信息  -->
+  <select id="selectStudentLearnForward" resultType="com.ysd.entity.zmf.PieChart">
+  		SELECT count(Id) `value`,LearnForward `name` FROM students GROUP BY LearnForward
+  </select>
+  
 </mapper>

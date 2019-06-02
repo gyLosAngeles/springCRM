@@ -12,6 +12,7 @@ public interface StudentsService {
 	DataGridData selectStu(Fenye fenye);
 	Integer UpdateStu(CustomerStudents customerStudents);
 	Integer insertNetfollows(Netfollows netfollows);
+	//DataGridData   分页，总条数的封装实体类 
 	DataGridData selectNetfollows(Fenye fenye);
 	DataGridData selectStuAsker(Fenye fenye);
 	List<Netfollows> selectNetfollowsID(Netfollows netfollows);

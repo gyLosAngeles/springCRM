@@ -30,6 +30,8 @@ public class LoginServiseImpl implements LoginServise {
 		ServletRequestAttributes attrs =(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		UserTab userTab = new UserTab();
 		HttpSession session = request.getSession();
+		
+		
 		String code = (String) session.getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 		Cookie[] cookies = request.getCookies();
 		if(selectUserByuserName!=null) {
@@ -91,12 +93,14 @@ public class LoginServiseImpl implements LoginServise {
 	 * 修改密码
 	 */
 	public Integer updateUserMima(String pwd,String newpwd,String userName) {
+		//声明方法
 		UserTab selectUserUserTab = userTabMapper.selectUserUserTab(userName);
-		System.out.println(selectUserUserTab.getUserPassWord());
 		if(selectUserUserTab !=null && (md5.MD5jia(pwd)).equals(selectUserUserTab.getUserPassWord())) {
+			//判断前台传过来的经过MD5加密后的密码是否和查询到用户的密码是否匹配
 			UserTab userTab = new UserTab();
 			userTab.setUserName(userName);
 			userTab.setUserPassWord(md5.MD5jia(newpwd));
+			//如果匹配将修改过后的密码经过MD5加密
 			return userTabMapper.updateUserMima(userTab);
 		}
 		return 0;

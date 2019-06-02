@@ -32,7 +32,11 @@ public interface StudentMapper {
 	 * @return
 	 */
 	Integer insertNetfollows(Netfollows netfollows);
-	
+	/**
+	 * ÍøÂç¸ú×Ù
+	 * @param fenye
+	 * @return
+	 */
 	List<CustomerStudents> selectNetfollows(Fenye fenye);
 	
 	Integer selectCountNet(Fenye fenye);

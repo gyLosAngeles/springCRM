@@ -44,6 +44,7 @@ public class StudentController {
 	@RequestMapping(value="/wl/selectNetfollows",method=RequestMethod.POST)
 	@ResponseBody
 	public DataGridData selectNetfollows(Fenye fenye,ConsultantStuCondition consultantStuCondition) {
+		//分页调用查询条件的实体类
 		fenye.setConsultantStuCondition(consultantStuCondition);
 		return studentsServiceImp.selectNetfollows(fenye);
 	}

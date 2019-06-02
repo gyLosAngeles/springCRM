@@ -11,8 +11,8 @@ public class ViewController {
 	public String login() {
 		return "login/login";
 	}
-	@RequestMapping(value="test",method=RequestMethod.GET)
-	public String test() {
-		return "NewFile";
+	@RequestMapping(value="home",method=RequestMethod.GET)
+	public String home() {
+		return "index";
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.ysd.entity.Push;
 import com.ysd.entity.wxx.Fenye;
 import com.ysd.entity.wxx.Students;
+import com.ysd.entity.zmf.PieChart;
 
 public interface StudentsMapper {
 	/**
@@ -57,4 +58,9 @@ public interface StudentsMapper {
 	 * @return
 	 */
 	Integer addPush(Push push);
+	/**
+	 * 分组查询学生专业信息
+	 * @return
+	 */
+	List<PieChart> selectStudentLearnForward();
 }

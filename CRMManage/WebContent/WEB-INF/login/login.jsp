@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>登陆界面</title>
 	<link href="/CRMManage/css/layout.css" rel="stylesheet" type="text/css">
 	<link href="/CRMManage/css/login.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="/CRMManage/js/easyui demo/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/CRMManage/js/easyui/jquery.min.js"></script>
 	<script type="text/javascript" src="/CRMManage/js/jquery.cookie.js"></script>
 	
 	<script type="text/javascript">
@@ -29,7 +29,7 @@
 			success:function(res){
 				 if(res.success){
 					 alert(res.message);
-					 window.location.href="/CRMManage/index.jsp";
+					 window.location.href="/CRMManage/home";
 				 }else{
 					alert(res.message);
 				 }  
@@ -39,7 +39,7 @@
 	function changeCode() { //刷新
 		var data = new Date().getTime();
 		$("#kaptcha").val("");
-		$('#kaptchaImage').click().attr('src', 'KaptchaServlet?tt=' + data);
+		$('#kaptchaImage').click().attr('src', '/CRMManage/KaptchaServlet?tt=' + data);
 	}
 	</script>
 	

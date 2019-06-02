@@ -16,7 +16,7 @@ import com.ysd.util.Distribution;
 @Service
 public class StudentsServiceImpl implements StudentsService {
 	@Autowired
-private StudentsMapper  studentsMapper;
+	private StudentsMapper  studentsMapper;
 	@Autowired
 	private AskersMapper askersMapper;
 	@Autowired

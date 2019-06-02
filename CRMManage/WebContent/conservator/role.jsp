@@ -22,9 +22,9 @@ function searchRoleInfo(){
    }); 
 }
 function updateRole(){
-	var row=$("#dg").datagrid("getRows");
+	var row=$("#dg").datagrid("getSelected");
 	$.post("/CRMManage/Roleupdate",{
-			roleId:$("#updateRoleId").val(),
+			roleId:row.roleId,
 			roleName:$("#Name").val()
 		},function (res){
 			if(res){
@@ -70,10 +70,10 @@ function deletejs(index){
 		}
 	});
 }
+/*修改角色弹出框  */
 function upadtejs(index) {
 	var row=$("#dg").datagrid("getRows");
-	$("#Name").val(row[index].roleName);
-	$("#updateRoleId").val(row[index].roleId);
+	$("#Name").textbox("setValue",row[index].roleName);
 	$("#updatejs_window").window("open");
 }
 function addInfo() {
@@ -155,7 +155,6 @@ function sz(index) {
                     <tr>
                         <td>名称:</td>
                         <td>
-                        	<input type="text" id="updateRoleId" class="easyui-textbox" style="display:none;" />
                         	<input class="easyui-textbox" type="text" name="Name" id="Name" data-options="required:true"/>
                         </td>
                     </tr>
