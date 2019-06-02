@@ -14,6 +14,7 @@
 <script type="text/javascript"src="../js/easyui/insdep.extend.min.js"></script>
 <script type="text/javascript"src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
+	/* 当访问页面时加载  */
 	$(function (){
 		rizhiStu();
 	})
@@ -61,10 +62,10 @@
 			<input class="easyui-textbox" type="text" id="logn_content">
 			
 			<label for="name">始跟时间:</label>
-			<input class="easyui-datebox" type="text" id="logn_followtime">
+			<input class="easyui-datebox" editable="false" type="text" id="logn_followtime">
 			
 			<label for="name">束跟时间:</label>
-			<input class="easyui-datebox" type="text" id="logn_nextfollowtime">
+			<input class="easyui-datebox" editable="false" type="text" id="logn_nextfollowtime">
 			
 			<label for="name">跟踪方式:</label>
 			<input class="easyui-textbox" type="text" id="logn_followtype">

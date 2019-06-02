@@ -28,68 +28,35 @@
 	
 	<script type="text/javascript">
 	
-	var ws=null;
-	if(WebSocket){
-		ws=new WebSocket("ws://localhost:8080/CRMManage/chat/${user.userName}");
-	}else{
+	var ws = null;
+	if (WebSocket) {
+		ws = new WebSocket(
+				"ws://localhost:8080/CRMManage/chat/${user.userName}");
+	} else {
 		alert("浏览器不支持WebSocket!");
 	}
-	ws.onopen=function(){
+	ws.onopen = function() {
 	}
-	ws.onclose=function(){
+	ws.onclose = function() {
 	}
 	//接受服务器端发送的消息
-	ws.onmessage=function(event){
-		alert(event.data)
+	ws.onmessage = function(event) {
+		//alert(event.data);
+		var text=$("#span").html();
+		text++;
+		$("#span").html(text);
 	}
-	$(function(){
+	$(function() {
+		tsxs();
 		shezhidongtai();
 		chaXun();
-		
+
 	})
 	/* 查询全部信息 */
 	
 	function chaXun(){
-		var ispay=$("#ispay").combobox('getValue');
-		if(ispay=="--请选择--"){
-			ispay='';
-		}
-		if(ispay=="已缴费"){
-			ispay='1';
-		}
-		if(ispay=="未缴费"){
-			ispay='0';
-		}
-		var isvalid=$("#isvalid").combobox('getValue');
-		if(isvalid=="--请选择--"){
-			isvalid='';
-		}
-		if(isvalid=="有效"){
-			isvalid='1';
-		}
-		if(isvalid=="无效"){
-			isvalid='0';
-		}
-		var isreturnvist=$("#isreturnvist").combobox('getValue');
-		if(isreturnvist=="--请选择--"){
-			isreturnvist='';
-		}
-		if(isreturnvist=="已回访"){
-			isreturnvist='1';
-		}
-		if(isreturnvist=="未回访"){
-			isreturnvist='0';
-		}
-		var minCreateTime=$('#Stu_mincreatetime').datebox('getValue');
-		var maxCreateTime=$('#Stu_maxcreatetime').datebox('getValue');
-		var minHomeTime=$('#Stu_minhometime').datebox('getValue');
-		var maxHomeTime=$('#Stu_maxhometime').datebox('getValue');
-		var minFirstVisitTime=$('#Stu_minfirstvisittime').datebox('getValue');
-		var maxFirstVisitTime=$('#Stu_maxfirstvisittime').datebox('getValue');
-		var minPayTime=$('#Stu_minpaytime').datebox('getValue');
-		var maxPayTime=$('#Stu_maxpaytime').datebox('getValue');
-		var minInClassTime=$('#Stu_mininclasstime').datebox('getValue');
-		var maxInClassTime=$('#Stu_maxinclasstime').datebox('getValue');
+		var ispay=$("#ispay").combobox('getValue');if(ispay=="--请选择--"){ispay='';}if(ispay=="已缴费"){ispay='1';}if(ispay=="未缴费"){ispay='0';}var isvalid=$("#isvalid").combobox('getValue');if(isvalid=="--请选择--"){isvalid='';}if(isvalid=="有效"){isvalid='1';}if(isvalid=="无效"){isvalid='0';}var isreturnvist=$("#isreturnvist").combobox('getValue');if(isreturnvist=="--请选择--"){isreturnvist='';}if(isreturnvist=="已回访"){isreturnvist='1';}if(isreturnvist=="未回访"){
+		isreturnvist='0';}var minCreateTime=$('#Stu_mincreatetime').datebox('getValue');var maxCreateTime=$('#Stu_maxcreatetime').datebox('getValue');var minHomeTime=$('#Stu_minhometime').datebox('getValue');var maxHomeTime=$('#Stu_maxhometime').datebox('getValue');var minFirstVisitTime=$('#Stu_minfirstvisittime').datebox('getValue');var maxFirstVisitTime=$('#Stu_maxfirstvisittime').datebox('getValue');var minPayTime=$('#Stu_minpaytime').datebox('getValue');var maxPayTime=$('#Stu_maxpaytime').datebox('getValue');var minInClassTime=$('#Stu_mininclasstime').datebox('getValue');var maxInClassTime=$('#Stu_maxinclasstime').datebox('getValue');
 		
 		if(minCreateTime>maxCreateTime){
 			alert("创建时间搜索区间错误")
@@ -107,6 +74,9 @@
 		    url:'../wl/selectStuAsker',
 		    pagination:true,
 		    toolbar:'#tb',
+		    onDblClickCell:function(index,field,value){
+		    	chaKanStuxq(index)
+			},
 		    queryParams:{
 		    	Name:$("#name").val(),
 				Phone:$("#phone").val(),
@@ -130,13 +100,14 @@
 		}
 	}
 	
+	
+	/* 格式化数据表格 */
 	function formattercaozuo(value,row,index){
 		return "<a href='javascript:void(0)' onclick='updateStudent("+index+")'>编辑</a>|<a href='javascript:void(0)' onclick='genzongStu("+index+")'>跟踪</a>|<a href='javascript:void(0)' onclick='chaKanStuxq("+index+")'>查看</a>"
 	}
 	function formatterrizhi(value,row,index){
 		return '<button onclick="rizhiStu('+index+')">日志</button>';
 	}
-	/* 格式化数据表格 */
 	function formatterjf(value,row,index) {
 		return value==0? '未缴费':'已缴费';
 	} 
@@ -168,6 +139,11 @@
 		$("#frmStu").form("load",row);
 		$('#updateStu').dialog('open');
 		}
+	
+	
+	
+	
+	
 	/* 修改 */
 	function updateStu(){
 		$("#Update_ispay").combobox('getValue')=="已缴费"?"1":"0";
@@ -179,7 +155,7 @@
 		$.post("../wl/UpdateStu",{
 			id:$("#Update_id").val(),
 			name:$("#Update_name").val(),
-			learnForward:$("#Update_learnForward").val(),
+			learnForward:$("#Update_learnForward").datebox('getValue'),
 			lostValid:$("#Update_lostValid").val(),
 			firstVisitTime:$("#Update_firstVisitTime").datebox('getValue'),
 			homeTime:$("#Update_homeTime").datebox('getValue'),
@@ -211,6 +187,10 @@
 			
 		},"json")
 	}
+	
+	
+	
+	
 	var indexRow=0;
 	function genzongStu(index){
 		indexRow = index;
@@ -229,7 +209,7 @@
 		    }
 		});  
 	}
-	/* 查看 */
+	/* 查看全部信息 */
 	function chaKanStuxq(index){
 		var row = $('#dg').datagrid("getRows")[index];
 		console.log($("#chakan_isPay"));
@@ -244,7 +224,7 @@
 	}
 	
 	
-	/* 添加 */
+	/* 跟踪 */
 	function insert(){
 		var row = $('#dg').datagrid("getRows")[indexRow];
 		var FollowTime=$("#add_FollowTime").datebox('getValue');
@@ -280,22 +260,60 @@
 	/* 动态显示 */
 	function shezhidongtai(){var createGridHeaderContextMenu=function(e,field){e.preventDefault();var grid=$(this);var headerContextMenu=this.headerContextMenu;if(!headerContextMenu){var tmenu=$('<div style="width:100px;"></div>').appendTo('body');
 	var fields=grid.datagrid('getColumnFields');for(var i=0;i<fields.length;i++){var fildOption=grid.datagrid('getColumnOption',fields[i]);if(!fildOption.hidden){$('<div iconCls="icon-ok" field="'+fields[i]+'"/>').html(fildOption.title).appendTo(tmenu)}else{$('<div iconCls="icon-empty" field="'+fields[i]+'"/>').html(fildOption.title).appendTo(tmenu)}}headerContextMenu=this.headerContextMenu=tmenu.menu({onClick:function(item){var field=$(item.target).attr('field');if(item.iconCls=='icon-ok'){grid.datagrid('hideColumn',field);$(this).menu('setIcon',{target:item.target,iconCls:'icon-empty'})}else{grid.datagrid('showColumn',field);$(this).menu('setIcon',{target:item.target,iconCls:'icon-ok'})}}})}headerContextMenu.menu('show',{left:e.pageX,button:e.pageY})};$.fn.datagrid.defaults.onHeaderContextMenu=createGridHeaderContextMenu;$.fn.treegrid.defaults.onHeaderContextMenu=createGridHeaderContextMenu}
+	
+	
 	function formattertszt(value,row,index){
 		return value==0? '未读':'已读';
 	}
-	function ts(){
+	function ts() {
 		$('#tsdiv').dialog('open');
-		 $('#tstable').datagrid({
-				method:'post',
-			    url:'../wl/selectPush',
-			    toolbar:'#yjyd',
-			    queryParams: {
-			    	zxname:'${user.userName}'
-			    }
-			});  
-		 $("from").from("load","../wl/selectPush");
-		 }
-	
+		$('#tstable').datagrid({
+			method : 'post',
+			url : '../wl/selectPush',
+			toolbar : '#yjyd',
+			onDblClickRow:function(index, row){
+				var dat= $('#tstable').datagrid("getData");
+				/* alert(dat.rows[index].studentid); */
+				$.ajax({
+					url:'../wl/UpdatePush',
+					method:'post',
+					data:{
+						isreader : '1',
+						id:dat.rows[index].id
+					},
+					datType:'json',
+					success:function(res){
+						var text=$("#span").html();
+						text--;
+						$("#span").html(text);
+						$("#chaKantsdivf").form("load", dat.rows[index]);
+						$("#isreaderwxx").textbox("setValue","已读");
+						/* dat.rows[index].isreader=="1" ? $("#isreaderwxx").textbox("setValue","已读") :null; */
+						$('#chaKantsdiv').dialog('open');
+						$("#tstable").datagrid("reload");
+						
+					}
+				})
+			},
+			queryParams : {
+				zxname : '${user.userName}'
+			}
+			
+		});
+		$("from").from("load", "../wl/selectPush");
+	}
+	function tsxs(){
+		 $.ajax({
+				url:"../wl/selectcountPush",
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					if(data>=0){
+						$("#span").html(data);
+					}
+				}
+			}) 
+	}
  	/* var ss=self.setInterval("Dynamic()",60000); */
  	/* setInterval(function() {
 		 $.post("../wl/selectPush",{
@@ -355,11 +373,12 @@
 		            <th data-options="field:'isPay',formatter:formatterjf">是否缴费</th>  
 		            <th data-options="field:'isReturnVist',formatter:formatterhf">是否回访</th>  
 		            <th data-options="field:'isInClass',formatter:formattersfjb">是否进班</th>  
+		            <th data-options="field:'inClassTime'">进班时间</th>
 		            <th data-options="field:'inClassContent',hidden:true">创建备注</th>  
 		            <th data-options="field:'createTime',hidden:true">创建时间</th>
 		            <th data-options="field:'stuStatus',hidden:true">客户状态</th>  
 		            <th data-options="field:'sourceKeyWord',hidden:true">来源关键词</th>  
-		            <th data-options="field:'firstVisitTime',hidden:true">创建时间</th>  
+		            <th data-options="field:'firstVisitTime',hidden:true">首访时间</th>  
 		            <th data-options="field:'caozuo',title:'操作',formatter:formattercaozuo"></th>
 		            <th data-options="field:'rizhi',title:'日志',formatter:formatterrizhi"></th>
 		        </tr>   
@@ -393,21 +412,21 @@
 			<input class="easyui-validatebox" type="text" id="qq"  />
 			<br/><br/>
 			<label for="name">创建时间:</label> 
-				<input type="text" id="Stu_mincreatetime" class= "easyui-datebox" />--
-				<input type="text" id="Stu_maxcreatetime" class= "easyui-datebox" />
+				<input type="text" id="Stu_mincreatetime" editable="false" class= "easyui-datebox"  />--
+				<input type="text" id="Stu_maxcreatetime" editable="false" class= "easyui-datebox" />
 			<label for="name">上门时间:</label> 
-				<input type="text" id="Stu_minhometime" class= "easyui-datebox"/>--
-				<input type="text" id="Stu_maxhometime" class= "easyui-datebox"/>
+				<input type="text" id="Stu_minhometime" editable="false" class= "easyui-datebox"/>--
+				<input type="text" id="Stu_maxhometime" editable="false" class= "easyui-datebox"/>
 			<label for="name">首次回访时间:</label> 
-				<input type="text" id="Stu_minfirstvisittime" class= "easyui-datebox" />--
-				<input type="text" id="Stu_maxfirstvisittime" class= "easyui-datebox" />
+				<input type="text" id="Stu_minfirstvisittime" editable="false" class= "easyui-datebox" />--
+				<input type="text" id="Stu_maxfirstvisittime" editable="false" class= "easyui-datebox" />
 			<br/><br/>
 			<label for="name">缴费时间:</label> 
-				<input type="text" id="Stu_minpaytime" class= "easyui-datebox" />--
-				<input type="text" id="Stu_maxpaytime" class= "easyui-datebox" />
+				<input type="text" id="Stu_minpaytime" editable="false" class= "easyui-datebox" />--
+				<input type="text" id="Stu_maxpaytime" editable="false" class= "easyui-datebox" />
 			<label for="name">进班时间:</label> 
-				<input type="text" id="Stu_mininclasstime" class= "easyui-datebox" />--
-				<input type="text" id="Stu_maxinclasstime" class= "easyui-datebox" />
+				<input type="text" id="Stu_mininclasstime" editable="false" class= "easyui-datebox" />--
+				<input type="text" id="Stu_maxinclasstime" editable="false" class= "easyui-datebox" />
 			 <a href="javascript:void(0)" onclick="chaXun()"	class="easyui-linkbutton"	data-options="iconCls:'icon-search',plain:true">搜索</a>
 
 			 <a href="javascript:void(0)" onclick="ts()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">推送信息</a>
@@ -415,9 +434,6 @@
 		</form>
 	</div>
 	
-
-
-
 	<!-- 修改 -->
 	<div id="updateStu" class="easyui-dialog" title="编辑学生信息" data-options="iconCls:'icon-save',closed:true" style="width:700px;height:600px;padding:10px;">
 			<div style="padding:10px 60px 20px 60px">
@@ -430,11 +446,16 @@
 				    </div>
 				     <div>   
 				        <label >课程方向:</label>   
-				        <input class="easyui-textbox" type="text" id="Update_learnForward" name="learnForward" style="width:300px" />
+				        <select style="width: 300px" id="Update_learnForward" editable="false" name="learnForward" class="easyui-combobox">
+			    		<option >软件开发</option>
+	    				<option >网络营销</option>
+	    				<option >.NET</option>
+	    				<option >Java</option>
+			    		</select>
 				    </div>
 				    <div>
 				    <label >是否有效:</label>  
-			    		<select style="width: 100px" id="Update_isValid" class="easyui-combobox">
+			    		<select style="width: 100px" id="Update_isValid" editable="false" class="easyui-combobox">
 			    		<option value="1">有效</option>
 	    				<option value="0">无效</option>
 			    		</select>
@@ -444,43 +465,43 @@
 			    	<br/>
 				    <div> 
 				    <label >是否回访:</label>  
-			    		<select id="Update_isreturnvist" style="width: 100px" class="easyui-combobox">
+			    		<select id="Update_isreturnvist" editable="false" style="width:100px" class="easyui-combobox">
 			    		<option value="1">已回访</option>
 	    				<option value="0">未回访</option>
 				    	</select>
 				    	 <label >首访时间:</label>   
-				        <input class="easyui-datebox" type="text" id="Update_firstVisitTime" name="firstVisitTime" />
+				        <input class="easyui-datebox" type="text"  id="Update_firstVisitTime" name="firstVisitTime" />
 				    </div>
 				   <br/>
 				    <div> 
 				     <label >是否上门:</label>  
-			    		<select style="width: 100px" id="Update_isHome" class="easyui-combobox">
+			    		<select style="width: 100px" editable="false" id="Update_isHome" class="easyui-combobox">
 			    		<option value="1">已上门</option>
 	    				<option value="0">未上门</option>
 			    		</select>
 			    		 <label >上门时间:</label>   
-				        <input class="easyui-datebox" type="text" id="Update_homeTime" name="homeTime" />
+				        <input class="easyui-datebox" type="text" editable="false" id="Update_homeTime" name="homeTime" />
 			    	</div>
 				    <br/>
 				    <div> 
 				     <label >是否缴费:</label>  
-			    		<select id="Update_ispay" style="width: 100px" class="easyui-combobox">
+			    		<select id="Update_ispay" editable="false" style="width: 100px" class="easyui-combobox">
 			    		<option value="1">已缴费</option>
 	    				<option value="0">未缴费</option>
 				    	</select>
 				    	 <label >缴费时间:</label>   
-				        <input class="easyui-datebox" type="text" id="Update_payTime" name="payTime" />
+				        <input class="easyui-datebox" type="text" editable="false" id="Update_payTime" name="payTime" />
 				    </div>
 				    <br/>
 				    <div>   
 				        <label >定金金额:</label>   
 				        <input class="easyui-textbox" type="text" id="Update_preMoney" name="preMoney" />
 				        <label >定金时间:</label>   
-				        <input class="easyui-datebox" type="text" id="Update_preMoneyTime" name="preMoneyTime" />
+				        <input class="easyui-datebox" type="text" editable="false" id="Update_preMoneyTime" name="preMoneyTime" />
 				    </div>
 				    <div> 
 				    <label >是否退费:</label>  
-			    		<select style="width: 100px" id="Update_isReturnMoney" class="easyui-combobox">
+			    		<select style="width: 100px" editable="false" id="Update_isReturnMoney" class="easyui-combobox">
 			    		<option value="1">已退费</option>
 	    				<option value="0">未退费</option>
 			    		</select>
@@ -489,12 +510,12 @@
 			    		</div>
 				    <div> 
 				    <label >是否进班:</label>  
-			    		<select style="width: 100px" id="Update_isInClass" class="easyui-combobox">
+			    		<select style="width: 100px" editable="false" id="Update_isInClass" class="easyui-combobox">
 			    		<option value="1">已进班</option>
 	    				<option value="0">未进班</option>
 			    		</select>
 			    		 <label >进班时间:</label>   
-				        <input class="easyui-datebox" type="text" id="Update_inClassTime" name="inClassTime" />
+				        <input class="easyui-datebox" type="text" editable="false" id="Update_inClassTime" name="inClassTime" />
 			    	</div>
 			    	<br/>
 				    <div>   
@@ -517,11 +538,11 @@
 				<form id="insertfrom">   
 				     <div>   
 				        <label >回访时间:</label>   
-				        <input class="easyui-datebox" type="text" id="add_FollowTime" name="add_FollowTime" data-options="required:true"/>
+				        <input class="easyui-datebox" type="text" editable="false" id="add_FollowTime" name="add_FollowTime" data-options="required:true"/>
 				    </div>
 				    <div>  
 				        <label >回访情况:</label>   
-				        <input class="easyui-textbox" type="text" id="add_Content" name="add_Content" data-options="required:true"/>
+				        <input class="easyui-textbox" type="text"  id="add_Content" name="add_Content" data-options="required:true"/>
 				    </div>
 				    <div>   
 				        <label >跟踪方式:</label>   
@@ -529,7 +550,7 @@
 				    </div>
 				    <div>   
 				        <label>下次跟踪:</label>   
-				        <input class="easyui-datebox" type="text" id="add_NextFollowTime" name="add_NextFollowTime" data-options="required:true"/>
+				        <input class="easyui-datebox" type="text" editable="false" id="add_NextFollowTime" name="add_NextFollowTime" data-options="required:true"/>
 				    </div>
 				 	<div>   
 				        <label>跟踪备注:</label>   
@@ -557,23 +578,52 @@
 		</table>
 		</div>
 		<!-- 推送信息 -->
-		<div id="tsdiv" class="easyui-dialog" title="推送信息" style="width:800px;height:500px;"   
-	        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
-		<table id="tstable">   
-		    <thead>   
-	        <tr>   
-	            <th data-options="field:'studentid',width:50">学生ID</th>   
-	            <th data-options="field:'studentname'">学生名字</th>   
-	            <th data-options="field:'context',width:250">推送内容</th>   
-	            <th data-options="field:'isreader',formatter:formattertszt">推送状态</th>   
-	            <th data-options="field:'tstime'">推送时间</th>   
-	            <!-- <th data-options="field:'yd',formatter:formatteryd">操作</th> -->
-		     </tr>   
-		    </thead>   
+		<div id="tsdiv" class="easyui-dialog" title="推送信息"
+		style="width: 200px; height: 500px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+		<table id="tstable">
+			<thead>
+				<tr>
+				  <th data-options="field:'id',hidden:true">ID</th>
+					<th data-options="field:'studentid',hidden:true">学生ID</th>
+					<th data-options="field:'studentname'">学生名字</th>
+					<th data-options="field:'context',hidden:true">推送内容</th>
+					<th data-options="field:'isreader',formatter:formattertszt">推送状态</th>
+					<th data-options="field:'tstime',hidden:true">推送时间</th>
+					<!-- <th data-options="field:'yd',formatter:formatteryd">操作</th> -->
+				</tr>
+			</thead>
 		</table>
 		<div id="yjyd" align="center">
-		<a href="javascript:void(0)" onclick="yjyd()"	class="easyui-linkbutton"	data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
+			<a href="javascript:void(0)" onclick="yjyd()"
+				class="easyui-linkbutton"
+				data-options="iconCls:'icon-save',plain:true">全部标为已读</a>
 		</div>
+	</div>
+	<!-- 查看推送信息 -->
+	
+	<div id="chaKantsdiv" class="easyui-dialog" title="查看学推送详细信息"
+		data-options="iconCls:'icon-save',closed:true"
+		style="width: 800px; height: 600px; padding: 10px;">
+		<form id="chaKantsdivf">
+		<table>
+		<tr>
+		<td><label>学生姓名:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" name="studentname" /></td>
+		<td><label>推送时间:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" name="tstime" /></td>
+		</tr>
+		<tr>
+		<td><label>推送内容:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" name="context" /></td>
+		<td><label>推送状态:</label></td>
+		<td><input class="easyui-textbox" type="text" readOnly="true" id="isreaderwxx" name="isreader" /></td>
+		
+		
+		</tr>
+		</table>
+		
+		</form>
 		</div>
 		<!-- 一键标为已读 -->
 		<!-- 查看学生详细信息 -->
@@ -627,7 +677,7 @@
 				        <td><label >课程方向:</label>   </td> 
 				        <td><input class="easyui-textbox" type="text"  readOnly="true" name="learnForward" />   </td> 
 				        <td><label >是否有效:</label>   </td> 
-				        <td><input  type="text" id="chakan_isValid"  name="isValid" />   </td> 
+				        <td><input  type="text" id="chakan_isValid" style="width:150px" name="isValid" />   </td> 
 				   </tr>
 				        <tr>
 				        <td><label >记录:</label>   </td> 
